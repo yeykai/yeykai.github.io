@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/yeykai.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/yeykai.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/yeykai.github.io/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/yeykai.github.io/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/yeykai.github.io/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/yeykai.github.io/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/yeykai.github.io/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis  众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。  在小程序开发中，微信官方很友好地开放了Wx.login这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序使用微信开放接口完成用户注册登录业务">
+<meta property="og:url" content="http://yeykai.cn/2018/09/15/miniLogin/index.html">
+<meta property="og:site_name" content="YeYKai的博客">
+<meta property="og:description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis  众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。  在小程序开发中，微信官方很友好地开放了Wx.login这">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-1578fe801a4de7a4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-eb04bdb00d81627d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-3066cee6b69f9e0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-1be17ffff731c0bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-2774483b309f43be.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-9f1bd384547e4e33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-ad60d5675f4027b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-4d84687d5320cdfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-93e4ecce6cfaac49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-8dcdf711f8b2e92b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-369f28f3a3ffb140.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-0387be5f38a08adf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-d56487d01f06c7f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14033047-4e4dcd7adc3a919c.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2018-10-01T02:07:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信小程序使用微信开放接口完成用户注册登录业务">
+<meta name="twitter:description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis  众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。  在小程序开发中，微信官方很友好地开放了Wx.login这">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/14033047-1578fe801a4de7a4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/yeykai.github.io/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yeykai.cn/2018/09/15/miniLogin/"/>
+
+
+
+
+
+  <title>微信小程序使用微信开放接口完成用户注册登录业务 | YeYKai的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/yeykai.github.io/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">YeYKai的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/yeykai.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/yeykai.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yeykai.cn/yeykai.github.io/2018/09/15/miniLogin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="YeYKai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/yeykai.github.io/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YeYKai的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微信小程序使用微信开放接口完成用户注册登录业务</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-15T15:38:50+08:00">
+                2018-09-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis</p>
+<blockquote>
+<h3 id="众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。"><a href="#众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。" class="headerlink" title="众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。"></a>众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。</h3></blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/14033047-1578fe801a4de7a4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="登录UI.jpg"></p>
+<h3 id="在小程序开发中，微信官方很友好地开放了Wx-login这种接口来获取用户的身份标识别。本文将分析这一登录接口实现过程，最终完成小程序用户微信登录功能。"><a href="#在小程序开发中，微信官方很友好地开放了Wx-login这种接口来获取用户的身份标识别。本文将分析这一登录接口实现过程，最终完成小程序用户微信登录功能。" class="headerlink" title="在小程序开发中，微信官方很友好地开放了Wx.login这种接口来获取用户的身份标识别。本文将分析这一登录接口实现过程，最终完成小程序用户微信登录功能。"></a>在小程序开发中，微信官方很友好地开放了Wx.login这种接口来获取用户的身份标识别。本文将分析这一登录接口实现过程，最终完成小程序用户微信登录功能。</h3><h4 id="首先，我们看一下微信官方给出的登录流程时序图"><a href="#首先，我们看一下微信官方给出的登录流程时序图" class="headerlink" title="首先，我们看一下微信官方给出的登录流程时序图"></a>首先，我们看一下微信官方给出的登录流程时序图</h4><p><img src="https://upload-images.jianshu.io/upload_images/14033047-eb04bdb00d81627d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="wxlogin登录时序图.jpg"></p>
+<h4 id="现在，我们根据这张图用代码来实现它。"><a href="#现在，我们根据这张图用代码来实现它。" class="headerlink" title="现在，我们根据这张图用代码来实现它。"></a>现在，我们根据这张图用代码来实现它。</h4><h4 id="第一步，我们在原有的小程序登录页面中加入一个微信登录按钮，注意，这个按钮需要有bindgetuserinfo属性来获取用户的加密数据，同时，设置open-type-”getUserInfo”，属性才会生效。"><a href="#第一步，我们在原有的小程序登录页面中加入一个微信登录按钮，注意，这个按钮需要有bindgetuserinfo属性来获取用户的加密数据，同时，设置open-type-”getUserInfo”，属性才会生效。" class="headerlink" title="第一步，我们在原有的小程序登录页面中加入一个微信登录按钮，注意，这个按钮需要有bindgetuserinfo属性来获取用户的加密数据，同时，设置open-type=”getUserInfo”，属性才会生效。"></a>第一步，我们在原有的小程序登录页面中加入一个微信登录按钮，注意，这个按钮需要有bindgetuserinfo属性来获取用户的加密数据，同时，设置open-type=”getUserInfo”，属性才会生效。</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"goRegistBtn"</span> <span class="attr">type</span>=<span class="string">"primary"</span> <span class="attr">open-type</span>=<span class="string">'getUserInfo'</span> <span class="attr">bindgetuserinfo</span>=<span class="string">'doLogin'</span>&gt;</span>微信登录<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/14033047-3066cee6b69f9e0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="第二步，在小程序端调用Wx-login获取临时登录凭证code，传至我们的后台服务器，具体代码如下："><a href="#第二步，在小程序端调用Wx-login获取临时登录凭证code，传至我们的后台服务器，具体代码如下：" class="headerlink" title="第二步，在小程序端调用Wx.login获取临时登录凭证code，传至我们的后台服务器，具体代码如下："></a>第二步，在小程序端调用Wx.login获取临时登录凭证code，传至我们的后台服务器，具体代码如下：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">doLogin: <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 登录  </span></span><br><span class="line">  wx.login(&#123;</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(res)</span><br><span class="line">      <span class="comment">// 获取登录的临时凭证</span></span><br><span class="line">      <span class="keyword">var</span> code = res.code;</span><br><span class="line">      <span class="comment">// 调用后端，获取微信的session_key, secret</span></span><br><span class="line">      wx.request(&#123;</span><br><span class="line">      <span class="comment">//使用本地服务器做测试</span></span><br><span class="line">        url: <span class="string">"http://192.168.1.102:8080/wxLogin"</span>,</span><br><span class="line">        data:&#123;</span><br><span class="line">          code: code</span><br><span class="line">        &#125;,</span><br><span class="line">        success: <span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line">          <span class="built_in">console</span>.log(result);</span><br><span class="line">          <span class="comment">// 保存用户信息到本地缓存</span></span><br><span class="line">          app.setGlobalUserInfo(e.detail.userInfo);</span><br><span class="line">          wx.redirectTo(&#123;</span><br><span class="line">            url: <span class="string">'../index/index'</span>,</span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第三步，我们在后台接收到小程序前端传来的code后，结合开发者的appid和appsecret，向微信接口服务交换用户的包含openId和Session-key的JSON字符串，然后我们需要在生成一个随机数作为登录态，最后，以登录态作为键，JSON字符串作为值保存至Redis缓存中。具体代码如下："><a href="#第三步，我们在后台接收到小程序前端传来的code后，结合开发者的appid和appsecret，向微信接口服务交换用户的包含openId和Session-key的JSON字符串，然后我们需要在生成一个随机数作为登录态，最后，以登录态作为键，JSON字符串作为值保存至Redis缓存中。具体代码如下：" class="headerlink" title="第三步，我们在后台接收到小程序前端传来的code后，结合开发者的appid和appsecret，向微信接口服务交换用户的包含openId和Session_key的JSON字符串，然后我们需要在生成一个随机数作为登录态，最后，以登录态作为键，JSON字符串作为值保存至Redis缓存中。具体代码如下："></a>第三步，我们在后台接收到小程序前端传来的code后，结合开发者的appid和appsecret，向微信接口服务交换用户的包含openId和Session_key的JSON字符串，然后我们需要在生成一个随机数作为登录态，最后，以登录态作为键，JSON字符串作为值保存至Redis缓存中。具体代码如下：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/wxLogin"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> IMoocJSONResult <span class="title">wxLogin</span><span class="params">(String code)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//微信接口地址</span></span><br><span class="line">	String url = <span class="string">"https://api.weixin.qq.com/sns/jscode2session"</span>;</span><br><span class="line">	<span class="comment">//将code,appid,appsecret存入map</span></span><br><span class="line">	Map&lt;String, String&gt; param = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">	<span class="comment">//开发者自己的appid和secret，这里用xxxxx填充</span></span><br><span class="line">	param.put(<span class="string">"appid"</span>, <span class="string">"xxxxx"</span>);</span><br><span class="line">	param.put(<span class="string">"secret"</span>, <span class="string">"xxxxx"</span>);</span><br><span class="line">	param.put(<span class="string">"js_code"</span>, code);</span><br><span class="line">	param.put(<span class="string">"grant_type"</span>, <span class="string">"authorization_code"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//使用http客户端工具完成交换请求，获得包含openId和session_key的字符串数组</span></span><br><span class="line">	String wxResult = HttpClientUtil.doGet(url, param);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//随机生成一段随机数</span></span><br><span class="line">        <span class="keyword">int</span> hashCodeV = UUID.randomUUID().toString().hashCode();</span><br><span class="line">        <span class="keyword">if</span> (hashCodeV &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            hashCodeV = -hashCodeV;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//生成自定义登录态</span></span><br><span class="line">        String thirdSession = <span class="keyword">new</span> Random(<span class="number">10</span>).nextInt(<span class="number">8</span>) + <span class="number">1</span> + String.format(<span class="string">"%015d"</span>, hashCodeV);</span><br><span class="line">	<span class="comment">// 存入redis,加入user-redis-session:作为前缀，方便管理。</span></span><br><span class="line">	redis.set(<span class="string">"Wxuser-redis-session:"</span> + thirdSession,wxResult,<span class="number">1000</span> * <span class="number">60</span> * <span class="number">30</span>);</span><br><span class="line">	<span class="comment">//向小程序返回登录态</span></span><br><span class="line">	<span class="keyword">return</span> IMoocJSONResult.ok(thirdSession);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第四步，我们要将微信用户的数据保存到数据库中，完成用户注册业务。"><a href="#第四步，我们要将微信用户的数据保存到数据库中，完成用户注册业务。" class="headerlink" title="第四步，我们要将微信用户的数据保存到数据库中，完成用户注册业务。"></a>第四步，我们要将微信用户的数据保存到数据库中，完成用户注册业务。</h4><h5 id="在最开始，我们点击微信登录按钮后，我们获取到了一些用户的加密数据，这些数据需要传到后台服务器进行校验签名和解密，来保证数据不被篡改。数据如下图所示："><a href="#在最开始，我们点击微信登录按钮后，我们获取到了一些用户的加密数据，这些数据需要传到后台服务器进行校验签名和解密，来保证数据不被篡改。数据如下图所示：" class="headerlink" title="在最开始，我们点击微信登录按钮后，我们获取到了一些用户的加密数据，这些数据需要传到后台服务器进行校验签名和解密，来保证数据不被篡改。数据如下图所示："></a>在最开始，我们点击微信登录按钮后，我们获取到了一些用户的加密数据，这些数据需要传到后台服务器进行校验签名和解密，来保证数据不被篡改。数据如下图所示：</h5><p><img src="https://upload-images.jianshu.io/upload_images/14033047-1be17ffff731c0bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="这里需要解释一下几个关键参数的属性"><a href="#这里需要解释一下几个关键参数的属性" class="headerlink" title="这里需要解释一下几个关键参数的属性"></a>这里需要解释一下几个关键参数的属性</h4><blockquote>
+<h4 id="1-encryptedData：加密的用户敏感数据"><a href="#1-encryptedData：加密的用户敏感数据" class="headerlink" title="1.encryptedData：加密的用户敏感数据"></a>1.encryptedData：加密的用户敏感数据</h4><h4 id="2-signature-签名，signature-sha1-rawData-session-key"><a href="#2-signature-签名，signature-sha1-rawData-session-key" class="headerlink" title="2.signature:签名，signature=sha1(rawData+session_key )"></a>2.signature:签名，signature=sha1(rawData+session_key )</h4><h5 id="3-iv：对称解密算法初始向量"><a href="#3-iv：对称解密算法初始向量" class="headerlink" title="3.iv：对称解密算法初始向量"></a>3.iv：对称解密算法初始向量</h5></blockquote>
+<h4 id="再来看看微信官方的开放数据校验与解密的流程图"><a href="#再来看看微信官方的开放数据校验与解密的流程图" class="headerlink" title="再来看看微信官方的开放数据校验与解密的流程图"></a>再来看看微信官方的开放数据校验与解密的流程图</h4><p><img src="https://upload-images.jianshu.io/upload_images/14033047-2774483b309f43be.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="signature.jpg"></p>
+<h4 id="现在我们可以开发注册功能了，由于只是要把功能调试成功，我就直接在已有的项目上开发了，一些工具类的实现原理这里就不做分析了。"><a href="#现在我们可以开发注册功能了，由于只是要把功能调试成功，我就直接在已有的项目上开发了，一些工具类的实现原理这里就不做分析了。" class="headerlink" title="现在我们可以开发注册功能了，由于只是要把功能调试成功，我就直接在已有的项目上开发了，一些工具类的实现原理这里就不做分析了。"></a>现在我们可以开发注册功能了，由于只是要把功能调试成功，我就直接在已有的项目上开发了，一些工具类的实现原理这里就不做分析了。</h4><h4 id="小程序前端请求代码："><a href="#小程序前端请求代码：" class="headerlink" title="小程序前端请求代码："></a>小程序前端请求代码：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取开放数据</span></span><br><span class="line"><span class="keyword">var</span> encryptedData = e.detail.encryptedData</span><br><span class="line"><span class="keyword">var</span> signature = e.detail.signature</span><br><span class="line"><span class="keyword">var</span> iv = e.detail.iv</span><br><span class="line"><span class="keyword">var</span> rawData = e.detail.rawData</span><br><span class="line"><span class="comment">//从本地缓存中取出thirdsession</span></span><br><span class="line"><span class="keyword">var</span> thirdsession = wx.getStorageSync(<span class="string">'thirdsession'</span>)</span><br><span class="line">wx.request(&#123;</span><br><span class="line">  url: <span class="string">'http://192.168.1.102:8080/wxRegister'</span>, <span class="comment">//后端请求地址</span></span><br><span class="line">  method: <span class="string">"GET"</span>,</span><br><span class="line">  data: &#123;</span><br><span class="line">    thirdSession: thirdsession,</span><br><span class="line">    encryptedData: encryptedData,</span><br><span class="line">    rawData: rawData,</span><br><span class="line">    signature: signature,</span><br><span class="line">    iv: iv</span><br><span class="line">  &#125;,</span><br><span class="line">  header: &#123;</span><br><span class="line">    <span class="string">'content-type'</span>: <span class="string">'application/json'</span> <span class="comment">// 默认值</span></span><br><span class="line">  &#125;,</span><br><span class="line">  success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//成功后跳转至用户信息页面</span></span><br><span class="line">    wx.redirectTo(&#123;</span><br><span class="line">      url: <span class="string">'../mine/mine'</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="后端接口请求代码："><a href="#后端接口请求代码：" class="headerlink" title="后端接口请求代码："></a>后端接口请求代码：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/wxRegister"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> IMoocJSONResult <span class="title">wxRegister</span><span class="params">(String thirdSession, String signature, String rawData, String encryptedData, String iv)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//1.根据小程序前端传来的thirdSession，在redis中找出对应的openId和session_key</span></span><br><span class="line">        String value = (String) redis.get(<span class="string">"Wxuser-redis-session:"</span>+thirdSession);</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isBlank(value)) &#123;</span><br><span class="line">            <span class="keyword">return</span> IMoocJSONResult.errorMsg(<span class="string">"请求超时"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//解析json格式的str</span></span><br><span class="line">        JSONObject json = JSONObject.parseObject(value);</span><br><span class="line">        <span class="comment">//取出session_key</span></span><br><span class="line">        String sessionKey = json.getString(<span class="string">"session_key"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//数据签名校验</span></span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) &#123;</span><br><span class="line">            <span class="keyword">return</span> IMoocJSONResult.errorMsg(<span class="string">"数据签名校验失败"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 解密用户信息</span></span><br><span class="line">        WxMaUserInfo userInfo = <span class="keyword">this</span>.wxService.getUserService().getUserInfo(sessionKey, encryptedData, iv);</span><br><span class="line">		WxUser wxuser = wxUserService.queryUserInfo(userInfo.getOpenId());</span><br><span class="line">		<span class="keyword">if</span> (wxuser == <span class="keyword">null</span>) &#123;</span><br><span class="line">			WxUser wxUserInfo = <span class="keyword">new</span> WxUser();</span><br><span class="line">			wxUserInfo.setOpenid(userInfo.getOpenId());</span><br><span class="line">			wxUserInfo.setNickname(userInfo.getNickName());</span><br><span class="line">			wxUserInfo.setCity(userInfo.getCity());</span><br><span class="line">			wxUserInfo.setRegistertime(<span class="keyword">new</span> Date());</span><br><span class="line">			wxUserService.saveUser(wxUserInfo);</span><br><span class="line">		    <span class="keyword">return</span> IMoocJSONResult.ok(<span class="string">"用户注册成功!"</span>);</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">		    <span class="keyword">return</span> IMoocJSONResult.ok(<span class="string">"用户信息验证成功"</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="再写一个用户信息页面，用于登录成功后显示用户信息-检验登录态是否有效。"><a href="#再写一个用户信息页面，用于登录成功后显示用户信息-检验登录态是否有效。" class="headerlink" title="再写一个用户信息页面，用于登录成功后显示用户信息,检验登录态是否有效。"></a>再写一个用户信息页面，用于登录成功后显示用户信息,检验登录态是否有效。</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mine.js</span></span><br><span class="line">onLoad:<span class="function"><span class="keyword">function</span>(<span class="params">params</span>)</span>&#123;</span><br><span class="line"><span class="keyword">var</span> me = <span class="keyword">this</span>;</span><br><span class="line">wx.hideToast();</span><br><span class="line"><span class="comment">//检验登录态是否有效。</span></span><br><span class="line">wx.checkSession(&#123;</span><br><span class="line">  success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">  &#125;,</span><br><span class="line">  fail: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    wx.showToast(&#123;</span><br><span class="line">      title: <span class="string">'登陆态已失效，请重新登陆'</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">//失效返回重新登录</span></span><br><span class="line">    wx.redirectTo(&#123;</span><br><span class="line">      url: <span class="string">'../WxLogin/login'</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//获取全局用户信息</span></span><br><span class="line"><span class="keyword">var</span> userInfo = app.getGlobalUserInfo();</span><br><span class="line">me.setData(&#123;</span><br><span class="line">    userInfo: userInfo,</span><br><span class="line">    nickname: userInfo.nickName</span><br><span class="line">&#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h4 id="至此，前后端均开发完毕，我在原有项目的数据库中新建了一张表用于测试，表结构如下："><a href="#至此，前后端均开发完毕，我在原有项目的数据库中新建了一张表用于测试，表结构如下：" class="headerlink" title="至此，前后端均开发完毕，我在原有项目的数据库中新建了一张表用于测试，表结构如下："></a>至此，前后端均开发完毕，我在原有项目的数据库中新建了一张表用于测试，表结构如下：</h4><p><img src="https://upload-images.jianshu.io/upload_images/14033047-9f1bd384547e4e33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="最后，运行后端工程和Redis，与小程序前端进行联调，测试功能是否能成功运行。"><a href="#最后，运行后端工程和Redis，与小程序前端进行联调，测试功能是否能成功运行。" class="headerlink" title="最后，运行后端工程和Redis，与小程序前端进行联调，测试功能是否能成功运行。"></a>最后，运行后端工程和Redis，与小程序前端进行联调，测试功能是否能成功运行。</h4><blockquote>
+<h4 id="1-在小程序端点击微信登录，后端能成功使用Code交换openId和Session-key，与随机生成的登录态一起存入redis，测试结果如下："><a href="#1-在小程序端点击微信登录，后端能成功使用Code交换openId和Session-key，与随机生成的登录态一起存入redis，测试结果如下：" class="headerlink" title="1.在小程序端点击微信登录，后端能成功使用Code交换openId和Session_key，与随机生成的登录态一起存入redis，测试结果如下："></a>1.在小程序端点击微信登录，后端能成功使用Code交换openId和Session_key，与随机生成的登录态一起存入redis，测试结果如下：</h4></blockquote>
+<h4 id="小程序端向用户发起授权请求"><a href="#小程序端向用户发起授权请求" class="headerlink" title="小程序端向用户发起授权请求"></a>小程序端向用户发起授权请求</h4><p><img src="https://upload-images.jianshu.io/upload_images/14033047-ad60d5675f4027b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="后端用接受到的code交换openId和session-key"><a href="#后端用接受到的code交换openId和session-key" class="headerlink" title="后端用接受到的code交换openId和session_key"></a>后端用接受到的code交换openId和session_key</h4><p><img src="https://upload-images.jianshu.io/upload_images/14033047-4d84687d5320cdfa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="生成随机数登录态，组成键-值存入Redis"><a href="#生成随机数登录态，组成键-值存入Redis" class="headerlink" title="生成随机数登录态，组成键-值存入Redis"></a>生成随机数登录态，组成键-值存入Redis</h4><p><img src="https://upload-images.jianshu.io/upload_images/14033047-93e4ecce6cfaac49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<blockquote>
+<h4 id="2-从前端获取小程序本地缓存中的thirdsession以及用户的加密信息，进行身份校验和信息解密，解密后的数据存入数据库。"><a href="#2-从前端获取小程序本地缓存中的thirdsession以及用户的加密信息，进行身份校验和信息解密，解密后的数据存入数据库。" class="headerlink" title="2.从前端获取小程序本地缓存中的thirdsession以及用户的加密信息，进行身份校验和信息解密，解密后的数据存入数据库。"></a>2.从前端获取小程序本地缓存中的thirdsession以及用户的加密信息，进行身份校验和信息解密，解密后的数据存入数据库。</h4></blockquote>
+<h4 id="根据thirdsession，从Redis中取出session-key"><a href="#根据thirdsession，从Redis中取出session-key" class="headerlink" title="根据thirdsession，从Redis中取出session_key"></a>根据thirdsession，从Redis中取出session_key</h4><p><img src="https://upload-images.jianshu.io/upload_images/14033047-8dcdf711f8b2e92b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h5 id="将用户信息进行解密，存入数据表"><a href="#将用户信息进行解密，存入数据表" class="headerlink" title="将用户信息进行解密，存入数据表"></a>将用户信息进行解密，存入数据表</h5><p><img src="https://upload-images.jianshu.io/upload_images/14033047-369f28f3a3ffb140.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<blockquote>
+<h5 id="3-跳转至用户信息页面，检验登录态是否有效，获取全局用户信息填充至页面。"><a href="#3-跳转至用户信息页面，检验登录态是否有效，获取全局用户信息填充至页面。" class="headerlink" title="3.跳转至用户信息页面，检验登录态是否有效，获取全局用户信息填充至页面。"></a>3.跳转至用户信息页面，检验登录态是否有效，获取全局用户信息填充至页面。</h5></blockquote>
+<h5 id="登录态有效"><a href="#登录态有效" class="headerlink" title="登录态有效"></a>登录态有效</h5><p><img src="https://upload-images.jianshu.io/upload_images/14033047-0387be5f38a08adf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="用户信息填充成功"><a href="#用户信息填充成功" class="headerlink" title="用户信息填充成功"></a>用户信息填充成功</h4><p><img src="https://upload-images.jianshu.io/upload_images/14033047-d56487d01f06c7f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片.png"></p>
+<h4 id="现在，整个模块均开发测试完成。一个看似简单的模块换了另一种解决方法，这个过程我踩了许多坑，犯了许多低级的错误，因此决定写下这篇文章来总结一下自己的开发经验，让思路更清晰。若各位大神发现代码中有bug的话，可以关注我在后台留言告诉我哦。"><a href="#现在，整个模块均开发测试完成。一个看似简单的模块换了另一种解决方法，这个过程我踩了许多坑，犯了许多低级的错误，因此决定写下这篇文章来总结一下自己的开发经验，让思路更清晰。若各位大神发现代码中有bug的话，可以关注我在后台留言告诉我哦。" class="headerlink" title="现在，整个模块均开发测试完成。一个看似简单的模块换了另一种解决方法，这个过程我踩了许多坑，犯了许多低级的错误，因此决定写下这篇文章来总结一下自己的开发经验，让思路更清晰。若各位大神发现代码中有bug的话，可以关注我在后台留言告诉我哦。"></a>现在，整个模块均开发测试完成。一个看似简单的模块换了另一种解决方法，这个过程我踩了许多坑，犯了许多低级的错误，因此决定写下这篇文章来总结一下自己的开发经验，让思路更清晰。若各位大神发现代码中有bug的话，可以关注我在后台留言告诉我哦。</h4><h4 id="最后，RNG牛逼！"><a href="#最后，RNG牛逼！" class="headerlink" title="最后，RNG牛逼！"></a>最后，RNG牛逼！</h4><p><img src="https://upload-images.jianshu.io/upload_images/14033047-4e4dcd7adc3a919c.gif?imageMogr2/auto-orient/strip" alt="rng.gif"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/yeykai.github.io/2018/09/29/miniPublishImg/" rel="prev" title="【学习日记】微信小程序仿朋友圈发布商品信息及图片">
+                【学习日记】微信小程序仿朋友圈发布商品信息及图片 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">YeYKai</p>
+              <p class="site-description motion-element" itemprop="description">我的学习日记</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/yeykai.github.io/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。"><span class="nav-number">1.</span> <span class="nav-text">众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在小程序开发中，微信官方很友好地开放了Wx-login这种接口来获取用户的身份标识别。本文将分析这一登录接口实现过程，最终完成小程序用户微信登录功能。"><span class="nav-number">2.</span> <span class="nav-text">在小程序开发中，微信官方很友好地开放了Wx.login这种接口来获取用户的身份标识别。本文将分析这一登录接口实现过程，最终完成小程序用户微信登录功能。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先，我们看一下微信官方给出的登录流程时序图"><span class="nav-number">2.1.</span> <span class="nav-text">首先，我们看一下微信官方给出的登录流程时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#现在，我们根据这张图用代码来实现它。"><span class="nav-number">2.2.</span> <span class="nav-text">现在，我们根据这张图用代码来实现它。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步，我们在原有的小程序登录页面中加入一个微信登录按钮，注意，这个按钮需要有bindgetuserinfo属性来获取用户的加密数据，同时，设置open-type-”getUserInfo”，属性才会生效。"><span class="nav-number">2.3.</span> <span class="nav-text">第一步，我们在原有的小程序登录页面中加入一个微信登录按钮，注意，这个按钮需要有bindgetuserinfo属性来获取用户的加密数据，同时，设置open-type=”getUserInfo”，属性才会生效。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步，在小程序端调用Wx-login获取临时登录凭证code，传至我们的后台服务器，具体代码如下："><span class="nav-number">2.4.</span> <span class="nav-text">第二步，在小程序端调用Wx.login获取临时登录凭证code，传至我们的后台服务器，具体代码如下：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步，我们在后台接收到小程序前端传来的code后，结合开发者的appid和appsecret，向微信接口服务交换用户的包含openId和Session-key的JSON字符串，然后我们需要在生成一个随机数作为登录态，最后，以登录态作为键，JSON字符串作为值保存至Redis缓存中。具体代码如下："><span class="nav-number">2.5.</span> <span class="nav-text">第三步，我们在后台接收到小程序前端传来的code后，结合开发者的appid和appsecret，向微信接口服务交换用户的包含openId和Session_key的JSON字符串，然后我们需要在生成一个随机数作为登录态，最后，以登录态作为键，JSON字符串作为值保存至Redis缓存中。具体代码如下：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四步，我们要将微信用户的数据保存到数据库中，完成用户注册业务。"><span class="nav-number">2.6.</span> <span class="nav-text">第四步，我们要将微信用户的数据保存到数据库中，完成用户注册业务。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在最开始，我们点击微信登录按钮后，我们获取到了一些用户的加密数据，这些数据需要传到后台服务器进行校验签名和解密，来保证数据不被篡改。数据如下图所示："><span class="nav-number">2.6.1.</span> <span class="nav-text">在最开始，我们点击微信登录按钮后，我们获取到了一些用户的加密数据，这些数据需要传到后台服务器进行校验签名和解密，来保证数据不被篡改。数据如下图所示：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这里需要解释一下几个关键参数的属性"><span class="nav-number">2.7.</span> <span class="nav-text">这里需要解释一下几个关键参数的属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-encryptedData：加密的用户敏感数据"><span class="nav-number">2.8.</span> <span class="nav-text">1.encryptedData：加密的用户敏感数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-signature-签名，signature-sha1-rawData-session-key"><span class="nav-number">2.9.</span> <span class="nav-text">2.signature:签名，signature=sha1(rawData+session_key )</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-iv：对称解密算法初始向量"><span class="nav-number">2.9.1.</span> <span class="nav-text">3.iv：对称解密算法初始向量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#再来看看微信官方的开放数据校验与解密的流程图"><span class="nav-number">2.10.</span> <span class="nav-text">再来看看微信官方的开放数据校验与解密的流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#现在我们可以开发注册功能了，由于只是要把功能调试成功，我就直接在已有的项目上开发了，一些工具类的实现原理这里就不做分析了。"><span class="nav-number">2.11.</span> <span class="nav-text">现在我们可以开发注册功能了，由于只是要把功能调试成功，我就直接在已有的项目上开发了，一些工具类的实现原理这里就不做分析了。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小程序前端请求代码："><span class="nav-number">2.12.</span> <span class="nav-text">小程序前端请求代码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后端接口请求代码："><span class="nav-number">2.13.</span> <span class="nav-text">后端接口请求代码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#再写一个用户信息页面，用于登录成功后显示用户信息-检验登录态是否有效。"><span class="nav-number">2.14.</span> <span class="nav-text">再写一个用户信息页面，用于登录成功后显示用户信息,检验登录态是否有效。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#至此，前后端均开发完毕，我在原有项目的数据库中新建了一张表用于测试，表结构如下："><span class="nav-number">2.15.</span> <span class="nav-text">至此，前后端均开发完毕，我在原有项目的数据库中新建了一张表用于测试，表结构如下：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后，运行后端工程和Redis，与小程序前端进行联调，测试功能是否能成功运行。"><span class="nav-number">2.16.</span> <span class="nav-text">最后，运行后端工程和Redis，与小程序前端进行联调，测试功能是否能成功运行。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-在小程序端点击微信登录，后端能成功使用Code交换openId和Session-key，与随机生成的登录态一起存入redis，测试结果如下："><span class="nav-number">2.17.</span> <span class="nav-text">1.在小程序端点击微信登录，后端能成功使用Code交换openId和Session_key，与随机生成的登录态一起存入redis，测试结果如下：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小程序端向用户发起授权请求"><span class="nav-number">2.18.</span> <span class="nav-text">小程序端向用户发起授权请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后端用接受到的code交换openId和session-key"><span class="nav-number">2.19.</span> <span class="nav-text">后端用接受到的code交换openId和session_key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成随机数登录态，组成键-值存入Redis"><span class="nav-number">2.20.</span> <span class="nav-text">生成随机数登录态，组成键-值存入Redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-从前端获取小程序本地缓存中的thirdsession以及用户的加密信息，进行身份校验和信息解密，解密后的数据存入数据库。"><span class="nav-number">2.21.</span> <span class="nav-text">2.从前端获取小程序本地缓存中的thirdsession以及用户的加密信息，进行身份校验和信息解密，解密后的数据存入数据库。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据thirdsession，从Redis中取出session-key"><span class="nav-number">2.22.</span> <span class="nav-text">根据thirdsession，从Redis中取出session_key</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#将用户信息进行解密，存入数据表"><span class="nav-number">2.22.1.</span> <span class="nav-text">将用户信息进行解密，存入数据表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-跳转至用户信息页面，检验登录态是否有效，获取全局用户信息填充至页面。"><span class="nav-number">2.22.2.</span> <span class="nav-text">3.跳转至用户信息页面，检验登录态是否有效，获取全局用户信息填充至页面。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#登录态有效"><span class="nav-number">2.22.3.</span> <span class="nav-text">登录态有效</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户信息填充成功"><span class="nav-number">2.23.</span> <span class="nav-text">用户信息填充成功</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#现在，整个模块均开发测试完成。一个看似简单的模块换了另一种解决方法，这个过程我踩了许多坑，犯了许多低级的错误，因此决定写下这篇文章来总结一下自己的开发经验，让思路更清晰。若各位大神发现代码中有bug的话，可以关注我在后台留言告诉我哦。"><span class="nav-number">2.24.</span> <span class="nav-text">现在，整个模块均开发测试完成。一个看似简单的模块换了另一种解决方法，这个过程我踩了许多坑，犯了许多低级的错误，因此决定写下这篇文章来总结一下自己的开发经验，让思路更清晰。若各位大神发现代码中有bug的话，可以关注我在后台留言告诉我哦。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后，RNG牛逼！"><span class="nav-number">2.25.</span> <span class="nav-text">最后，RNG牛逼！</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YeYKai</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/yeykai.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/yeykai.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/yeykai.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/yeykai.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/yeykai.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/yeykai.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/yeykai.github.io/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/yeykai.github.io/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/yeykai.github.io/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/yeykai.github.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/yeykai.github.io/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/yeykai.github.io/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
