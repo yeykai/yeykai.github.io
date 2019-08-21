@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<script src="/js/src/click.js"></script>
+<script type="text/javascript">
+  var windowWidth = $(window).width();
+  if (windowWidth > 480) {
+    document.write('<script type="text/javascript" src="/js/src/snow.js"><\/script>');
+  }
+</script>
 <html  lang="zh">
 <head>
     <meta charset="utf-8" />
@@ -803,4 +810,6 @@ document.addEventListener('DOMContentLoaded', function () {
 <link rel="stylesheet" href="/css/insight.css">
     
 </body>
+
+
 </html>
