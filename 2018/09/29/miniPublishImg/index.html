@@ -16,7 +16,7 @@
 <meta property="og:url" content="http://yeykai.cn/2018/09/29/miniPublishImg/index.html">
 <meta property="og:site_name" content="YeYKai的博客">
 <meta property="og:description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis 今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。 现在朋友圈发图片已经可以拖拽改变图片顺序或删除图片了，但是用小程序实现拖拽功能太麻烦了。所以，我将换一种方式来实现图片删除和预览，最后，再写两个后端接">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yeykai.cn/images/og_image.png">
 <meta property="og:updated_time" content="2018-10-01T02:10:02.000Z">
 <meta name="twitter:card" content="summary">
@@ -30,7 +30,7 @@
 
 
 
-<link rel="icon" href="/images/avatar.jpg">
+<link rel="icon" href="/images/yellow.gif">
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
@@ -92,7 +92,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/avatar.jpg" alt="【学习日记】微信小程序仿朋友圈发布商品信息及图片" height="28">
+                <img src="/images/yellow.gif" alt="【学习日记】微信小程序仿朋友圈发布商品信息及图片" height="28">
             
             </a>
         </div>
@@ -127,7 +127,7 @@
                 
                 
                 
-                <a class="navbar-item search" title="Search" href="javascript:;">
+                <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
                 </a>
                 
@@ -151,7 +151,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    14 minutes read (About 2049 words)
+                    14 分钟 读完 (大约 2049 个字)
                 </span>
                 
                 
@@ -202,7 +202,7 @@
 
 <div class="card">
     <div class="card-content">
-        <h3 class="menu-label has-text-centered">Suka dengan artikel ini? Bantu penulis dengan donasi melalui</h3>
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
         <div class="buttons is-centered">
             
                 
@@ -210,8 +210,8 @@
     <span class="icon is-small">
         <i class="fab fa-alipay"></i>
     </span>
-    <span>Alipay</span>
-    <div class="qrcode"><img src="/images/aliqrcode.jpg" alt="Alipay"></div>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/aliqrcode.jpg" alt="支付宝"></div>
 </a>
 
                 
@@ -220,15 +220,9 @@
     <span class="icon is-small">
         <i class="fab fa-weixin"></i>
     </span>
-    <span>Wechat</span>
-    <div class="qrcode"><img src="/images/wxqrcode.jpg" alt="Wechat"></div>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.jpg" alt="微信"></div>
 </a>
-
-                
-                
-<div class="notification is-danger">
-    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
-</div>
 
                 
         </div>
@@ -267,9 +261,7 @@
             <div class="level-item has-text-centered" style="flex-shrink: 1">
                 <div>
                     
-                        <figure class="image is-128x128 has-mb-6">
-                            <img class="is-rounded" src="/images/avatar.jpg" alt="yeykai">
-                        </figure>
+                        <img class="image is-128x128 has-mb-6" src="/images/avatar.jpg" alt="yeykai">
                     
                     
                     <p class="is-size-4 is-block">
@@ -294,7 +286,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Entradas
+                        文章
                     </p>
                     <p class="title has-text-weight-normal">
                         2
@@ -304,7 +296,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Categorias
+                        分类
                     </p>
                     <p class="title has-text-weight-normal">
                         0
@@ -314,7 +306,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Etiquetas
+                        标签
                     </p>
                     <p class="title has-text-weight-normal">
                         0
@@ -324,7 +316,7 @@
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/yeykai" target="_blank">
-                SEGUIR</a>
+                关注我</a>
         </div>
         
         
@@ -350,7 +342,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Links
+            链接
         </h3>
         <ul class="menu-list">
         
@@ -388,7 +380,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Categorias
+                分类
             </h3>
             <ul class="menu-list">
             
@@ -406,7 +398,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recientes
+            最新文章
         </h3>
         
         <article class="media">
@@ -455,14 +447,14 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archivos
+            归档
         </h3>
         <ul class="menu-list">
         
         <li>
             <a class="level is-marginless" href="/archives/2018/09/">
                 <span class="level-start">
-                    <span class="level-item">September 2018</span>
+                    <span class="level-item">九月 2018</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">2</span>
@@ -479,7 +471,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Etiquetas
+                标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -503,7 +495,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recientes
+            最新文章
         </h3>
         
         <article class="media">
@@ -552,14 +544,14 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archivos
+            归档
         </h3>
         <ul class="menu-list">
         
         <li>
             <a class="level is-marginless" href="/archives/2018/09/">
                 <span class="level-start">
-                    <span class="level-item">September 2018</span>
+                    <span class="level-item">九月 2018</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">2</span>
@@ -576,7 +568,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Etiquetas
+                标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -597,7 +589,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/avatar.jpg" alt="【学习日记】微信小程序仿朋友圈发布商品信息及图片" height="28">
+                    <img src="/images/yellow.gif" alt="【学习日记】微信小程序仿朋友圈发布商品信息及图片" height="28">
                 
                 </a>
                 <p class="is-size-7">
@@ -644,7 +636,7 @@
 </footer>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
-<script>moment.locale("zh-Hans");</script>
+<script>moment.locale("zh-CN");</script>
 
 <script>
 var IcarusThemeSettings = {
@@ -725,7 +717,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
 
-<a id="back-to-top" title="Kembali ke atas" href="javascript:;">
+<a id="back-to-top" title="回到顶端" href="javascript:;">
     <i class="fas fa-chevron-up"></i>
 </a>
 <script src="/js/back-to-top.js" defer></script>
@@ -752,7 +744,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="searchbox ins-search">
     <div class="searchbox-container ins-search-container">
         <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
             <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="searchbox-result-wrapper ins-section-wrapper">
@@ -764,11 +756,11 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Entradas',
-                PAGES: 'Pages',
-                CATEGORIES: 'Categorias',
-                TAGS: 'Etiquetas',
-                UNTITLED: '(Untitled)',
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
             },
             CONTENT_URL: '/content.json',
         };
