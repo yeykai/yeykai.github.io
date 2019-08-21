@@ -101,16 +101,16 @@
             <div class="navbar-start">
                 
                 <a class="navbar-item"
-                href="/archives">Archives</a>
+                href="/">首页</a>
                 
                 <a class="navbar-item"
-                href="/categories">Categories</a>
+                href="/archives">归档</a>
                 
                 <a class="navbar-item"
-                href="/tags">Tags</a>
+                href="/categories">分类</a>
                 
                 <a class="navbar-item"
-                href="/about">About</a>
+                href="/tags">标签</a>
                 
             </div>
             
@@ -208,26 +208,27 @@
 
 <div class="card">
     <div class="card-content">
-        <h3 class="menu-label has-text-centered">Like this article? Support the author with</h3>
+        <h3 class="menu-label has-text-centered">Suka dengan artikel ini? Bantu penulis dengan donasi melalui</h3>
         <div class="buttons is-centered">
             
                 
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
-</div>
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>Alipay</span>
+    <div class="qrcode"><img src="/images/aliqrcode.jpg" alt="Alipay"></div>
+</a>
 
                 
                 
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
-
-<div class="notification is-danger">
-    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
-</div>
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>Wechat</span>
+    <div class="qrcode"><img src="/images/wxqrcode.jpg" alt="Wechat"></div>
+</a>
 
                 
                 
@@ -272,7 +273,9 @@
             <div class="level-item has-text-centered" style="flex-shrink: 1">
                 <div>
                     
-                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="yeykai">
+                        <figure class="image is-128x128 has-mb-6">
+                            <img class="is-rounded" src="/images/avatar.jpg" alt="yeykai">
+                        </figure>
                     
                     
                     <p class="is-size-4 is-block">
@@ -281,7 +284,7 @@
                     
                     
                     <p class="is-size-6 is-block">
-                        Java
+                        My Java Blog
                     </p>
                     
                     
@@ -728,7 +731,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     
 
-<a id="back-to-top" title="Back to Top" href="javascript:;">
+<a id="back-to-top" title="Kembali ke atas" href="javascript:;">
     <i class="fas fa-chevron-up"></i>
 </a>
 <script src="/js/back-to-top.js" defer></script>
