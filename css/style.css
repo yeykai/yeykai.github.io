@@ -370,6 +370,8 @@ img.thumbnail {
 .content h5,
 .content h6 {
   font-weight: 400;
+  line-height: 40px;
+  text-indent: 25px;
 }
 .content h1 {
   font-size: 1.75em;
