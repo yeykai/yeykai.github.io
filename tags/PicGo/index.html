@@ -14,13 +14,13 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>归档: 2018/12 - YeYKai的博客</title>
+<title>标签: PicGo - YeYKai的博客</title>
 
 
     <meta name="description" content="我的学习日记">
 <meta property="og:type" content="website">
 <meta property="og:title" content="YeYKai的博客">
-<meta property="og:url" content="http://yeykai.cn/archives/2018/12/index.html">
+<meta property="og:url" content="http://yeykai.cn/tags/PicGo/index.html">
 <meta property="og:site_name" content="YeYKai的博客">
 <meta property="og:description" content="我的学习日记">
 <meta property="og:locale" content="zh-CN">
@@ -145,37 +145,67 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-
-<div class="card widget">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     <div class="card-content">
-        <h3 class="tag is-link">
-        十二月 2018
-        </h3>
-        <div class="timeline">
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-12-05T10:32:40.000Z">2018-12-05</time>
-                        <a href="/2018/12/05/miniInterface/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】微信小程序发送服务通知接口开发</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-        </div>
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/tags">标签</a></li>
+            <li class="is-active"><a href="#" aria-current="page">PicGo</a></li>
+        </ul>
+        </nav>
     </div>
 </div>
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-08-26T08:49:40.000Z">2019-08-26</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/经验分享/">经验分享</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 850 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/08/26/MarkdownPicGo/">Markdown图片的解决方案---PicGo+腾讯云COS</a>
+            
+        </h1>
+        <div class="content">
+            <h4 id="前言：我现在已经习惯使用Markdown格式来写博客，但是，每次给文章添加图片的过程，都让我感到很烦躁，之前使用过的方式是把图片上传到一些第三方平台（例如简书），在将外链放在markdown中，完成插入图片操作。"><a href="#前言：我现在已经习惯使用Markdown格式来写博客，但是，每次给文章添加图片的过程，都让我感到很烦躁，之前使用过的方式是把图片上传到一些第三方平台（例如简书），在将外链放在markdown中，完成插入图片操作。" class="headerlink" title="前言：我现在已经习惯使用Markdown格式来写博客，但是，每次给文章添加图片的过程，都让我感到很烦躁，之前使用过的方式是把图片上传到一些第三方平台（例如简书），在将外链放在markdown中，完成插入图片操作。"></a>前言：我现在已经习惯使用Markdown格式来写博客，但是，每次给文章添加图片的过程，都让我感到很烦躁，之前使用过的方式是把图片上传到一些第三方平台（例如简书），在将外链放在markdown中，完成插入图片操作。</h4><h4 id="其实上面的方法也不算太麻烦，但是，好景不长，突然有一天你就发现自己的博客图片加载不出来了，然后我又把插入图片的方式改成本地路径，这样虽然能解决问题，但是过程实在太麻烦了，而且我也没法在编辑过程中预览图片的效果。"><a href="#其实上面的方法也不算太麻烦，但是，好景不长，突然有一天你就发现自己的博客图片加载不出来了，然后我又把插入图片的方式改成本地路径，这样虽然能解决问题，但是过程实在太麻烦了，而且我也没法在编辑过程中预览图片的效果。" class="headerlink" title="其实上面的方法也不算太麻烦，但是，好景不长，突然有一天你就发现自己的博客图片加载不出来了，然后我又把插入图片的方式改成本地路径，这样虽然能解决问题，但是过程实在太麻烦了，而且我也没法在编辑过程中预览图片的效果。"></a>其实上面的方法也不算太麻烦，但是，好景不长，突然有一天你就发现自己的博客图片加载不出来了，然后我又把插入图片的方式改成本地路径，这样虽然能解决问题，但是过程实在太麻烦了，而且我也没法在编辑过程中预览图片的效果。</h4>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/08/26/MarkdownPicGo/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
 
 
 </div>
