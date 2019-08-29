@@ -14,20 +14,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>标签: 微信小程序 - YeYKai的博客</title>
+<title>【学习日记】第一个爬虫---Scrapy框架入门(一) - YeYKai的博客</title>
 
 
-    <meta name="description" content="我的学习日记">
-<meta property="og:type" content="website">
-<meta property="og:title" content="YeYKai的博客">
-<meta property="og:url" content="http://yeykai.cn/tags/微信小程序/index.html">
+    <meta name="description" content="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。">
+<meta name="keywords" content="Python,爬虫,Scrapy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【学习日记】第一个爬虫---Scrapy框架入门(一)">
+<meta property="og:url" content="http://yeykai.cn/2019/08/28/newcoderScrapy/index.html">
 <meta property="og:site_name" content="YeYKai的博客">
-<meta property="og:description" content="我的学习日记">
+<meta property="og:description" content="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yeykai.cn/images/og_image.png">
+<meta property="og:updated_time" content="2019-08-29T01:41:50.746Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YeYKai的博客">
-<meta name="twitter:description" content="我的学习日记">
+<meta name="twitter:title" content="【学习日记】第一个爬虫---Scrapy框架入门(一)">
+<meta name="twitter:description" content="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。">
 <meta name="twitter:image" content="http://yeykai.cn/images/og_image.png">
 
 
@@ -98,7 +100,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/yellow.gif" alt="YeYKai的博客" height="28">
+                <img src="/images/yellow.gif" alt="【学习日记】第一个爬虫---Scrapy框架入门(一)" height="28">
             
             </a>
         </div>
@@ -146,180 +148,150 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-08-28T08:49:40.000Z">2019-08-28</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    14 分钟 读完 (大约 2124 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                【学习日记】第一个爬虫---Scrapy框架入门(一)
+            
+        </h1>
+        <div class="content">
+            <h4 id="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。"><a href="#爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。" class="headerlink" title="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。"></a>爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。</h4><a id="more"></a>
+<h4 id="关于爬虫的实现，我选择python语言来操作，虽然java也是可以做到类似的功能，但是我也想体验一下python的开发过程。简单的一个python爬虫，可以使用request库来完成，它可以帮助你完成一系列网络请求，并返回一个response对象，包含网页的内容，就可以开始对网页内容使用xpath等工具得到你想要的信息。"><a href="#关于爬虫的实现，我选择python语言来操作，虽然java也是可以做到类似的功能，但是我也想体验一下python的开发过程。简单的一个python爬虫，可以使用request库来完成，它可以帮助你完成一系列网络请求，并返回一个response对象，包含网页的内容，就可以开始对网页内容使用xpath等工具得到你想要的信息。" class="headerlink" title="关于爬虫的实现，我选择python语言来操作，虽然java也是可以做到类似的功能，但是我也想体验一下python的开发过程。简单的一个python爬虫，可以使用request库来完成，它可以帮助你完成一系列网络请求，并返回一个response对象，包含网页的内容，就可以开始对网页内容使用xpath等工具得到你想要的信息。"></a>关于爬虫的实现，我选择python语言来操作，虽然java也是可以做到类似的功能，但是我也想体验一下python的开发过程。简单的一个python爬虫，可以使用request库来完成，它可以帮助你完成一系列网络请求，并返回一个response对象，包含网页的内容，就可以开始对网页内容使用xpath等工具得到你想要的信息。</h4><h4 id="不过今天的主角是一个爬虫框架—Scrapy，是基于twisted框架（一个流行的事件驱动的python网络框架）开发而来，它内部提供的各个组件相互协作，完成页面请求下载，数据清洗存档等一些列操作。下图是他的运作模型图："><a href="#不过今天的主角是一个爬虫框架—Scrapy，是基于twisted框架（一个流行的事件驱动的python网络框架）开发而来，它内部提供的各个组件相互协作，完成页面请求下载，数据清洗存档等一些列操作。下图是他的运作模型图：" class="headerlink" title="不过今天的主角是一个爬虫框架—Scrapy，是基于twisted框架（一个流行的事件驱动的python网络框架）开发而来，它内部提供的各个组件相互协作，完成页面请求下载，数据清洗存档等一些列操作。下图是他的运作模型图："></a>不过今天的主角是一个爬虫框架—Scrapy，是基于twisted框架（一个流行的事件驱动的python网络框架）开发而来，它内部提供的各个组件相互协作，完成页面请求下载，数据清洗存档等一些列操作。下图是他的运作模型图：</h4><p><img src="http://img.yeykai.cn/img/scrapy架构.jpg" alt="scrapy架构图"></p>
+<h4 id="这里简单介绍一下上图的几个重要组件："><a href="#这里简单介绍一下上图的几个重要组件：" class="headerlink" title="这里简单介绍一下上图的几个重要组件："></a>这里简单介绍一下上图的几个重要组件：</h4><ol>
+<li>ScrapyEngine:整个框架的中枢，为各个组件传递请求或响应数据</li>
+<li>Spiders:自定义的页面数据处理逻辑</li>
+<li>Scheduler:url的调度器</li>
+<li>ItemPipeline:对Spiders处理好的数据做进一步处理，如入库或写入文件</li>
+</ol>
+<h4 id="我也是今天刚接触这一框架，有理解不对的地方各位大佬在评论去留个言，这里用一个简单的例子，来应用scrapy框架。我将写一个爬取牛客网的剑指offer题库的题目信息，包括每个题的类型，通过率等信息，最终输出到csv表格中。"><a href="#我也是今天刚接触这一框架，有理解不对的地方各位大佬在评论去留个言，这里用一个简单的例子，来应用scrapy框架。我将写一个爬取牛客网的剑指offer题库的题目信息，包括每个题的类型，通过率等信息，最终输出到csv表格中。" class="headerlink" title="我也是今天刚接触这一框架，有理解不对的地方各位大佬在评论去留个言，这里用一个简单的例子，来应用scrapy框架。我将写一个爬取牛客网的剑指offer题库的题目信息，包括每个题的类型，通过率等信息，最终输出到csv表格中。"></a>我也是今天刚接触这一框架，有理解不对的地方各位大佬在评论去留个言，这里用一个简单的例子，来应用scrapy框架。我将写一个爬取牛客网的剑指offer题库的题目信息，包括每个题的类型，通过率等信息，最终输出到csv表格中。</h4><h4 id="写爬虫的第一步，当然是需要看看要爬取的资源长什么样，才能进行后续的代码编写，我们找到目标地址，打开浏览器的开发者工具，查看我们要的数据在哪个位置，下图便是我要爬取的目标数据的位置："><a href="#写爬虫的第一步，当然是需要看看要爬取的资源长什么样，才能进行后续的代码编写，我们找到目标地址，打开浏览器的开发者工具，查看我们要的数据在哪个位置，下图便是我要爬取的目标数据的位置：" class="headerlink" title="写爬虫的第一步，当然是需要看看要爬取的资源长什么样，才能进行后续的代码编写，我们找到目标地址，打开浏览器的开发者工具，查看我们要的数据在哪个位置，下图便是我要爬取的目标数据的位置："></a>写爬虫的第一步，当然是需要看看要爬取的资源长什么样，才能进行后续的代码编写，我们找到目标地址，打开浏览器的开发者工具，查看我们要的数据在哪个位置，下图便是我要爬取的目标数据的位置：</h4><p><img src="http://img.yeykai.cn/img/pachong.jpg" alt="目标资源定位"></p>
+<h4 id="确认过眼神，是能爬到的数据，开始搭建工程搞起，首先，在本地安装scrapy，只需要用pip-install-scrapy命令下载即可，如果出现下载失败网络超时的现象，可以尝试使用国内镜像下载，当然，如果你使用PyCharm开发，也可以直接修改镜像来源，如下图所示："><a href="#确认过眼神，是能爬到的数据，开始搭建工程搞起，首先，在本地安装scrapy，只需要用pip-install-scrapy命令下载即可，如果出现下载失败网络超时的现象，可以尝试使用国内镜像下载，当然，如果你使用PyCharm开发，也可以直接修改镜像来源，如下图所示：" class="headerlink" title="确认过眼神，是能爬到的数据，开始搭建工程搞起，首先，在本地安装scrapy，只需要用pip install scrapy命令下载即可，如果出现下载失败网络超时的现象，可以尝试使用国内镜像下载，当然，如果你使用PyCharm开发，也可以直接修改镜像来源，如下图所示："></a>确认过眼神，是能爬到的数据，开始搭建工程搞起，首先，在本地安装scrapy，只需要用pip install scrapy命令下载即可，如果出现下载失败网络超时的现象，可以尝试使用国内镜像下载，当然，如果你使用PyCharm开发，也可以直接修改镜像来源，如下图所示：</h4><p><img src="http://img.yeykai.cn/img/mirror.png" alt="PyCharm镜像设置"></p>
+<h4 id="安装完成后，找一个目录，用命令行输入scrapy-startproject-yourprojectname来创建一个scrapy工程，创建后得到这样的目录："><a href="#安装完成后，找一个目录，用命令行输入scrapy-startproject-yourprojectname来创建一个scrapy工程，创建后得到这样的目录：" class="headerlink" title="安装完成后，找一个目录，用命令行输入scrapy startproject yourprojectname来创建一个scrapy工程，创建后得到这样的目录："></a>安装完成后，找一个目录，用命令行输入scrapy startproject yourprojectname来创建一个scrapy工程，创建后得到这样的目录：</h4><p><img src="http://img.yeykai.cn/img/cmdscrapy.jpg" alt="命令行创建scrapy工程"></p>
+<p><img src="http://img.yeykai.cn/img/mulv.jpg" alt="创建后目录"></p>
+<h4 id="使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下："><a href="#使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下：" class="headerlink" title="使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下："></a>使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下：</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> scrapy.cmdline <span class="hljs-keyword">import</span> execute</span><br><span class="line">execute([<span class="hljs-string">'scrapy'</span>, <span class="hljs-string">'crawl'</span>, <span class="hljs-string">'spidersTest'</span>])</span><br></pre></td></tr></table></figure>
+<h4 id="其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据中文文档来操作。"><a href="#其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据中文文档来操作。" class="headerlink" title="其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据中文文档来操作。"></a>其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据<a href="https://scrapy-chs.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">中文文档</a>来操作。</h4><h4 id="第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下："><a href="#第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下：" class="headerlink" title="第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下："></a>第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下：</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyscrapyItem</span><span class="hljs-params">(scrapy.Item)</span>:</span></span><br><span class="line">    kaodian = scrapy.Field()</span><br><span class="line">    question = scrapy.Field()</span><br><span class="line">    hot = scrapy.Field()</span><br><span class="line">    passingRate = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h4 id="第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码："><a href="#第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码：" class="headerlink" title="第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码："></a>第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码：</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> scrapy</span><br><span class="line"><span class="hljs-keyword">from</span> scrapy <span class="hljs-keyword">import</span> Selector, Request</span><br><span class="line"><span class="hljs-keyword">from</span> myscrapy.items <span class="hljs-keyword">import</span> MyscrapyItem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">spidersTest</span><span class="hljs-params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="hljs-string">'spidersTest'</span></span><br><span class="line">    allowed_domains = [<span class="hljs-string">'www.nowcoder.com'</span>]</span><br><span class="line">    baseUrls = <span class="hljs-string">'https://www.nowcoder.com/ta/coding-interviews?query=&amp;asc=true&amp;order=&amp;page='</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">start_requests</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">5</span>):</span><br><span class="line">            url = self.baseUrls + str(i)</span><br><span class="line">            <span class="hljs-keyword">yield</span> Request(url,self.parse)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parse</span><span class="hljs-params">(self, response)</span>:</span></span><br><span class="line"></span><br><span class="line">        item = MyscrapyItem()</span><br><span class="line"></span><br><span class="line">        sel = Selector(response)  <span class="hljs-comment"># Xpath选择器</span></span><br><span class="line">        kaodians = sel.xpath(<span class="hljs-string">'//td[@class="offer-pot txt-left"]/text()'</span>).re(<span class="hljs-string">'\S+'</span>)</span><br><span class="line">        questions = sel.xpath(<span class="hljs-string">'//td[@class="txt-left"]/a/text()'</span>).re(<span class="hljs-string">'\S+'</span>)</span><br><span class="line">        hots = sel.xpath(<span class="hljs-string">'//tr/td[3]/text()'</span>).extract()</span><br><span class="line">        passingRates = sel.xpath(<span class="hljs-string">'//tr/td[4]/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span>  range(<span class="hljs-number">0</span>, len(kaodians)):</span><br><span class="line">            item[<span class="hljs-string">'kaodian'</span>] = kaodians[i]</span><br><span class="line">            item[<span class="hljs-string">'question'</span>] = questions[i]</span><br><span class="line">            item[<span class="hljs-string">'hot'</span>] = hots[i]</span><br><span class="line">            item[<span class="hljs-string">'passingRate'</span>] = passingRates[i]</span><br><span class="line">            <span class="hljs-keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+<h4 id="下面是这个类的实现细节："><a href="#下面是这个类的实现细节：" class="headerlink" title="下面是这个类的实现细节："></a>下面是这个类的实现细节：</h4><ol>
+<li>首先它需要继承Spider，这样它才是一个spider。</li>
+<li>name变量代表这个爬虫的名字，也是用命令行执行的名字</li>
+<li>allowed_domains表示要爬取的网页需要在这个域名下</li>
+<li>start_requests(self)定义我们要爬取的页面url，并以 parse 为回调函数生成 Request，这里我们要爬取的题目有4页，所以需要生成4个url</li>
+<li>parse(self, response)负责处理response并返回处理的数据以及(/或)跟进的URL。</li>
+<li>在parse方法中，我们需要开始处理response，在整个页面数据中取到我们想要的数据，所以需要用到一个选择器。筛选的方式有很多，理论上xpath和正则表达式都是能实现的，但是对于这种返回的html页面，现在xpath来解析会更加方便，正则表达式可以作为辅助，对xpath解析的数据做进一步清洗。</li>
+<li>常用的选择器还有BeautifulSoup和lxml，具体用法这里就不说了，自行百度哈哈</li>
+<li>从前面的浏览器控制台，我们知道考点和题目字段可以直接从td的类名获取到，xpath表达式也只需要用//绝对路径去找就好了，而对于热度和通过率字段，这两个td是没类名的，因此可以用索引来寻找，也很简单，最后获取到之后需要加上extract()方法转换成字符串，而对于考点和题目字段，提取后还会有换行符和空格的情况，这是可以用re()方法，利用正则表达式’\S+’获取非空的信息。</li>
+<li>最后，把获取的数据放在前面定义的item中，等待itempipeline进一步处理</li>
+</ol>
+<h4 id="最后一步，编写itempipeline，将数据写入到表格中，这里需要先用-init-self-方法初始化表格文件，真正处理的方法在process-item-self-item-spider-中，具体代码如下："><a href="#最后一步，编写itempipeline，将数据写入到表格中，这里需要先用-init-self-方法初始化表格文件，真正处理的方法在process-item-self-item-spider-中，具体代码如下：" class="headerlink" title="最后一步，编写itempipeline，将数据写入到表格中，这里需要先用 init(self)方法初始化表格文件，真正处理的方法在process_item(self, item, spider)中，具体代码如下："></a>最后一步，编写itempipeline，将数据写入到表格中，这里需要先用 <strong>init</strong>(self)方法初始化表格文件，真正处理的方法在process_item(self, item, spider)中，具体代码如下：</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyscrapyPipeline</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-comment"># csv文件的位置,无需事先创建</span></span><br><span class="line">        store_file = <span class="hljs-string">'D:/spiders/newcoder.csv'</span></span><br><span class="line">        <span class="hljs-comment"># 打开(创建)文件</span></span><br><span class="line">        self.file = open(store_file, <span class="hljs-string">'w'</span>,newline=<span class="hljs-string">''</span>)</span><br><span class="line">        <span class="hljs-comment"># csv写法</span></span><br><span class="line">        self.writer = csv.writer(self.file)</span><br><span class="line">        <span class="hljs-comment"># 写入表头</span></span><br><span class="line">        self.writer.writerow((<span class="hljs-string">'考点'</span>.encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              <span class="hljs-string">'题目'</span>.encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              <span class="hljs-string">'热度'</span>.encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              <span class="hljs-string">'通过率'</span>.encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>)))</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_item</span><span class="hljs-params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="hljs-comment"># 数据写入csv</span></span><br><span class="line">        self.writer.writerow((item[<span class="hljs-string">'kaodian'</span>].encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              item[<span class="hljs-string">'question'</span>].encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              item[<span class="hljs-string">'hot'</span>].encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              item[<span class="hljs-string">'passingRate'</span>].encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>)))</span><br><span class="line">        <span class="hljs-keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">close_spider</span><span class="hljs-params">(self, spider)</span>:</span></span><br><span class="line">        <span class="hljs-comment"># 关闭爬虫时顺便将文件保存退出</span></span><br><span class="line">        self.file.close()</span><br></pre></td></tr></table></figure>
+<h4 id="运行前，需要把配置文件setting-py的下面这段代码取消注释"><a href="#运行前，需要把配置文件setting-py的下面这段代码取消注释" class="headerlink" title="运行前，需要把配置文件setting.py的下面这段代码取消注释"></a>运行前，需要把配置文件setting.py的下面这段代码取消注释</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">   <span class="hljs-string">'myscrapy.pipelines.MyscrapyPipeline'</span>: <span class="hljs-number">300</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="到此，整个开发过程完成，可以测试一下成果了，下图是测试结果："><a href="#到此，整个开发过程完成，可以测试一下成果了，下图是测试结果：" class="headerlink" title="到此，整个开发过程完成，可以测试一下成果了，下图是测试结果："></a>到此，整个开发过程完成，可以测试一下成果了，下图是测试结果：</h4><p><img src="http://img.yeykai.cn/img/ceshijieguo.png" alt="运行日志"></p>
+<p><img src="http://img.yeykai.cn/img/csvjieguo.jpg" alt="输出表格内容"></p>
+<h4 id="可以看到，短短一秒就将大量数据从网上成功地爬出来，效果很好，达到预期目标。今天很开心，第一次使用scrapy写爬虫，虽然案例很简单，但是整个过程下来，还是觉得很好玩，很有意思，因此写下本文记录一下，总结经验。如果有哪里不对，请大佬们指点一下。"><a href="#可以看到，短短一秒就将大量数据从网上成功地爬出来，效果很好，达到预期目标。今天很开心，第一次使用scrapy写爬虫，虽然案例很简单，但是整个过程下来，还是觉得很好玩，很有意思，因此写下本文记录一下，总结经验。如果有哪里不对，请大佬们指点一下。" class="headerlink" title="可以看到，短短一秒就将大量数据从网上成功地爬出来，效果很好，达到预期目标。今天很开心，第一次使用scrapy写爬虫，虽然案例很简单，但是整个过程下来，还是觉得很好玩，很有意思，因此写下本文记录一下，总结经验。如果有哪里不对，请大佬们指点一下。"></a>可以看到，短短一秒就将大量数据从网上成功地爬出来，效果很好，达到预期目标。今天很开心，第一次使用scrapy写爬虫，虽然案例很简单，但是整个过程下来，还是觉得很好玩，很有意思，因此写下本文记录一下，总结经验。如果有哪里不对，请大佬们指点一下。</h4>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Python/">Python</a>, <a class="has-link-grey -link" href="/tags/Scrapy/">Scrapy</a>, <a class="has-link-grey -link" href="/tags/爬虫/">爬虫</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
     <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">微信小程序</a></li>
-        </ul>
-        </nav>
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/aliqrcode.jpg" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.jpg" alt="微信"></div>
+</a>
+
+                
+        </div>
     </div>
 </div>
 
-    <div class="card">
-    
-    <div class="card-content article ">
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-05T10:32:40.000Z">2018-12-05</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    16 分钟 读完 (大约 2434 个字)
-                </span>
-                
-                
-            </div>
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/08/26/MarkdownPicGo/">
+                <span class="level-item">Markdown图片的解决方案---PicGo+腾讯云COS</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/12/05/miniInterface/">【学习日记】微信小程序发送服务通知接口开发</a>
-            
-        </h1>
-        <div class="content">
-            <hr>
-<p>本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis</p>
-<h4 id="服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知"><a href="#服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知" class="headerlink" title="服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知"></a>服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知</h4><p><img src="/images/mpinterface/1.png" alt="image.png"></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/12/05/miniInterface/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
         
     </div>
 </div>
 
 
 
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'fHtuykWr71njNJ5JzTjHrWcF-gzGzoHsz',
+        app_key: 'ISNzbMDv0XplozgNLxuff8zh',
+        placeholder: '大侠，说两句吧'
+    });
+</script>
 
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-09-29T13:30:51.000Z">2018-09-29</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    13 分钟 读完 (大约 1900 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/09/29/miniPublishImg/">【学习日记】微信小程序仿朋友圈发布商品信息及图片</a>
-            
-        </h1>
-        <div class="content">
-            <hr>
-<p>本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis</p>
-<h4 id="今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。"><a href="#今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。" class="headerlink" title="今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。"></a>今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。</h4><p><img src="/images/publish/1.jpg" alt="微信图片_20180928230850.jpg"></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/09/29/miniPublishImg/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
     </div>
 </div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-09-15T07:38:50.000Z">2018-09-15</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    13 分钟 读完 (大约 1881 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/09/15/miniLogin/">微信小程序使用微信开放接口完成用户注册登录业务</a>
-            
-        </h1>
-        <div class="content">
-            <hr>
-<p>本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis</p>
-<blockquote>
-<h3 id="众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。"><a href="#众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。" class="headerlink" title="众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。"></a>众所周知，登录注册功能一直是一个软件必不可少的一个模块，传统的操作逻辑需要用户手动输入账户和密码才能完成。随着使用软件数量的增加，用户难免会出现记错密码的情况，给自己带来不必要的麻烦。因此，类似微信账号一键登录app这样简单，快捷的操作逐渐得到用户的认可。</h3></blockquote>
-<p><img src="/images/mp/1.jpg" alt="登录UI.jpg"></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/09/15/miniLogin/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 </div>
                 
 
@@ -984,7 +956,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/yellow.gif" alt="YeYKai的博客" height="28">
+                    <img src="/images/yellow.gif" alt="【学习日记】第一个爬虫---Scrapy框架入门(一)" height="28">
                 
                 </a>
                 <p class="is-size-7">
