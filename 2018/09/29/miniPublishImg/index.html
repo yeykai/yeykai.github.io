@@ -1,205 +1,147 @@
 <!DOCTYPE html>
-<script src="/js/src/click.js"></script>
-<script type="text/javascript">
-  var windowWidth = $(window).width();
-  if (windowWidth > 480) {
-    document.write('<script type="text/javascript" src="/js/src/snow.js"><\/script>');
-  }
-</script>
-<html  lang="zh">
+<html lang="zh-CN">
+
+
+
+
+
 <head>
-    <meta charset="utf-8" />
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="我的学习日记">
+  <meta name="author" content="YeYKai">
+  <meta name="keywords" content="">
+  <title>【学习日记】微信小程序仿朋友圈发布商品信息及图片 ~ YeYKai的博客</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+  
+  <link rel="stylesheet" href="/css/main.css">
 
-<meta name="generator" content="Hexo 3.7.1" />
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
-<title>【学习日记】微信小程序仿朋友圈发布商品信息及图片 - YeYKai的博客</title>
-
-
-    <meta name="description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis 今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。">
-<meta name="keywords" content="Java,SpringBoot,微信小程序,myBatis,服务通知">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【学习日记】微信小程序仿朋友圈发布商品信息及图片">
-<meta property="og:url" content="http://yeykai.cn/2018/09/29/miniPublishImg/index.html">
-<meta property="og:site_name" content="YeYKai的博客">
-<meta property="og:description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis 今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yeykai.cn/images/og_image.png">
-<meta property="og:updated_time" content="2019-08-22T06:16:25.960Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【学习日记】微信小程序仿朋友圈发布商品信息及图片">
-<meta name="twitter:description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis 今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。">
-<meta name="twitter:image" content="http://yeykai.cn/images/og_image.png">
-
-
-
-
-
-
-
-<link rel="icon" href="/images/yellow.gif">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atelier-estuary-light.css">
-
-
-    
-    
-    
-    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
-    
-
-    
-    
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
-    
-
-    
-    
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
-
-
-    
-    
-    
-    
-
-<link rel="stylesheet" href="/css/back-to-top.css">
-
-
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-<link rel="stylesheet" href="/css/progressbar.css">
-<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-
-    
-    
-    
-    
-    
-        <script type="text/javascript" src="//js.users.51.la/20301061.js"></script>
-    
-
-
-    
-
-
-<link rel="stylesheet" href="/css/style.css">
+  
 </head>
-<body class="is-2-column">
-    <nav class="navbar navbar-main">
-    <div class="container">
-        <div class="navbar-brand is-flex-center">
-            <a class="navbar-item navbar-logo" href="/">
-            
-                <img src="/images/yellow.gif" alt="【学习日记】微信小程序仿朋友圈发布商品信息及图片" height="28">
-            
-            </a>
-        </div>
-        <div class="navbar-menu">
-            
-            <div class="navbar-start">
-                
-                <a class="navbar-item"
-                href="/">首页</a>
-                
-                <a class="navbar-item"
-                href="/archives">归档</a>
-                
-                <a class="navbar-item"
-                href="/categories">分类</a>
-                
-                <a class="navbar-item"
-                href="/tags">标签</a>
-                
-            </div>
-            
-            <div class="navbar-end">
-                
-                    
-                    
-                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                    
-                
-                
-                
-                <a class="navbar-item search" title="搜索" href="javascript:;">
-                    <i class="fas fa-search"></i>
-                </a>
-                
-            </div>
-        </div>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>YeYKai的博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
+  </div>
+
+
 </nav>
-    
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-8-tablet is-9-desktop is-9-widescreen has-order-2 column-main"><div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-09-29T13:30:51.000Z">2018-09-29</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    13 分钟 读完 (大约 1900 个字)
-                </span>
-                
-                
-            </div>
+
+    <div class="view intro-2"
+         style="background: url('/img/post.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p>星期六, 九月 29日 2018, 9:30 晚上</p>
+            
+          </div>
+
+          
         </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                【学习日记】微信小程序仿朋友圈发布商品信息及图片
-            
-        </h1>
-        <div class="content">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
             <hr>
 <p>本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis</p>
 <h4 id="今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。"><a href="#今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。" class="headerlink" title="今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。"></a>今天要写一个商城项目中的发布商品模块，需求跟闲鱼这样的app基本一致，就是基本的上传表单数据和图片。图片模块我想采用类似朋友圈的方式来完成，符合大部分用户的操作逻辑。</h4><p><img src="/images/publish/1.jpg" alt="微信图片_20180928230850.jpg"></p>
 <a id="more"></a>
 <h4 id="现在朋友圈发图片已经可以拖拽改变图片顺序或删除图片了，但是用小程序实现拖拽功能太麻烦了。所以，我将换一种方式来实现图片删除和预览，最后，再写两个后端接口，把商品信息和图片存入数据库。"><a href="#现在朋友圈发图片已经可以拖拽改变图片顺序或删除图片了，但是用小程序实现拖拽功能太麻烦了。所以，我将换一种方式来实现图片删除和预览，最后，再写两个后端接口，把商品信息和图片存入数据库。" class="headerlink" title="现在朋友圈发图片已经可以拖拽改变图片顺序或删除图片了，但是用小程序实现拖拽功能太麻烦了。所以，我将换一种方式来实现图片删除和预览，最后，再写两个后端接口，把商品信息和图片存入数据库。"></a>现在朋友圈发图片已经可以拖拽改变图片顺序或删除图片了，但是用小程序实现拖拽功能太麻烦了。所以，我将换一种方式来实现图片删除和预览，最后，再写两个后端接口，把商品信息和图片存入数据库。</h4><blockquote>
 <h4 id="这里前端用到了Vant-Weapp的UI库-https-github-com-youzan-vant-weapp"><a href="#这里前端用到了Vant-Weapp的UI库-https-github-com-youzan-vant-weapp" class="headerlink" title="这里前端用到了Vant Weapp的UI库 https://github.com/youzan/vant-weapp"></a>这里前端用到了Vant Weapp的UI库 <a href="https://github.com/youzan/vant-weapp" target="_blank" rel="noopener">https://github.com/youzan/vant-weapp</a></h4></blockquote>
-<h4 id="先来看看前端页面的代码"><a href="#先来看看前端页面的代码" class="headerlink" title="先来看看前端页面的代码"></a>先来看看前端页面的代码</h4><figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"page"</span>&gt;</span></span><br><span class="line">  <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">bindsubmit</span>=<span class="hljs-string">'send'</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">van-cell-group</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">van-field</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">required</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">clearable</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">left-icon</span>=<span class="hljs-string">"gift"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">name</span>=<span class="hljs-string">"goodsName"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">label</span>=<span class="hljs-string">"商品名称"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">icon</span>=<span class="hljs-string">"question"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"请输入商品名"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">bind:click-icon</span>=<span class="hljs-string">"onClickIcon"</span></span></span><br><span class="line"><span class="hljs-tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">van-field</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">type</span>=<span class="hljs-string">"textarea"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">label</span>=<span class="hljs-string">"描述"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">left-icon</span>=<span class="hljs-string">"records"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">name</span>=<span class="hljs-string">"goodsDesc"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"请输入5-50个字"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">autosize</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">required</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">border</span>=<span class="hljs-string">"&#123;&#123; false &#125;&#125;"</span></span></span><br><span class="line"><span class="hljs-tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">van-cell-group</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"image_content"</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">'image'</span> <span class="hljs-attr">wx:for</span>=<span class="hljs-string">"&#123;&#123;img_url&#125;&#125;"</span>&gt;</span></span><br><span class="line">          <span class="hljs-tag">&lt;<span class="hljs-name">image</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"deleteImg"</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">"aspectFill"</span>  <span class="hljs-attr">data-index</span>=<span class="hljs-string">'&#123;&#123;index&#125;&#125;'</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/img/deleteImg.png"</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"deleteImg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">image</span>&gt;</span></span><br><span class="line">          <span class="hljs-tag">&lt;<span class="hljs-name">image</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"moment_img"</span> <span class="hljs-attr">mode</span>=<span class="hljs-string">"aspectFill"</span> <span class="hljs-attr">data-index</span>=<span class="hljs-string">'&#123;&#123;index&#125;&#125;'</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"&#123;&#123;item&#125;&#125;"</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"previewImg"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">image</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">'image'</span> <span class="hljs-attr">style</span>=<span class="hljs-string">'display:&#123;&#123;hideAdd?"none":"block"&#125;&#125;'</span>&gt;</span></span><br><span class="line">          <span class="hljs-tag">&lt;<span class="hljs-name">image</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"chooseimage"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"moment_img"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">'/img/addImg.png'</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">image</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="hljs-tag">&lt;<span class="hljs-name">van-cell-group</span>&gt;</span></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">van-field</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">required</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">clearable</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">left-icon</span>=<span class="hljs-string">"gold-coin"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">name</span>=<span class="hljs-string">"goodsPrice"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">label</span>=<span class="hljs-string">"单价"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">icon</span>=<span class="hljs-string">"question"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"请输入数字"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">bind:click-icon</span>=<span class="hljs-string">"onClickIcon"</span></span></span><br><span class="line"><span class="hljs-tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">van-field</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">value</span>=<span class="hljs-string">"1"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">label</span>=<span class="hljs-string">"数量"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">left-icon</span>=<span class="hljs-string">"exchange"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">name</span>=<span class="hljs-string">"goodsNum"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">placeholder</span>=<span class="hljs-string">""</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">required</span></span></span><br><span class="line"><span class="hljs-tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">van-field</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">left-icon</span>=<span class="hljs-string">"chat"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">name</span>=<span class="hljs-string">"goodsPhone"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">label</span>=<span class="hljs-string">"联系方式"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">required</span></span></span><br><span class="line"><span class="hljs-tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="hljs-tag">&lt;<span class="hljs-name">van-field</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">left-icon</span>=<span class="hljs-string">"location"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">value</span>=<span class="hljs-string">""</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">name</span>=<span class="hljs-string">"goodsAddress"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">label</span>=<span class="hljs-string">"交易地点"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"例：学瀚楼下"</span></span></span><br><span class="line"><span class="hljs-tag">          <span class="hljs-attr">required</span></span></span><br><span class="line"><span class="hljs-tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;/<span class="hljs-name">van-cell-group</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"publishBtn"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"primary"</span> <span class="hljs-attr">form-type</span>=<span class="hljs-string">'submit'</span>&gt;</span>发布<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="先来看看前端页面的代码"><a href="#先来看看前端页面的代码" class="headerlink" title="先来看看前端页面的代码"></a>先来看看前端页面的代码</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"page"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">bindsubmit</span>=<span class="string">'send'</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">van-cell-group</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">van-field</span></span></span><br><span class="line"><span class="tag">          <span class="attr">required</span></span></span><br><span class="line"><span class="tag">          <span class="attr">clearable</span></span></span><br><span class="line"><span class="tag">          <span class="attr">left-icon</span>=<span class="string">"gift"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">name</span>=<span class="string">"goodsName"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">label</span>=<span class="string">"商品名称"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">icon</span>=<span class="string">"question"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">placeholder</span>=<span class="string">"请输入商品名"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">bind:click-icon</span>=<span class="string">"onClickIcon"</span></span></span><br><span class="line"><span class="tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">van-field</span></span></span><br><span class="line"><span class="tag">          <span class="attr">type</span>=<span class="string">"textarea"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">label</span>=<span class="string">"描述"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">left-icon</span>=<span class="string">"records"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">name</span>=<span class="string">"goodsDesc"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">placeholder</span>=<span class="string">"请输入5-50个字"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">autosize</span></span></span><br><span class="line"><span class="tag">          <span class="attr">required</span></span></span><br><span class="line"><span class="tag">          <span class="attr">border</span>=<span class="string">"&#123;&#123; false &#125;&#125;"</span></span></span><br><span class="line"><span class="tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">van-cell-group</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"image_content"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">'image'</span> <span class="attr">wx:for</span>=<span class="string">"&#123;&#123;img_url&#125;&#125;"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">image</span> <span class="attr">class</span>=<span class="string">"deleteImg"</span> <span class="attr">mode</span>=<span class="string">"aspectFill"</span>  <span class="attr">data-index</span>=<span class="string">'&#123;&#123;index&#125;&#125;'</span> <span class="attr">src</span>=<span class="string">"/img/deleteImg.png"</span> <span class="attr">bindtap</span>=<span class="string">"deleteImg"</span>&gt;</span><span class="tag">&lt;/<span class="name">image</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">image</span> <span class="attr">class</span>=<span class="string">"moment_img"</span> <span class="attr">mode</span>=<span class="string">"aspectFill"</span> <span class="attr">data-index</span>=<span class="string">'&#123;&#123;index&#125;&#125;'</span> <span class="attr">src</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span> <span class="attr">bindtap</span>=<span class="string">"previewImg"</span>&gt;</span><span class="tag">&lt;/<span class="name">image</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">'image'</span> <span class="attr">style</span>=<span class="string">'display:&#123;&#123;hideAdd?"none":"block"&#125;&#125;'</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">image</span> <span class="attr">bindtap</span>=<span class="string">"chooseimage"</span> <span class="attr">class</span>=<span class="string">"moment_img"</span> <span class="attr">src</span>=<span class="string">'/img/addImg.png'</span>&gt;</span><span class="tag">&lt;/<span class="name">image</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">van-cell-group</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">van-field</span></span></span><br><span class="line"><span class="tag">          <span class="attr">required</span></span></span><br><span class="line"><span class="tag">          <span class="attr">clearable</span></span></span><br><span class="line"><span class="tag">          <span class="attr">left-icon</span>=<span class="string">"gold-coin"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">name</span>=<span class="string">"goodsPrice"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">label</span>=<span class="string">"单价"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">icon</span>=<span class="string">"question"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">placeholder</span>=<span class="string">"请输入数字"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">bind:click-icon</span>=<span class="string">"onClickIcon"</span></span></span><br><span class="line"><span class="tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">van-field</span></span></span><br><span class="line"><span class="tag">          <span class="attr">value</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">label</span>=<span class="string">"数量"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">left-icon</span>=<span class="string">"exchange"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">name</span>=<span class="string">"goodsNum"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">placeholder</span>=<span class="string">""</span></span></span><br><span class="line"><span class="tag">          <span class="attr">required</span></span></span><br><span class="line"><span class="tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">van-field</span></span></span><br><span class="line"><span class="tag">          <span class="attr">left-icon</span>=<span class="string">"chat"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">name</span>=<span class="string">"goodsPhone"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">label</span>=<span class="string">"联系方式"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">required</span></span></span><br><span class="line"><span class="tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">van-field</span></span></span><br><span class="line"><span class="tag">          <span class="attr">left-icon</span>=<span class="string">"location"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">value</span>=<span class="string">""</span></span></span><br><span class="line"><span class="tag">          <span class="attr">name</span>=<span class="string">"goodsAddress"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">label</span>=<span class="string">"交易地点"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">placeholder</span>=<span class="string">"例：学瀚楼下"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">required</span></span></span><br><span class="line"><span class="tag">        /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">van-cell-group</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"publishBtn"</span> <span class="attr">type</span>=<span class="string">"primary"</span> <span class="attr">form-type</span>=<span class="string">'submit'</span>&gt;</span>发布<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h4 id="效果如下图："><a href="#效果如下图：" class="headerlink" title="效果如下图："></a>效果如下图：</h4><p><img src="/images/publish/2.jpg" alt="微信图片_20180929165257.jpg"></p>
-<h4 id="表单部分代码很简单，所以这里主要分析添加图片的代码逻辑。第一步，找一张添加照片的图标绑定一个wx-chooseImage事件，定义一个全局变量count作为当前选择的图片数量，使用户选择的图片在9张以内；定义一个数组，用于存放当前图片的url，在用户选择完照片后，该数组会更新，并用wx-for渲染至前端页面。"><a href="#表单部分代码很简单，所以这里主要分析添加图片的代码逻辑。第一步，找一张添加照片的图标绑定一个wx-chooseImage事件，定义一个全局变量count作为当前选择的图片数量，使用户选择的图片在9张以内；定义一个数组，用于存放当前图片的url，在用户选择完照片后，该数组会更新，并用wx-for渲染至前端页面。" class="headerlink" title="表单部分代码很简单，所以这里主要分析添加图片的代码逻辑。第一步，找一张添加照片的图标绑定一个wx.chooseImage事件，定义一个全局变量count作为当前选择的图片数量，使用户选择的图片在9张以内；定义一个数组，用于存放当前图片的url，在用户选择完照片后，该数组会更新，并用wx:for渲染至前端页面。"></a>表单部分代码很简单，所以这里主要分析添加图片的代码逻辑。第一步，找一张添加照片的图标绑定一个wx.chooseImage事件，定义一个全局变量count作为当前选择的图片数量，使用户选择的图片在9张以内；定义一个数组，用于存放当前图片的url，在用户选择完照片后，该数组会更新，并用wx:for渲染至前端页面。</h4><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">chooseimage: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">   <span class="hljs-keyword">var</span> me = <span class="hljs-keyword">this</span>;</span><br><span class="line">   <span class="hljs-comment">//动态更新当前用户可以上传的图片数</span></span><br><span class="line">   <span class="hljs-keyword">var</span> count = <span class="hljs-number">9</span> - that.data.img_url.length;</span><br><span class="line">   wx.chooseImage(&#123;</span><br><span class="line">     count: count, <span class="hljs-comment">// 默认9</span></span><br><span class="line">     sizeType: [<span class="hljs-string">'original'</span>, <span class="hljs-string">'compressed'</span>], <span class="hljs-comment">// 可以指定是原图还是压缩图，默认二者都有</span></span><br><span class="line">     sourceType: [<span class="hljs-string">'album'</span>, <span class="hljs-string">'camera'</span>], <span class="hljs-comment">// 可以指定来源是相册还是相机，默认二者都有</span></span><br><span class="line">     success: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">if</span> (res.tempFilePaths.length &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">         <span class="hljs-comment">//把每次选择的图push进数组</span></span><br><span class="line">         <span class="hljs-keyword">let</span> img_url = that.data.img_url;</span><br><span class="line">         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; res.tempFilePaths.length; i++) &#123;</span><br><span class="line">           img_url.push(res.tempFilePaths[i])</span><br><span class="line">         &#125;</span><br><span class="line">         me.setData(&#123;</span><br><span class="line">           img_url: img_url</span><br><span class="line">         &#125;)</span><br><span class="line"></span><br><span class="line">         <span class="hljs-comment">//图如果满了9张，不显示添加图片图标</span></span><br><span class="line">         <span class="hljs-keyword">if</span> (that.data.img_url.length &gt;= <span class="hljs-number">8</span>) &#123;</span><br><span class="line">           me.setData(&#123;</span><br><span class="line">             hideAdd: <span class="hljs-number">1</span></span><br><span class="line">           &#125;)</span><br><span class="line">         &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">           me.setData(&#123;</span><br><span class="line">             hideAdd: <span class="hljs-number">0</span></span><br><span class="line">           &#125;)</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="表单部分代码很简单，所以这里主要分析添加图片的代码逻辑。第一步，找一张添加照片的图标绑定一个wx-chooseImage事件，定义一个全局变量count作为当前选择的图片数量，使用户选择的图片在9张以内；定义一个数组，用于存放当前图片的url，在用户选择完照片后，该数组会更新，并用wx-for渲染至前端页面。"><a href="#表单部分代码很简单，所以这里主要分析添加图片的代码逻辑。第一步，找一张添加照片的图标绑定一个wx-chooseImage事件，定义一个全局变量count作为当前选择的图片数量，使用户选择的图片在9张以内；定义一个数组，用于存放当前图片的url，在用户选择完照片后，该数组会更新，并用wx-for渲染至前端页面。" class="headerlink" title="表单部分代码很简单，所以这里主要分析添加图片的代码逻辑。第一步，找一张添加照片的图标绑定一个wx.chooseImage事件，定义一个全局变量count作为当前选择的图片数量，使用户选择的图片在9张以内；定义一个数组，用于存放当前图片的url，在用户选择完照片后，该数组会更新，并用wx:for渲染至前端页面。"></a>表单部分代码很简单，所以这里主要分析添加图片的代码逻辑。第一步，找一张添加照片的图标绑定一个wx.chooseImage事件，定义一个全局变量count作为当前选择的图片数量，使用户选择的图片在9张以内；定义一个数组，用于存放当前图片的url，在用户选择完照片后，该数组会更新，并用wx:for渲染至前端页面。</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">chooseimage: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> me = <span class="keyword">this</span>;</span><br><span class="line">   <span class="comment">//动态更新当前用户可以上传的图片数</span></span><br><span class="line">   <span class="keyword">var</span> count = <span class="number">9</span> - that.data.img_url.length;</span><br><span class="line">   wx.chooseImage(&#123;</span><br><span class="line">     count: count, <span class="comment">// 默认9</span></span><br><span class="line">     sizeType: [<span class="string">'original'</span>, <span class="string">'compressed'</span>], <span class="comment">// 可以指定是原图还是压缩图，默认二者都有</span></span><br><span class="line">     sourceType: [<span class="string">'album'</span>, <span class="string">'camera'</span>], <span class="comment">// 可以指定来源是相册还是相机，默认二者都有</span></span><br><span class="line">     success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (res.tempFilePaths.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="comment">//把每次选择的图push进数组</span></span><br><span class="line">         <span class="keyword">let</span> img_url = that.data.img_url;</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; res.tempFilePaths.length; i++) &#123;</span><br><span class="line">           img_url.push(res.tempFilePaths[i])</span><br><span class="line">         &#125;</span><br><span class="line">         me.setData(&#123;</span><br><span class="line">           img_url: img_url</span><br><span class="line">         &#125;)</span><br><span class="line"></span><br><span class="line">         <span class="comment">//图如果满了9张，不显示添加图片图标</span></span><br><span class="line">         <span class="keyword">if</span> (that.data.img_url.length &gt;= <span class="number">8</span>) &#123;</span><br><span class="line">           me.setData(&#123;</span><br><span class="line">             hideAdd: <span class="number">1</span></span><br><span class="line">           &#125;)</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           me.setData(&#123;</span><br><span class="line">             hideAdd: <span class="number">0</span></span><br><span class="line">           &#125;)</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <h4 id="当图片数量达到9张，隐藏添加图片图标"><a href="#当图片数量达到9张，隐藏添加图片图标" class="headerlink" title="当图片数量达到9张，隐藏添加图片图标"></a>当图片数量达到9张，隐藏添加图片图标</h4><p><img src="/images/publish/3.png" alt="图片.png"></p>
 <h4 id="第二步，给图片加上预览和删除功能，预览功能使用wx-previewImage绑定图片的索引值即可；删除功能则是在图片右上角加上一个删除图标来绑定删除事件，删除后实时更新图片列表。"><a href="#第二步，给图片加上预览和删除功能，预览功能使用wx-previewImage绑定图片的索引值即可；删除功能则是在图片右上角加上一个删除图标来绑定删除事件，删除后实时更新图片列表。" class="headerlink" title="第二步，给图片加上预览和删除功能，预览功能使用wx.previewImage绑定图片的索引值即可；删除功能则是在图片右上角加上一个删除图标来绑定删除事件，删除后实时更新图片列表。"></a>第二步，给图片加上预览和删除功能，预览功能使用wx.previewImage绑定图片的索引值即可；删除功能则是在图片右上角加上一个删除图标来绑定删除事件，删除后实时更新图片列表。</h4><p><img src="/images/publish/4.png" alt="图片.png"></p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//预览图片</span></span><br><span class="line">previewImg:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> me = <span class="hljs-keyword">this</span>;</span><br><span class="line">  <span class="hljs-keyword">var</span> img_url = me.data.img_url;</span><br><span class="line">  <span class="hljs-keyword">var</span> index = e.target.dataset.index;</span><br><span class="line">  wx.previewImage(&#123;</span><br><span class="line">    urls: img_url,</span><br><span class="line">    current : img_url[index],</span><br><span class="line">    success:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res</span>)</span>&#123;</span><br><span class="line">        <span class="hljs-built_in">console</span>.log(res);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//删除图片</span></span><br><span class="line">deleteImg: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>)</span>&#123;</span><br><span class="line">  <span class="hljs-keyword">var</span> me = <span class="hljs-keyword">this</span>;</span><br><span class="line">  <span class="hljs-keyword">var</span> img_url = me.data.img_url;</span><br><span class="line">  <span class="hljs-keyword">var</span> index = e.target.dataset.index;</span><br><span class="line">  img_url.splice(index, <span class="hljs-number">1</span>);</span><br><span class="line">  me.setData(&#123;</span><br><span class="line">    img_url: img_url,</span><br><span class="line">    <span class="hljs-comment">//若当前图片超过9张，则隐藏添加图标；少于9张则显示添加图标。</span></span><br><span class="line">    hideAdd: me.data.img_url.length &lt;<span class="hljs-number">9</span> ? <span class="hljs-literal">false</span> : <span class="hljs-literal">true</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-<h4 id="第三步，上传商品信息和图片，我将这个功能分为两部分完成，首先将表单数据先上传，再将图片上传。这里假设用户已经成功使用微信登录小程序，且登录态保存已保存在本地缓存。在表单数据上传成功后，会返回一个商品ID到前端，再调用上传图片方法，将商品ID和每张图片的相对路径保存至数据库。实现代码如下。"><a href="#第三步，上传商品信息和图片，我将这个功能分为两部分完成，首先将表单数据先上传，再将图片上传。这里假设用户已经成功使用微信登录小程序，且登录态保存已保存在本地缓存。在表单数据上传成功后，会返回一个商品ID到前端，再调用上传图片方法，将商品ID和每张图片的相对路径保存至数据库。实现代码如下。" class="headerlink" title="第三步，上传商品信息和图片，我将这个功能分为两部分完成，首先将表单数据先上传，再将图片上传。这里假设用户已经成功使用微信登录小程序，且登录态保存已保存在本地缓存。在表单数据上传成功后，会返回一个商品ID到前端，再调用上传图片方法，将商品ID和每张图片的相对路径保存至数据库。实现代码如下。"></a>第三步，上传商品信息和图片，我将这个功能分为两部分完成，首先将表单数据先上传，再将图片上传。这里假设用户已经成功使用微信登录小程序，且登录态保存已保存在本地缓存。在表单数据上传成功后，会返回一个商品ID到前端，再调用上传图片方法，将商品ID和每张图片的相对路径保存至数据库。实现代码如下。</h4><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//上传商品信息</span></span><br><span class="line">send:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> me = <span class="hljs-keyword">this</span>;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(e);</span><br><span class="line">    <span class="hljs-keyword">var</span> goodsName = e.detail.value.goodsName;</span><br><span class="line">    <span class="hljs-keyword">var</span> goodsDesc = e.detail.value.goodsDesc;</span><br><span class="line">    <span class="hljs-keyword">var</span> goodsPrice = e.detail.value.goodsPrice;</span><br><span class="line">    <span class="hljs-keyword">var</span> goodsNum = e.detail.value.goodsNum;</span><br><span class="line">    <span class="hljs-keyword">var</span> goodsAddress = e.detail.value.goodsAddress;</span><br><span class="line">    <span class="hljs-keyword">var</span> goodsPhone = e.detail.value.goodsPhone;</span><br><span class="line">    <span class="hljs-keyword">var</span> thirdSession = wx.getStorageSync(<span class="hljs-string">"thirdsession"</span>)</span><br><span class="line">    wx.showLoading(&#123;</span><br><span class="line">      title: <span class="hljs-string">'发布中--'</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="hljs-keyword">var</span> serverUrl = app.serverUrl;</span><br><span class="line">    wx.request(&#123;</span><br><span class="line">      url: serverUrl + <span class="hljs-string">'/goods/uploadGoods'</span>,</span><br><span class="line">      data: &#123;</span><br><span class="line">        thirdSession: thirdSession,</span><br><span class="line">        goodsName: goodsName,  </span><br><span class="line">        goodsDesc: goodsDesc,</span><br><span class="line">        goodsPrice: goodsPrice,</span><br><span class="line">        goodsNum: goodsNum,</span><br><span class="line">        goodsAddress: goodsAddress,</span><br><span class="line">        goodsPhone: goodsPhone,</span><br><span class="line">      &#125;,</span><br><span class="line">      method: <span class="hljs-string">"GET"</span>,</span><br><span class="line">      success: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>&#123;</span><br><span class="line">        wx.hideLoading();</span><br><span class="line">        <span class="hljs-built_in">console</span>.log(res.data.data);</span><br><span class="line">        <span class="hljs-comment">//商品信息上传成功后，上传商品图片</span></span><br><span class="line">        me.uploadGoodsImg(res.data.data);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//预览图片</span></span><br><span class="line">previewImg:<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> me = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">var</span> img_url = me.data.img_url;</span><br><span class="line">  <span class="keyword">var</span> index = e.target.dataset.index;</span><br><span class="line">  wx.previewImage(&#123;</span><br><span class="line">    urls: img_url,</span><br><span class="line">    current : img_url[index],</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(res);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除图片</span></span><br><span class="line">deleteImg: <span class="function"><span class="keyword">function</span> (<span class="params">e</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> me = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">var</span> img_url = me.data.img_url;</span><br><span class="line">  <span class="keyword">var</span> index = e.target.dataset.index;</span><br><span class="line">  img_url.splice(index, <span class="number">1</span>);</span><br><span class="line">  me.setData(&#123;</span><br><span class="line">    img_url: img_url,</span><br><span class="line">    <span class="comment">//若当前图片超过9张，则隐藏添加图标；少于9张则显示添加图标。</span></span><br><span class="line">    hideAdd: me.data.img_url.length &lt;<span class="number">9</span> ? <span class="literal">false</span> : <span class="literal">true</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h4 id="第三步，上传商品信息和图片，我将这个功能分为两部分完成，首先将表单数据先上传，再将图片上传。这里假设用户已经成功使用微信登录小程序，且登录态保存已保存在本地缓存。在表单数据上传成功后，会返回一个商品ID到前端，再调用上传图片方法，将商品ID和每张图片的相对路径保存至数据库。实现代码如下。"><a href="#第三步，上传商品信息和图片，我将这个功能分为两部分完成，首先将表单数据先上传，再将图片上传。这里假设用户已经成功使用微信登录小程序，且登录态保存已保存在本地缓存。在表单数据上传成功后，会返回一个商品ID到前端，再调用上传图片方法，将商品ID和每张图片的相对路径保存至数据库。实现代码如下。" class="headerlink" title="第三步，上传商品信息和图片，我将这个功能分为两部分完成，首先将表单数据先上传，再将图片上传。这里假设用户已经成功使用微信登录小程序，且登录态保存已保存在本地缓存。在表单数据上传成功后，会返回一个商品ID到前端，再调用上传图片方法，将商品ID和每张图片的相对路径保存至数据库。实现代码如下。"></a>第三步，上传商品信息和图片，我将这个功能分为两部分完成，首先将表单数据先上传，再将图片上传。这里假设用户已经成功使用微信登录小程序，且登录态保存已保存在本地缓存。在表单数据上传成功后，会返回一个商品ID到前端，再调用上传图片方法，将商品ID和每张图片的相对路径保存至数据库。实现代码如下。</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//上传商品信息</span></span><br><span class="line">send:<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> me = <span class="keyword">this</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(e);</span><br><span class="line">    <span class="keyword">var</span> goodsName = e.detail.value.goodsName;</span><br><span class="line">    <span class="keyword">var</span> goodsDesc = e.detail.value.goodsDesc;</span><br><span class="line">    <span class="keyword">var</span> goodsPrice = e.detail.value.goodsPrice;</span><br><span class="line">    <span class="keyword">var</span> goodsNum = e.detail.value.goodsNum;</span><br><span class="line">    <span class="keyword">var</span> goodsAddress = e.detail.value.goodsAddress;</span><br><span class="line">    <span class="keyword">var</span> goodsPhone = e.detail.value.goodsPhone;</span><br><span class="line">    <span class="keyword">var</span> thirdSession = wx.getStorageSync(<span class="string">"thirdsession"</span>)</span><br><span class="line">    wx.showLoading(&#123;</span><br><span class="line">      title: <span class="string">'发布中--'</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">var</span> serverUrl = app.serverUrl;</span><br><span class="line">    wx.request(&#123;</span><br><span class="line">      url: serverUrl + <span class="string">'/goods/uploadGoods'</span>,</span><br><span class="line">      data: &#123;</span><br><span class="line">        thirdSession: thirdSession,</span><br><span class="line">        goodsName: goodsName,  </span><br><span class="line">        goodsDesc: goodsDesc,</span><br><span class="line">        goodsPrice: goodsPrice,</span><br><span class="line">        goodsNum: goodsNum,</span><br><span class="line">        goodsAddress: goodsAddress,</span><br><span class="line">        goodsPhone: goodsPhone,</span><br><span class="line">      &#125;,</span><br><span class="line">      method: <span class="string">"GET"</span>,</span><br><span class="line">      success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">        wx.hideLoading();</span><br><span class="line">        <span class="built_in">console</span>.log(res.data.data);</span><br><span class="line">        <span class="comment">//商品信息上传成功后，上传商品图片</span></span><br><span class="line">        me.uploadGoodsImg(res.data.data);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <h4 id="需要注意的是，小程序的wx-uploadFile接口的资源路径是String类的。所以多图上传时，我会递归调用这个接口来完成。"><a href="#需要注意的是，小程序的wx-uploadFile接口的资源路径是String类的。所以多图上传时，我会递归调用这个接口来完成。" class="headerlink" title="需要注意的是，小程序的wx.uploadFile接口的资源路径是String类的。所以多图上传时，我会递归调用这个接口来完成。"></a>需要注意的是，小程序的wx.uploadFile接口的资源路径是String类的。所以多图上传时，我会递归调用这个接口来完成。</h4><p><img src="/images/publish/5.png" alt="图片.png"></p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//上传图片</span></span><br><span class="line">uploadGoodsImg: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">goodsId</span>)</span>&#123;</span><br><span class="line">   <span class="hljs-keyword">var</span> me = <span class="hljs-keyword">this</span>;</span><br><span class="line">   <span class="hljs-keyword">var</span> imgFilePaths = me.data.img_url;</span><br><span class="line">   <span class="hljs-keyword">var</span> count = me.data.count;</span><br><span class="line">   <span class="hljs-keyword">var</span> serverUrl = app.serverUrl;</span><br><span class="line">   wx.showLoading(&#123;</span><br><span class="line">     title: <span class="hljs-string">'上传图片中--'</span>,</span><br><span class="line">   &#125;)</span><br><span class="line">   wx.uploadFile(&#123;</span><br><span class="line">     url: serverUrl + <span class="hljs-string">'/goods/uploadGoodsImg'</span>,</span><br><span class="line">     filePath: imgFilePaths[count],</span><br><span class="line">     name: <span class="hljs-string">'file'</span>,</span><br><span class="line">     formData: &#123;</span><br><span class="line">       goodsId: goodsId</span><br><span class="line">     &#125;,</span><br><span class="line">     success: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>&#123;</span><br><span class="line">         <span class="hljs-comment">//可统计成功上传图片数</span></span><br><span class="line">     &#125;,</span><br><span class="line">     fail: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>&#123;</span><br><span class="line">         <span class="hljs-comment">//可统计上传失败图片数</span></span><br><span class="line">     &#125;,</span><br><span class="line">     complete: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>&#123;</span><br><span class="line">       count++;</span><br><span class="line">       me.setData(&#123;</span><br><span class="line">         count: count</span><br><span class="line">       &#125;)</span><br><span class="line">       <span class="hljs-keyword">if</span> (count &gt;= imgFilePaths.length) &#123;</span><br><span class="line">         <span class="hljs-keyword">var</span> data = <span class="hljs-built_in">JSON</span>.parse(res.data);</span><br><span class="line">         <span class="hljs-built_in">console</span>.log(data);</span><br><span class="line">         wx.hideLoading();</span><br><span class="line">         <span class="hljs-keyword">if</span> (data.status == <span class="hljs-number">200</span>) &#123;</span><br><span class="line">           wx.hideLoading();</span><br><span class="line">           wx.showToast(&#123;</span><br><span class="line">             title: <span class="hljs-string">'上传成功!~~'</span>,</span><br><span class="line">             icon: <span class="hljs-string">'success'</span></span><br><span class="line">           &#125;);</span><br><span class="line">           me.setData(&#123;</span><br><span class="line">             count: <span class="hljs-number">0</span></span><br><span class="line">           &#125;)</span><br><span class="line">         &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (data.status == <span class="hljs-number">500</span>) &#123;</span><br><span class="line">           wx.showToast(&#123;</span><br><span class="line">             title: data.msg,</span><br><span class="line">           &#125;);</span><br><span class="line">         &#125;</span><br><span class="line">       &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">         <span class="hljs-comment">//图片未上传完，递归调用本方法。</span></span><br><span class="line">         me.uploadGoodsImg(goodsId);</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h4 id="第四步，后端接口使用IO流工具IOUtils将图片写入到指定的路径下，并将相对路径保存至数据库。这里存放图片路径采用了一个单独的表。具体代码如下："><a href="#第四步，后端接口使用IO流工具IOUtils将图片写入到指定的路径下，并将相对路径保存至数据库。这里存放图片路径采用了一个单独的表。具体代码如下：" class="headerlink" title="第四步，后端接口使用IO流工具IOUtils将图片写入到指定的路径下，并将相对路径保存至数据库。这里存放图片路径采用了一个单独的表。具体代码如下："></a>第四步，后端接口使用IO流工具IOUtils将图片写入到指定的路径下，并将相对路径保存至数据库。这里存放图片路径采用了一个单独的表。具体代码如下：</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">   <span class="hljs-comment">//保存商品信息</span></span><br><span class="line"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/uploadGoods"</span>)</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> IMoocJSONResult <span class="hljs-title">uploadFace</span><span class="hljs-params">(String thirdSession,String goodsName,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">		String goodsDesc,<span class="hljs-keyword">double</span> goodsPrice,String goodsPhone,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">		<span class="hljs-keyword">int</span> goodsNum,String goodsAddress)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">if</span> (StringUtils.isBlank(thirdSession)) &#123;</span><br><span class="line">		<span class="hljs-keyword">return</span> IMoocJSONResult.errorMsg(<span class="hljs-string">"thirdSession is none"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">       String value = (String) redis.get(<span class="hljs-string">"Wxuser-redis-session:"</span>+thirdSession);</span><br><span class="line">       System.out.println(value);</span><br><span class="line">       <span class="hljs-keyword">if</span> (StringUtils.isBlank(value)) &#123;</span><br><span class="line">           <span class="hljs-keyword">return</span> IMoocJSONResult.errorMsg(<span class="hljs-string">"session timeout"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="hljs-comment">//解析json格式的str</span></span><br><span class="line">       JSONObject json = JSONObject.parseObject(value);</span><br><span class="line">       String openId = json.getString(<span class="hljs-string">"openid"</span>);</span><br><span class="line"></span><br><span class="line">       String goodsId = sid.nextShort();</span><br><span class="line"></span><br><span class="line">	Goods goods = <span class="hljs-keyword">new</span> Goods();</span><br><span class="line">	goods.setId(goodsId);</span><br><span class="line">	goods.setSellerId(openId);</span><br><span class="line">	goods.setSellerPhone(goodsPhone);</span><br><span class="line">	goods.setAddress(goodsAddress);</span><br><span class="line">	goods.setGoodsDesc(goodsDesc);</span><br><span class="line">	goods.setLikeCounts(<span class="hljs-number">0</span>);</span><br><span class="line">	goods.setGoodsName(goodsName);</span><br><span class="line">	goods.setPrice(goodsPrice);</span><br><span class="line">	goods.setGoodsNum(goodsNum);</span><br><span class="line"></span><br><span class="line">	goodsService.saveGoods(goods);</span><br><span class="line"></span><br><span class="line">	<span class="hljs-keyword">return</span> IMoocJSONResult.ok(goodsId);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="上传图片接口"><a href="#上传图片接口" class="headerlink" title="上传图片接口"></a>上传图片接口</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@PostMapping</span>(value=<span class="hljs-string">"/uploadGoodsImg"</span> ,headers=<span class="hljs-string">"content-type=multipart/form-data"</span>)</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> IMoocJSONResult <span class="hljs-title">uploadGoodsImg</span><span class="hljs-params">(String goodsId,@RequestParam(<span class="hljs-string">"file"</span>)</span> MultipartFile[] files) <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="hljs-comment">//文件保存的命名空间</span></span><br><span class="line">		String fileSpace=<span class="hljs-string">"D:/cunjin-xianyu-test"</span>;</span><br><span class="line">		<span class="hljs-comment">//保存到数据库的相对路径</span></span><br><span class="line">		String uploadPathDB=<span class="hljs-string">"/"</span>+goodsId+<span class="hljs-string">"/img"</span>;</span><br><span class="line">		FileOutputStream fileOutputStream=<span class="hljs-keyword">null</span>;</span><br><span class="line">		InputStream inputStream= <span class="hljs-keyword">null</span>;</span><br><span class="line">		<span class="hljs-keyword">try</span> &#123;</span><br><span class="line">			<span class="hljs-keyword">if</span>(files != <span class="hljs-keyword">null</span> &amp;&amp; files.length&gt;<span class="hljs-number">0</span>) &#123;</span><br><span class="line">				String fileName= files[<span class="hljs-number">0</span>].getOriginalFilename();</span><br><span class="line">				<span class="hljs-keyword">if</span> (StringUtils.isNotBlank(fileName)) &#123;</span><br><span class="line">					<span class="hljs-comment">//文件保存的最终路径</span></span><br><span class="line">					String finalPath = fileSpace + uploadPathDB + <span class="hljs-string">"/"</span> + fileName;</span><br><span class="line">				    <span class="hljs-comment">//设置数据库保存的路径</span></span><br><span class="line">					uploadPathDB+=(<span class="hljs-string">"/"</span>+fileName);</span><br><span class="line"></span><br><span class="line">					File outFile=<span class="hljs-keyword">new</span> File(finalPath);</span><br><span class="line"></span><br><span class="line">					<span class="hljs-keyword">if</span> (outFile.getParentFile()!=<span class="hljs-keyword">null</span> || !outFile.getParentFile().isDirectory()) &#123;</span><br><span class="line">						<span class="hljs-comment">//创建父文件夹</span></span><br><span class="line">						outFile.getParentFile().mkdirs();</span><br><span class="line">					&#125;</span><br><span class="line">					fileOutputStream = <span class="hljs-keyword">new</span> FileOutputStream(outFile);</span><br><span class="line">					inputStream = files[<span class="hljs-number">0</span>].getInputStream();</span><br><span class="line">					IOUtils.copy(inputStream, fileOutputStream);</span><br><span class="line">				&#125;<span class="hljs-keyword">else</span> &#123;</span><br><span class="line">					<span class="hljs-keyword">return</span> IMoocJSONResult.errorMsg(<span class="hljs-string">"上传出错"</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			<span class="hljs-comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			<span class="hljs-keyword">return</span> IMoocJSONResult.errorMsg(<span class="hljs-string">"上传出错"</span>);</span><br><span class="line">		&#125;<span class="hljs-keyword">finally</span> &#123;</span><br><span class="line">			<span class="hljs-keyword">if</span>(fileOutputStream!=<span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">				fileOutputStream.flush();</span><br><span class="line">				fileOutputStream.close();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		GoodsImg goodsImg = <span class="hljs-keyword">new</span> GoodsImg();</span><br><span class="line">		goodsImg.setGoodsId(goodsId);</span><br><span class="line">		goodsImg.setImg(uploadPathDB);</span><br><span class="line">		goodsService.saveGoodsImg(goodsImg);</span><br><span class="line"></span><br><span class="line">		<span class="hljs-keyword">return</span> IMoocJSONResult.ok(<span class="hljs-string">"上传成功"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//上传图片</span></span><br><span class="line">uploadGoodsImg: <span class="function"><span class="keyword">function</span> (<span class="params">goodsId</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">var</span> me = <span class="keyword">this</span>;</span><br><span class="line">   <span class="keyword">var</span> imgFilePaths = me.data.img_url;</span><br><span class="line">   <span class="keyword">var</span> count = me.data.count;</span><br><span class="line">   <span class="keyword">var</span> serverUrl = app.serverUrl;</span><br><span class="line">   wx.showLoading(&#123;</span><br><span class="line">     title: <span class="string">'上传图片中--'</span>,</span><br><span class="line">   &#125;)</span><br><span class="line">   wx.uploadFile(&#123;</span><br><span class="line">     url: serverUrl + <span class="string">'/goods/uploadGoodsImg'</span>,</span><br><span class="line">     filePath: imgFilePaths[count],</span><br><span class="line">     name: <span class="string">'file'</span>,</span><br><span class="line">     formData: &#123;</span><br><span class="line">       goodsId: goodsId</span><br><span class="line">     &#125;,</span><br><span class="line">     success: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">         <span class="comment">//可统计成功上传图片数</span></span><br><span class="line">     &#125;,</span><br><span class="line">     fail: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">         <span class="comment">//可统计上传失败图片数</span></span><br><span class="line">     &#125;,</span><br><span class="line">     complete: <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">       count++;</span><br><span class="line">       me.setData(&#123;</span><br><span class="line">         count: count</span><br><span class="line">       &#125;)</span><br><span class="line">       <span class="keyword">if</span> (count &gt;= imgFilePaths.length) &#123;</span><br><span class="line">         <span class="keyword">var</span> data = <span class="built_in">JSON</span>.parse(res.data);</span><br><span class="line">         <span class="built_in">console</span>.log(data);</span><br><span class="line">         wx.hideLoading();</span><br><span class="line">         <span class="keyword">if</span> (data.status == <span class="number">200</span>) &#123;</span><br><span class="line">           wx.hideLoading();</span><br><span class="line">           wx.showToast(&#123;</span><br><span class="line">             title: <span class="string">'上传成功!~~'</span>,</span><br><span class="line">             icon: <span class="string">'success'</span></span><br><span class="line">           &#125;);</span><br><span class="line">           me.setData(&#123;</span><br><span class="line">             count: <span class="number">0</span></span><br><span class="line">           &#125;)</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data.status == <span class="number">500</span>) &#123;</span><br><span class="line">           wx.showToast(&#123;</span><br><span class="line">             title: data.msg,</span><br><span class="line">           &#125;);</span><br><span class="line">         &#125;</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         <span class="comment">//图片未上传完，递归调用本方法。</span></span><br><span class="line">         me.uploadGoodsImg(goodsId);</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="第四步，后端接口使用IO流工具IOUtils将图片写入到指定的路径下，并将相对路径保存至数据库。这里存放图片路径采用了一个单独的表。具体代码如下："><a href="#第四步，后端接口使用IO流工具IOUtils将图片写入到指定的路径下，并将相对路径保存至数据库。这里存放图片路径采用了一个单独的表。具体代码如下：" class="headerlink" title="第四步，后端接口使用IO流工具IOUtils将图片写入到指定的路径下，并将相对路径保存至数据库。这里存放图片路径采用了一个单独的表。具体代码如下："></a>第四步，后端接口使用IO流工具IOUtils将图片写入到指定的路径下，并将相对路径保存至数据库。这里存放图片路径采用了一个单独的表。具体代码如下：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">//保存商品信息</span></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/uploadGoods"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> IMoocJSONResult <span class="title">uploadFace</span><span class="params">(String thirdSession,String goodsName,</span></span></span><br><span class="line"><span class="function"><span class="params">		String goodsDesc,<span class="keyword">double</span> goodsPrice,String goodsPhone,</span></span></span><br><span class="line"><span class="function"><span class="params">		<span class="keyword">int</span> goodsNum,String goodsAddress)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (StringUtils.isBlank(thirdSession)) &#123;</span><br><span class="line">		<span class="keyword">return</span> IMoocJSONResult.errorMsg(<span class="string">"thirdSession is none"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">       String value = (String) redis.get(<span class="string">"Wxuser-redis-session:"</span>+thirdSession);</span><br><span class="line">       System.out.println(value);</span><br><span class="line">       <span class="keyword">if</span> (StringUtils.isBlank(value)) &#123;</span><br><span class="line">           <span class="keyword">return</span> IMoocJSONResult.errorMsg(<span class="string">"session timeout"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//解析json格式的str</span></span><br><span class="line">       JSONObject json = JSONObject.parseObject(value);</span><br><span class="line">       String openId = json.getString(<span class="string">"openid"</span>);</span><br><span class="line"></span><br><span class="line">       String goodsId = sid.nextShort();</span><br><span class="line"></span><br><span class="line">	Goods goods = <span class="keyword">new</span> Goods();</span><br><span class="line">	goods.setId(goodsId);</span><br><span class="line">	goods.setSellerId(openId);</span><br><span class="line">	goods.setSellerPhone(goodsPhone);</span><br><span class="line">	goods.setAddress(goodsAddress);</span><br><span class="line">	goods.setGoodsDesc(goodsDesc);</span><br><span class="line">	goods.setLikeCounts(<span class="number">0</span>);</span><br><span class="line">	goods.setGoodsName(goodsName);</span><br><span class="line">	goods.setPrice(goodsPrice);</span><br><span class="line">	goods.setGoodsNum(goodsNum);</span><br><span class="line"></span><br><span class="line">	goodsService.saveGoods(goods);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> IMoocJSONResult.ok(goodsId);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="上传图片接口"><a href="#上传图片接口" class="headerlink" title="上传图片接口"></a>上传图片接口</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span>(value=<span class="string">"/uploadGoodsImg"</span> ,headers=<span class="string">"content-type=multipart/form-data"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> IMoocJSONResult <span class="title">uploadGoodsImg</span><span class="params">(String goodsId,@RequestParam(<span class="string">"file"</span>)</span> MultipartFile[] files) <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//文件保存的命名空间</span></span><br><span class="line">		String fileSpace=<span class="string">"D:/cunjin-xianyu-test"</span>;</span><br><span class="line">		<span class="comment">//保存到数据库的相对路径</span></span><br><span class="line">		String uploadPathDB=<span class="string">"/"</span>+goodsId+<span class="string">"/img"</span>;</span><br><span class="line">		FileOutputStream fileOutputStream=<span class="keyword">null</span>;</span><br><span class="line">		InputStream inputStream= <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">if</span>(files != <span class="keyword">null</span> &amp;&amp; files.length&gt;<span class="number">0</span>) &#123;</span><br><span class="line">				String fileName= files[<span class="number">0</span>].getOriginalFilename();</span><br><span class="line">				<span class="keyword">if</span> (StringUtils.isNotBlank(fileName)) &#123;</span><br><span class="line">					<span class="comment">//文件保存的最终路径</span></span><br><span class="line">					String finalPath = fileSpace + uploadPathDB + <span class="string">"/"</span> + fileName;</span><br><span class="line">				    <span class="comment">//设置数据库保存的路径</span></span><br><span class="line">					uploadPathDB+=(<span class="string">"/"</span>+fileName);</span><br><span class="line"></span><br><span class="line">					File outFile=<span class="keyword">new</span> File(finalPath);</span><br><span class="line"></span><br><span class="line">					<span class="keyword">if</span> (outFile.getParentFile()!=<span class="keyword">null</span> || !outFile.getParentFile().isDirectory()) &#123;</span><br><span class="line">						<span class="comment">//创建父文件夹</span></span><br><span class="line">						outFile.getParentFile().mkdirs();</span><br><span class="line">					&#125;</span><br><span class="line">					fileOutputStream = <span class="keyword">new</span> FileOutputStream(outFile);</span><br><span class="line">					inputStream = files[<span class="number">0</span>].getInputStream();</span><br><span class="line">					IOUtils.copy(inputStream, fileOutputStream);</span><br><span class="line">				&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="keyword">return</span> IMoocJSONResult.errorMsg(<span class="string">"上传出错"</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			<span class="keyword">return</span> IMoocJSONResult.errorMsg(<span class="string">"上传出错"</span>);</span><br><span class="line">		&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">if</span>(fileOutputStream!=<span class="keyword">null</span>) &#123;</span><br><span class="line">				fileOutputStream.flush();</span><br><span class="line">				fileOutputStream.close();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		GoodsImg goodsImg = <span class="keyword">new</span> GoodsImg();</span><br><span class="line">		goodsImg.setGoodsId(goodsId);</span><br><span class="line">		goodsImg.setImg(uploadPathDB);</span><br><span class="line">		goodsService.saveGoodsImg(goodsImg);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> IMoocJSONResult.ok(<span class="string">"上传成功"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="好了，代码写完了，现在来进行前后端联调，测试一下。我们先选几张图，输一些数据"><a href="#好了，代码写完了，现在来进行前后端联调，测试一下。我们先选几张图，输一些数据" class="headerlink" title="好了，代码写完了，现在来进行前后端联调，测试一下。我们先选几张图，输一些数据"></a>好了，代码写完了，现在来进行前后端联调，测试一下。我们先选几张图，输一些数据</h4><p><img src="/images/publish/6.png" alt="图片.png"></p>
 <h4 id="在本地新建一个文件夹，用于存放图片，路径与代码的命名空间一致。"><a href="#在本地新建一个文件夹，用于存放图片，路径与代码的命名空间一致。" class="headerlink" title="在本地新建一个文件夹，用于存放图片，路径与代码的命名空间一致。"></a>在本地新建一个文件夹，用于存放图片，路径与代码的命名空间一致。</h4><p><img src="/images/publish/7.png" alt="图片.png"></p>
 <h4 id="好了，现在我们点击发布，观察数据库和本地文件。"><a href="#好了，现在我们点击发布，观察数据库和本地文件。" class="headerlink" title="好了，现在我们点击发布，观察数据库和本地文件。"></a>好了，现在我们点击发布，观察数据库和本地文件。</h4><p><img src="/images/publish/8.png" alt="图片.png"></p>
@@ -211,719 +153,170 @@
 <li>使用IOUtils写文件的拷贝非常方便，无需各种输入流，然后读取line，输出到输出流。</li>
 </ol>
 
-        </div>
-        
-        <div class="level is-size-7 is-uppercase">
-            <div class="level-start">
-                <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/Java/">Java</a>, <a class="has-link-grey -link" href="/tags/SpringBoot/">SpringBoot</a>, <a class="has-link-grey -link" href="/tags/myBatis/">myBatis</a>, <a class="has-link-grey -link" href="/tags/微信小程序/">微信小程序</a>, <a class="has-link-grey -link" href="/tags/服务通知/">服务通知</a>
-                </div>
-            </div>
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
-        <div class="buttons is-centered">
+            <hr>
+          </div>
+          <br>
+          <div>
             
+              <p>
+                <i class="iconfont icon-inbox"></i>
                 
-<a class="button is-info donate">
-    <span class="icon is-small">
-        <i class="fab fa-alipay"></i>
-    </span>
-    <span>支付宝</span>
-    <div class="qrcode"><img src="/images/aliqrcode.jpg" alt="支付宝"></div>
-</a>
-
+                  <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0">学习日记</a>
+                  &nbsp;
                 
-                
-<a class="button is-success donate">
-    <span class="icon is-small">
-        <i class="fab fa-weixin"></i>
-    </span>
-    <span>微信</span>
-    <div class="qrcode"><img src="/images/wxqrcode.jpg" alt="微信"></div>
-</a>
-
-                
-        </div>
-    </div>
-</div>
-
-
-
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/05/miniInterface/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">【学习日记】微信小程序发送服务通知接口开发</span>
-            </a>
-        </div>
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2018/09/15/miniLogin/">
-                <span class="level-item">微信小程序使用微信开放接口完成用户注册登录业务</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
-
-
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">评论</h3>
-        
-<div id="valine-thread" class="content"></div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
-<script>
-    new Valine({
-        el: '#valine-thread' ,
-        notify: false,
-        verify: false,
-        app_id: 'fHtuykWr71njNJ5JzTjHrWcF-gzGzoHsz',
-        app_key: 'ISNzbMDv0XplozgNLxuff8zh',
-        placeholder: '大侠，说两句吧'
-    });
-</script>
-
-    </div>
-</div>
-</div>
-                
-
-
-
-
-<div class="column is-4-tablet is-3-desktop is-3-widescreen  has-order-1 column-left ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <nav class="level">
-            <div class="level-item has-text-centered" style="flex-shrink: 1">
-                <div>
-                    
-                        <figure class="image is-128x128 has-mb-6">
-                            <img class="is-rounded" src="/images/avatar.jpg" alt="yeykai">
-                        </figure>
-                    
-                    
-                    <p class="is-size-4 is-block">
-                        yeykai
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-block">
-                        软件设计师
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
-                        <i class="fas fa-map-marker-alt has-mr-7"></i>
-                        <span>ShenZhen</span>
-                    </p>
-                    
-                </div>
-            </div>
-        </nav>
-        <nav class="level is-mobile">
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        文章
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        6
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        分类
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        2
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        标签
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        13
-                    </p>
-                </div>
-            </div>
-        </nav>
-        <div class="level">
-            <a class="level-item button is-link is-rounded" href="https://github.com/yeykai" target="_blank">
-                关注我</a>
-        </div>
-        
-        
-        <div class="level is-mobile">
+              </p>
             
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="Github" href="https://github.com/yeykai">
-                
-                <i class="fab fa-github"></i>
-                
-            </a>
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/Java">Java</a>
+              
+                <a class="hover-with-bg" href="/tags/SpringBoot">SpringBoot</a>
+              
+                <a class="hover-with-bg" href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F">微信小程序</a>
+              
+                <a class="hover-with-bg" href="/tags/myBatis">myBatis</a>
+              
+                <a class="hover-with-bg" href="/tags/%E6%9C%8D%E5%8A%A1%E9%80%9A%E7%9F%A5">服务通知</a>
+              
+            </p>
             
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="加我微信(yeyingkai666)" href="/">
-                
-                <i class="fab fa-weixin"></i>
-                
-            </a>
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
             
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="QQ" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=707443648&amp;website=www.oicqzone.com">
-                
-                <i class="fab fa-qq"></i>
-                
-            </a>
-            
+          </div>
         </div>
-        
+      </div>
     </div>
-</div>
-    
-        
-    
-        
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
 
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            链接
-        </h3>
-        <ul class="menu-list">
-        
-            <li>
-                <a class="level is-mobile" href="https://hexo.io" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">Hexo</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">hexo.io</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://github.com/yeykai" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">PPOffice</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">github.com</span>
-                    </span>
-                </a>
-            </li>
-        
-        </ul>
-        </div>
     </div>
+  </div>
 </div>
 
+<!-- custom -->
 
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
     
-        
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
-            <li>
-        <a class="level is-marginless" href="/categories/学习日记/">
-            <span class="level-start">
-                <span class="level-item">学习日记</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">4</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/经验分享/">
-            <span class="level-start">
-                <span class="level-item">经验分享</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            标签云
-        </h3>
-        <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/PicGo/" style="font-size: 10px;">PicGo</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Scrapy/" style="font-size: 10px;">Scrapy</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/myBatis/" style="font-size: 20px;">myBatis</a> <a href="/tags/微信小程序/" style="font-size: 20px;">微信小程序</a> <a href="/tags/微信登录接口/" style="font-size: 10px;">微信登录接口</a> <a href="/tags/服务通知/" style="font-size: 10px;">服务通知</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/腾讯云COS/" style="font-size: 10px;">腾讯云COS</a>
-    </div>
+  </div>
 </div>
 
     
+  </main>
+
+  <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+    <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+  </a>
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
     
-        <div class="column-right-shadow  ">
-        
-            
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-28T08:49:40.000Z">2019-08-28</time></div>
-                    <a href="/2019/08/28/newcoderScrapy/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】第一个爬虫---Scrapy框架入门(一)</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-26T08:49:40.000Z">2019-08-26</time></div>
-                    <a href="/2019/08/26/MarkdownPicGo/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Markdown图片的解决方案---PicGo+腾讯云COS</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/经验分享/">经验分享</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-23T01:00:40.000Z">2019-08-23</time></div>
-                    <a href="/2019/08/23/hexoexp/" class="title has-link-black-ter is-size-6 has-text-weight-normal">使用Hexo+Icarus搭建个人博客的细节分享（持续更新）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/经验分享/">经验分享</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T10:32:40.000Z">2018-12-05</time></div>
-                    <a href="/2018/12/05/miniInterface/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】微信小程序发送服务通知接口开发</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-29T13:30:51.000Z">2018-09-29</time></div>
-                    <a href="/2018/09/29/miniPublishImg/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】微信小程序仿朋友圈发布商品信息及图片</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            归档
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">八月 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">3</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2018/12/">
-                <span class="level-start">
-                    <span class="level-item">十二月 2018</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2018/09/">
-                <span class="level-start">
-                    <span class="level-item">九月 2018</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">2</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/CSS/">
-                        <span class="tag">CSS</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Hexo/">
-                        <span class="tag">Hexo</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Java/">
-                        <span class="tag">Java</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/PicGo/">
-                        <span class="tag">PicGo</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Python/">
-                        <span class="tag">Python</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Scrapy/">
-                        <span class="tag">Scrapy</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/SpringBoot/">
-                        <span class="tag">SpringBoot</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/myBatis/">
-                        <span class="tag">myBatis</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/微信小程序/">
-                        <span class="tag">微信小程序</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/微信登录接口/">
-                        <span class="tag">微信登录接口</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/服务通知/">
-                        <span class="tag">服务通知</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/爬虫/">
-                        <span class="tag">爬虫</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/腾讯云COS/">
-                        <span class="tag">腾讯云COS</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-        
-        </div>
-    
-</div>
-
-
-                
-            </div>
-        </div>
-    </section>
-    <footer class="footer">
-    <div class="container">
-        <div class="level">
-            <div class="level-start has-text-centered-mobile">
-                <a class="footer-logo is-block has-mb-6" href="/">
-                
-                    <img src="/images/yellow.gif" alt="【学习日记】微信小程序仿朋友圈发布商品信息及图片" height="28">
-                
-                </a>
-                <p class="is-size-7">
-                &copy; 2019 YeYKai&nbsp;
-                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
-                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
-                        <br>
-                        <a href="http://www.beian.miit.gov.cn" target="_blank">粤ICP备18109716号-1</a>
-                
-                </p>
-            </div>
-            <div class="level-end">
-            
-                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
-                
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
-                        
-                        <i class="fab fa-creative-commons"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
-                        
-                        <i class="fab fa-creative-commons-by"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                </p>
-                
-                </div>
-            
-            </div>
-        </div>
-    </div>
+  </div>
 </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
-<script>moment.locale("zh-CN");</script>
+<!-- SCRIPTS -->
+<script src="/lib/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+<script src="/lib/mdbootstrap/js/popper.min.js"></script>
+<script src="/lib/mdbootstrap/js/bootstrap.min.js?v=4.3.1"></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js?v=4.8.7"></script>
+<script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
+<script src="/js/main.js"></script>
 
-<script>
-var IcarusThemeSettings = {
-    article: {
-        highlight: {
-            clipboard: true,
-            fold: 'unfolded'
-        }
+  
+    <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+  
+  <script src="/js/post.js"></script>
+
+
+  <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js?v=2.0.9"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "【学习日记】微信小程序仿朋友圈发布商品信息及图片&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js?v=4.2.0"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
     }
-};
-</script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    anchors.add(res.join(", "))
+  </script>
 
 
 
-    
-    
-    
-    <script src="/js/animation.js"></script>
-    
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
 
-    
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
-    <script src="/js/gallery.js" defer></script>
-    
-
-    
-    
-
-<div id="outdated">
-    <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
-            my browser now </a></p>
-    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        outdatedBrowser({
-            bgColor: '#f25648',
-            color: '#ffffff',
-            lowerThan: 'flex'
-        });
-    });
-</script>
-
-
-    
-    
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    MathJax.Hub.Config({
-        'HTML-CSS': {
-            matchFontHeight: false
-        },
-        SVG: {
-            matchFontHeight: false
-        },
-        CommonHTML: {
-            matchFontHeight: false
-        },
-        tex2jax: {
-            inlineMath: [
-                ['$','$'],
-                ['\\(','\\)']
-            ]
-        }
-    });
-});
-</script>
-
-    
-    
-
-<a id="back-to-top" title="回到顶端" href="javascript:;">
-    <i class="fas fa-chevron-up"></i>
-</a>
-<script src="/js/back-to-top.js" defer></script>
-
-
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-
-
-    
-
-
-<script src="/js/main.js" defer></script>
-
-    
-    <div class="searchbox ins-search">
-    <div class="searchbox-container ins-search-container">
-        <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
-            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="searchbox-result-wrapper ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-    (function (window) {
-        var INSIGHT_CONFIG = {
-            TRANSLATION: {
-                POSTS: '文章',
-                PAGES: '页面',
-                CATEGORIES: '分类',
-                TAGS: '标签',
-                UNTITLED: '(无标题)',
-            },
-            CONTENT_URL: '/content.json',
-        };
-        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-    })(window);
-</script>
-<script src="/js/insight.js" defer></script>
-<link rel="stylesheet" href="/css/search.css">
-<link rel="stylesheet" href="/css/insight.css">
-    
 </body>
-
-
 </html>

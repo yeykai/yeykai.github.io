@@ -1,188 +1,130 @@
 <!DOCTYPE html>
-<script src="/js/src/click.js"></script>
-<script type="text/javascript">
-  var windowWidth = $(window).width();
-  if (windowWidth > 480) {
-    document.write('<script type="text/javascript" src="/js/src/snow.js"><\/script>');
-  }
-</script>
-<html  lang="zh">
+<html lang="zh-CN">
+
+
+
+
+
 <head>
-    <meta charset="utf-8" />
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="我的学习日记">
+  <meta name="author" content="YeYKai">
+  <meta name="keywords" content="">
+  <title>【学习日记】第一个爬虫---Scrapy框架入门(一) ~ YeYKai的博客</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+  
+  <link rel="stylesheet" href="/css/main.css">
 
-<meta name="generator" content="Hexo 3.7.1" />
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
-<title>【学习日记】第一个爬虫---Scrapy框架入门(一) - YeYKai的博客</title>
-
-
-    <meta name="description" content="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。">
-<meta name="keywords" content="Python,爬虫,Scrapy">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【学习日记】第一个爬虫---Scrapy框架入门(一)">
-<meta property="og:url" content="http://yeykai.cn/2019/08/28/newcoderScrapy/index.html">
-<meta property="og:site_name" content="YeYKai的博客">
-<meta property="og:description" content="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yeykai.cn/images/og_image.png">
-<meta property="og:updated_time" content="2019-08-29T01:41:50.746Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【学习日记】第一个爬虫---Scrapy框架入门(一)">
-<meta name="twitter:description" content="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。">
-<meta name="twitter:image" content="http://yeykai.cn/images/og_image.png">
-
-
-
-
-
-
-
-<link rel="icon" href="/images/yellow.gif">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atelier-estuary-light.css">
-
-
-    
-    
-    
-    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
-    
-
-    
-    
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
-    
-
-    
-    
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
-
-
-    
-    
-    
-    
-
-<link rel="stylesheet" href="/css/back-to-top.css">
-
-
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-<link rel="stylesheet" href="/css/progressbar.css">
-<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-
-    
-    
-    
-    
-    
-        <script type="text/javascript" src="//js.users.51.la/20301061.js"></script>
-    
-
-
-    
-
-
-<link rel="stylesheet" href="/css/style.css">
+  
 </head>
-<body class="is-2-column">
-    <nav class="navbar navbar-main">
-    <div class="container">
-        <div class="navbar-brand is-flex-center">
-            <a class="navbar-item navbar-logo" href="/">
-            
-                <img src="/images/yellow.gif" alt="【学习日记】第一个爬虫---Scrapy框架入门(一)" height="28">
-            
-            </a>
-        </div>
-        <div class="navbar-menu">
-            
-            <div class="navbar-start">
-                
-                <a class="navbar-item"
-                href="/">首页</a>
-                
-                <a class="navbar-item"
-                href="/archives">归档</a>
-                
-                <a class="navbar-item"
-                href="/categories">分类</a>
-                
-                <a class="navbar-item"
-                href="/tags">标签</a>
-                
-            </div>
-            
-            <div class="navbar-end">
-                
-                    
-                    
-                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                    
-                
-                
-                
-                <a class="navbar-item search" title="搜索" href="javascript:;">
-                    <i class="fas fa-search"></i>
-                </a>
-                
-            </div>
-        </div>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>YeYKai的博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
+  </div>
+
+
 </nav>
-    
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-8-tablet is-9-desktop is-9-widescreen has-order-2 column-main"><div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-28T08:49:40.000Z">2019-08-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    14 分钟 读完 (大约 2124 个字)
-                </span>
-                
-                
-            </div>
+
+    <div class="view intro-2"
+         style="background: url('/img/post.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p>星期三, 八月 28日 2019, 4:49 下午</p>
+            
+          </div>
+
+          
         </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                【学习日记】第一个爬虫---Scrapy框架入门(一)
-            
-        </h1>
-        <div class="content">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
             <h4 id="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。"><a href="#爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。" class="headerlink" title="爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。"></a>爬虫是一个非常好用的数据采集工具，数据的来源就是庞大的互联网资源，它的存在让你节省很多手动的繁琐的数据搜集的时间，而且它的实现也并不复杂，几十行代码就能轻松地在数秒内采集大量数据。</h4><a id="more"></a>
 <h4 id="关于爬虫的实现，我选择python语言来操作，虽然java也是可以做到类似的功能，但是我也想体验一下python的开发过程。简单的一个python爬虫，可以使用request库来完成，它可以帮助你完成一系列网络请求，并返回一个response对象，包含网页的内容，就可以开始对网页内容使用xpath等工具得到你想要的信息。"><a href="#关于爬虫的实现，我选择python语言来操作，虽然java也是可以做到类似的功能，但是我也想体验一下python的开发过程。简单的一个python爬虫，可以使用request库来完成，它可以帮助你完成一系列网络请求，并返回一个response对象，包含网页的内容，就可以开始对网页内容使用xpath等工具得到你想要的信息。" class="headerlink" title="关于爬虫的实现，我选择python语言来操作，虽然java也是可以做到类似的功能，但是我也想体验一下python的开发过程。简单的一个python爬虫，可以使用request库来完成，它可以帮助你完成一系列网络请求，并返回一个response对象，包含网页的内容，就可以开始对网页内容使用xpath等工具得到你想要的信息。"></a>关于爬虫的实现，我选择python语言来操作，虽然java也是可以做到类似的功能，但是我也想体验一下python的开发过程。简单的一个python爬虫，可以使用request库来完成，它可以帮助你完成一系列网络请求，并返回一个response对象，包含网页的内容，就可以开始对网页内容使用xpath等工具得到你想要的信息。</h4><h4 id="不过今天的主角是一个爬虫框架—Scrapy，是基于twisted框架（一个流行的事件驱动的python网络框架）开发而来，它内部提供的各个组件相互协作，完成页面请求下载，数据清洗存档等一些列操作。下图是他的运作模型图："><a href="#不过今天的主角是一个爬虫框架—Scrapy，是基于twisted框架（一个流行的事件驱动的python网络框架）开发而来，它内部提供的各个组件相互协作，完成页面请求下载，数据清洗存档等一些列操作。下图是他的运作模型图：" class="headerlink" title="不过今天的主角是一个爬虫框架—Scrapy，是基于twisted框架（一个流行的事件驱动的python网络框架）开发而来，它内部提供的各个组件相互协作，完成页面请求下载，数据清洗存档等一些列操作。下图是他的运作模型图："></a>不过今天的主角是一个爬虫框架—Scrapy，是基于twisted框架（一个流行的事件驱动的python网络框架）开发而来，它内部提供的各个组件相互协作，完成页面请求下载，数据清洗存档等一些列操作。下图是他的运作模型图：</h4><p><img src="http://img.yeykai.cn/img/scrapy架构.jpg" alt="scrapy架构图"></p>
 <h4 id="这里简单介绍一下上图的几个重要组件："><a href="#这里简单介绍一下上图的几个重要组件：" class="headerlink" title="这里简单介绍一下上图的几个重要组件："></a>这里简单介绍一下上图的几个重要组件：</h4><ol>
@@ -195,9 +137,9 @@
 <h4 id="确认过眼神，是能爬到的数据，开始搭建工程搞起，首先，在本地安装scrapy，只需要用pip-install-scrapy命令下载即可，如果出现下载失败网络超时的现象，可以尝试使用国内镜像下载，当然，如果你使用PyCharm开发，也可以直接修改镜像来源，如下图所示："><a href="#确认过眼神，是能爬到的数据，开始搭建工程搞起，首先，在本地安装scrapy，只需要用pip-install-scrapy命令下载即可，如果出现下载失败网络超时的现象，可以尝试使用国内镜像下载，当然，如果你使用PyCharm开发，也可以直接修改镜像来源，如下图所示：" class="headerlink" title="确认过眼神，是能爬到的数据，开始搭建工程搞起，首先，在本地安装scrapy，只需要用pip install scrapy命令下载即可，如果出现下载失败网络超时的现象，可以尝试使用国内镜像下载，当然，如果你使用PyCharm开发，也可以直接修改镜像来源，如下图所示："></a>确认过眼神，是能爬到的数据，开始搭建工程搞起，首先，在本地安装scrapy，只需要用pip install scrapy命令下载即可，如果出现下载失败网络超时的现象，可以尝试使用国内镜像下载，当然，如果你使用PyCharm开发，也可以直接修改镜像来源，如下图所示：</h4><p><img src="http://img.yeykai.cn/img/mirror.png" alt="PyCharm镜像设置"></p>
 <h4 id="安装完成后，找一个目录，用命令行输入scrapy-startproject-yourprojectname来创建一个scrapy工程，创建后得到这样的目录："><a href="#安装完成后，找一个目录，用命令行输入scrapy-startproject-yourprojectname来创建一个scrapy工程，创建后得到这样的目录：" class="headerlink" title="安装完成后，找一个目录，用命令行输入scrapy startproject yourprojectname来创建一个scrapy工程，创建后得到这样的目录："></a>安装完成后，找一个目录，用命令行输入scrapy startproject yourprojectname来创建一个scrapy工程，创建后得到这样的目录：</h4><p><img src="http://img.yeykai.cn/img/cmdscrapy.jpg" alt="命令行创建scrapy工程"></p>
 <p><img src="http://img.yeykai.cn/img/mulv.jpg" alt="创建后目录"></p>
-<h4 id="使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下："><a href="#使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下：" class="headerlink" title="使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下："></a>使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下：</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> scrapy.cmdline <span class="hljs-keyword">import</span> execute</span><br><span class="line">execute([<span class="hljs-string">'scrapy'</span>, <span class="hljs-string">'crawl'</span>, <span class="hljs-string">'spidersTest'</span>])</span><br></pre></td></tr></table></figure>
-<h4 id="其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据中文文档来操作。"><a href="#其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据中文文档来操作。" class="headerlink" title="其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据中文文档来操作。"></a>其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据<a href="https://scrapy-chs.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">中文文档</a>来操作。</h4><h4 id="第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下："><a href="#第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下：" class="headerlink" title="第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下："></a>第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下：</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyscrapyItem</span><span class="hljs-params">(scrapy.Item)</span>:</span></span><br><span class="line">    kaodian = scrapy.Field()</span><br><span class="line">    question = scrapy.Field()</span><br><span class="line">    hot = scrapy.Field()</span><br><span class="line">    passingRate = scrapy.Field()</span><br></pre></td></tr></table></figure>
-<h4 id="第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码："><a href="#第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码：" class="headerlink" title="第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码："></a>第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码：</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> scrapy</span><br><span class="line"><span class="hljs-keyword">from</span> scrapy <span class="hljs-keyword">import</span> Selector, Request</span><br><span class="line"><span class="hljs-keyword">from</span> myscrapy.items <span class="hljs-keyword">import</span> MyscrapyItem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">spidersTest</span><span class="hljs-params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="hljs-string">'spidersTest'</span></span><br><span class="line">    allowed_domains = [<span class="hljs-string">'www.nowcoder.com'</span>]</span><br><span class="line">    baseUrls = <span class="hljs-string">'https://www.nowcoder.com/ta/coding-interviews?query=&amp;asc=true&amp;order=&amp;page='</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">start_requests</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">5</span>):</span><br><span class="line">            url = self.baseUrls + str(i)</span><br><span class="line">            <span class="hljs-keyword">yield</span> Request(url,self.parse)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parse</span><span class="hljs-params">(self, response)</span>:</span></span><br><span class="line"></span><br><span class="line">        item = MyscrapyItem()</span><br><span class="line"></span><br><span class="line">        sel = Selector(response)  <span class="hljs-comment"># Xpath选择器</span></span><br><span class="line">        kaodians = sel.xpath(<span class="hljs-string">'//td[@class="offer-pot txt-left"]/text()'</span>).re(<span class="hljs-string">'\S+'</span>)</span><br><span class="line">        questions = sel.xpath(<span class="hljs-string">'//td[@class="txt-left"]/a/text()'</span>).re(<span class="hljs-string">'\S+'</span>)</span><br><span class="line">        hots = sel.xpath(<span class="hljs-string">'//tr/td[3]/text()'</span>).extract()</span><br><span class="line">        passingRates = sel.xpath(<span class="hljs-string">'//tr/td[4]/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span>  range(<span class="hljs-number">0</span>, len(kaodians)):</span><br><span class="line">            item[<span class="hljs-string">'kaodian'</span>] = kaodians[i]</span><br><span class="line">            item[<span class="hljs-string">'question'</span>] = questions[i]</span><br><span class="line">            item[<span class="hljs-string">'hot'</span>] = hots[i]</span><br><span class="line">            item[<span class="hljs-string">'passingRate'</span>] = passingRates[i]</span><br><span class="line">            <span class="hljs-keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+<h4 id="使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下："><a href="#使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下：" class="headerlink" title="使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下："></a>使用PyCharm打开这个工程，这里生成的文件，根据文件名结合前面的架构图就能知道它们大概的作用。开发前，我们需要给这个工程加一个启动文件，因为scrapy默认是需要在命令行运行的，所以我们编写一个入口文件在根目录下，模拟命令行操作，并将他设置为启动文件，具体代码如下：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line">execute([<span class="string">'scrapy'</span>, <span class="string">'crawl'</span>, <span class="string">'spidersTest'</span>])</span><br></pre></td></tr></table></figure>
+<h4 id="其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据中文文档来操作。"><a href="#其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据中文文档来操作。" class="headerlink" title="其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据中文文档来操作。"></a>其中这里的第三个参数spidersTest是你要启动的爬虫名字，不能弄错，到此开发环境基本搭建完毕，可以开始正式开发了，具体的开发步骤，我根据<a href="https://scrapy-chs.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">中文文档</a>来操作。</h4><h4 id="第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下："><a href="#第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下：" class="headerlink" title="第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下："></a>第一步，我们写一个简单的item类，定义变量来存放我们采集到的数据，具体代码如下：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyscrapyItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    kaodian = scrapy.Field()</span><br><span class="line">    question = scrapy.Field()</span><br><span class="line">    hot = scrapy.Field()</span><br><span class="line">    passingRate = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h4 id="第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码："><a href="#第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码：" class="headerlink" title="第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码："></a>第二步，也是非常关键的一步，编写自定义的spider类，来爬取和处理数据，下面是具体的实现代码：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> Selector, Request</span><br><span class="line"><span class="keyword">from</span> myscrapy.items <span class="keyword">import</span> MyscrapyItem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">spidersTest</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">'spidersTest'</span></span><br><span class="line">    allowed_domains = [<span class="string">'www.nowcoder.com'</span>]</span><br><span class="line">    baseUrls = <span class="string">'https://www.nowcoder.com/ta/coding-interviews?query=&amp;asc=true&amp;order=&amp;page='</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">5</span>):</span><br><span class="line">            url = self.baseUrls + str(i)</span><br><span class="line">            <span class="keyword">yield</span> Request(url,self.parse)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line"></span><br><span class="line">        item = MyscrapyItem()</span><br><span class="line"></span><br><span class="line">        sel = Selector(response)  <span class="comment"># Xpath选择器</span></span><br><span class="line">        kaodians = sel.xpath(<span class="string">'//td[@class="offer-pot txt-left"]/text()'</span>).re(<span class="string">'\S+'</span>)</span><br><span class="line">        questions = sel.xpath(<span class="string">'//td[@class="txt-left"]/a/text()'</span>).re(<span class="string">'\S+'</span>)</span><br><span class="line">        hots = sel.xpath(<span class="string">'//tr/td[3]/text()'</span>).extract()</span><br><span class="line">        passingRates = sel.xpath(<span class="string">'//tr/td[4]/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span>  range(<span class="number">0</span>, len(kaodians)):</span><br><span class="line">            item[<span class="string">'kaodian'</span>] = kaodians[i]</span><br><span class="line">            item[<span class="string">'question'</span>] = questions[i]</span><br><span class="line">            item[<span class="string">'hot'</span>] = hots[i]</span><br><span class="line">            item[<span class="string">'passingRate'</span>] = passingRates[i]</span><br><span class="line">            <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
 <h4 id="下面是这个类的实现细节："><a href="#下面是这个类的实现细节：" class="headerlink" title="下面是这个类的实现细节："></a>下面是这个类的实现细节：</h4><ol>
 <li>首先它需要继承Spider，这样它才是一个spider。</li>
 <li>name变量代表这个爬虫的名字，也是用命令行执行的名字</li>
@@ -209,717 +151,171 @@
 <li>从前面的浏览器控制台，我们知道考点和题目字段可以直接从td的类名获取到，xpath表达式也只需要用//绝对路径去找就好了，而对于热度和通过率字段，这两个td是没类名的，因此可以用索引来寻找，也很简单，最后获取到之后需要加上extract()方法转换成字符串，而对于考点和题目字段，提取后还会有换行符和空格的情况，这是可以用re()方法，利用正则表达式’\S+’获取非空的信息。</li>
 <li>最后，把获取的数据放在前面定义的item中，等待itempipeline进一步处理</li>
 </ol>
-<h4 id="最后一步，编写itempipeline，将数据写入到表格中，这里需要先用-init-self-方法初始化表格文件，真正处理的方法在process-item-self-item-spider-中，具体代码如下："><a href="#最后一步，编写itempipeline，将数据写入到表格中，这里需要先用-init-self-方法初始化表格文件，真正处理的方法在process-item-self-item-spider-中，具体代码如下：" class="headerlink" title="最后一步，编写itempipeline，将数据写入到表格中，这里需要先用 init(self)方法初始化表格文件，真正处理的方法在process_item(self, item, spider)中，具体代码如下："></a>最后一步，编写itempipeline，将数据写入到表格中，这里需要先用 <strong>init</strong>(self)方法初始化表格文件，真正处理的方法在process_item(self, item, spider)中，具体代码如下：</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyscrapyPipeline</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-comment"># csv文件的位置,无需事先创建</span></span><br><span class="line">        store_file = <span class="hljs-string">'D:/spiders/newcoder.csv'</span></span><br><span class="line">        <span class="hljs-comment"># 打开(创建)文件</span></span><br><span class="line">        self.file = open(store_file, <span class="hljs-string">'w'</span>,newline=<span class="hljs-string">''</span>)</span><br><span class="line">        <span class="hljs-comment"># csv写法</span></span><br><span class="line">        self.writer = csv.writer(self.file)</span><br><span class="line">        <span class="hljs-comment"># 写入表头</span></span><br><span class="line">        self.writer.writerow((<span class="hljs-string">'考点'</span>.encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              <span class="hljs-string">'题目'</span>.encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              <span class="hljs-string">'热度'</span>.encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              <span class="hljs-string">'通过率'</span>.encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>)))</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_item</span><span class="hljs-params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="hljs-comment"># 数据写入csv</span></span><br><span class="line">        self.writer.writerow((item[<span class="hljs-string">'kaodian'</span>].encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              item[<span class="hljs-string">'question'</span>].encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              item[<span class="hljs-string">'hot'</span>].encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>),</span><br><span class="line">                              item[<span class="hljs-string">'passingRate'</span>].encode(<span class="hljs-string">'utf-8'</span>).decode(<span class="hljs-string">'utf-8'</span>)))</span><br><span class="line">        <span class="hljs-keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">close_spider</span><span class="hljs-params">(self, spider)</span>:</span></span><br><span class="line">        <span class="hljs-comment"># 关闭爬虫时顺便将文件保存退出</span></span><br><span class="line">        self.file.close()</span><br></pre></td></tr></table></figure>
-<h4 id="运行前，需要把配置文件setting-py的下面这段代码取消注释"><a href="#运行前，需要把配置文件setting-py的下面这段代码取消注释" class="headerlink" title="运行前，需要把配置文件setting.py的下面这段代码取消注释"></a>运行前，需要把配置文件setting.py的下面这段代码取消注释</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">   <span class="hljs-string">'myscrapy.pipelines.MyscrapyPipeline'</span>: <span class="hljs-number">300</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="最后一步，编写itempipeline，将数据写入到表格中，这里需要先用-init-self-方法初始化表格文件，真正处理的方法在process-item-self-item-spider-中，具体代码如下："><a href="#最后一步，编写itempipeline，将数据写入到表格中，这里需要先用-init-self-方法初始化表格文件，真正处理的方法在process-item-self-item-spider-中，具体代码如下：" class="headerlink" title="最后一步，编写itempipeline，将数据写入到表格中，这里需要先用 init(self)方法初始化表格文件，真正处理的方法在process_item(self, item, spider)中，具体代码如下："></a>最后一步，编写itempipeline，将数据写入到表格中，这里需要先用 <strong>init</strong>(self)方法初始化表格文件，真正处理的方法在process_item(self, item, spider)中，具体代码如下：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyscrapyPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># csv文件的位置,无需事先创建</span></span><br><span class="line">        store_file = <span class="string">'D:/spiders/newcoder.csv'</span></span><br><span class="line">        <span class="comment"># 打开(创建)文件</span></span><br><span class="line">        self.file = open(store_file, <span class="string">'w'</span>,newline=<span class="string">''</span>)</span><br><span class="line">        <span class="comment"># csv写法</span></span><br><span class="line">        self.writer = csv.writer(self.file)</span><br><span class="line">        <span class="comment"># 写入表头</span></span><br><span class="line">        self.writer.writerow((<span class="string">'考点'</span>.encode(<span class="string">'utf-8'</span>).decode(<span class="string">'utf-8'</span>),</span><br><span class="line">                              <span class="string">'题目'</span>.encode(<span class="string">'utf-8'</span>).decode(<span class="string">'utf-8'</span>),</span><br><span class="line">                              <span class="string">'热度'</span>.encode(<span class="string">'utf-8'</span>).decode(<span class="string">'utf-8'</span>),</span><br><span class="line">                              <span class="string">'通过率'</span>.encode(<span class="string">'utf-8'</span>).decode(<span class="string">'utf-8'</span>)))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="comment"># 数据写入csv</span></span><br><span class="line">        self.writer.writerow((item[<span class="string">'kaodian'</span>].encode(<span class="string">'utf-8'</span>).decode(<span class="string">'utf-8'</span>),</span><br><span class="line">                              item[<span class="string">'question'</span>].encode(<span class="string">'utf-8'</span>).decode(<span class="string">'utf-8'</span>),</span><br><span class="line">                              item[<span class="string">'hot'</span>].encode(<span class="string">'utf-8'</span>).decode(<span class="string">'utf-8'</span>),</span><br><span class="line">                              item[<span class="string">'passingRate'</span>].encode(<span class="string">'utf-8'</span>).decode(<span class="string">'utf-8'</span>)))</span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        <span class="comment"># 关闭爬虫时顺便将文件保存退出</span></span><br><span class="line">        self.file.close()</span><br></pre></td></tr></table></figure>
+<h4 id="运行前，需要把配置文件setting-py的下面这段代码取消注释"><a href="#运行前，需要把配置文件setting-py的下面这段代码取消注释" class="headerlink" title="运行前，需要把配置文件setting.py的下面这段代码取消注释"></a>运行前，需要把配置文件setting.py的下面这段代码取消注释</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">   <span class="string">'myscrapy.pipelines.MyscrapyPipeline'</span>: <span class="number">300</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="到此，整个开发过程完成，可以测试一下成果了，下图是测试结果："><a href="#到此，整个开发过程完成，可以测试一下成果了，下图是测试结果：" class="headerlink" title="到此，整个开发过程完成，可以测试一下成果了，下图是测试结果："></a>到此，整个开发过程完成，可以测试一下成果了，下图是测试结果：</h4><p><img src="http://img.yeykai.cn/img/ceshijieguo.png" alt="运行日志"></p>
 <p><img src="http://img.yeykai.cn/img/csvjieguo.jpg" alt="输出表格内容"></p>
 <h4 id="可以看到，短短一秒就将大量数据从网上成功地爬出来，效果很好，达到预期目标。今天很开心，第一次使用scrapy写爬虫，虽然案例很简单，但是整个过程下来，还是觉得很好玩，很有意思，因此写下本文记录一下，总结经验。如果有哪里不对，请大佬们指点一下。"><a href="#可以看到，短短一秒就将大量数据从网上成功地爬出来，效果很好，达到预期目标。今天很开心，第一次使用scrapy写爬虫，虽然案例很简单，但是整个过程下来，还是觉得很好玩，很有意思，因此写下本文记录一下，总结经验。如果有哪里不对，请大佬们指点一下。" class="headerlink" title="可以看到，短短一秒就将大量数据从网上成功地爬出来，效果很好，达到预期目标。今天很开心，第一次使用scrapy写爬虫，虽然案例很简单，但是整个过程下来，还是觉得很好玩，很有意思，因此写下本文记录一下，总结经验。如果有哪里不对，请大佬们指点一下。"></a>可以看到，短短一秒就将大量数据从网上成功地爬出来，效果很好，达到预期目标。今天很开心，第一次使用scrapy写爬虫，虽然案例很简单，但是整个过程下来，还是觉得很好玩，很有意思，因此写下本文记录一下，总结经验。如果有哪里不对，请大佬们指点一下。</h4>
-        </div>
-        
-        <div class="level is-size-7 is-uppercase">
-            <div class="level-start">
-                <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/Python/">Python</a>, <a class="has-link-grey -link" href="/tags/Scrapy/">Scrapy</a>, <a class="has-link-grey -link" href="/tags/爬虫/">爬虫</a>
-                </div>
-            </div>
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
-        <div class="buttons is-centered">
+            <hr>
+          </div>
+          <br>
+          <div>
             
+              <p>
+                <i class="iconfont icon-inbox"></i>
                 
-<a class="button is-info donate">
-    <span class="icon is-small">
-        <i class="fab fa-alipay"></i>
-    </span>
-    <span>支付宝</span>
-    <div class="qrcode"><img src="/images/aliqrcode.jpg" alt="支付宝"></div>
-</a>
-
+                  <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0">学习日记</a>
+                  &nbsp;
                 
-                
-<a class="button is-success donate">
-    <span class="icon is-small">
-        <i class="fab fa-weixin"></i>
-    </span>
-    <span>微信</span>
-    <div class="qrcode"><img src="/images/wxqrcode.jpg" alt="微信"></div>
-</a>
-
-                
-        </div>
-    </div>
-</div>
-
-
-
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/08/26/MarkdownPicGo/">
-                <span class="level-item">Markdown图片的解决方案---PicGo+腾讯云COS</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
-
-
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">评论</h3>
-        
-<div id="valine-thread" class="content"></div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
-<script>
-    new Valine({
-        el: '#valine-thread' ,
-        notify: false,
-        verify: false,
-        app_id: 'fHtuykWr71njNJ5JzTjHrWcF-gzGzoHsz',
-        app_key: 'ISNzbMDv0XplozgNLxuff8zh',
-        placeholder: '大侠，说两句吧'
-    });
-</script>
-
-    </div>
-</div>
-</div>
-                
-
-
-
-
-<div class="column is-4-tablet is-3-desktop is-3-widescreen  has-order-1 column-left ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <nav class="level">
-            <div class="level-item has-text-centered" style="flex-shrink: 1">
-                <div>
-                    
-                        <figure class="image is-128x128 has-mb-6">
-                            <img class="is-rounded" src="/images/avatar.jpg" alt="yeykai">
-                        </figure>
-                    
-                    
-                    <p class="is-size-4 is-block">
-                        yeykai
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-block">
-                        软件设计师
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
-                        <i class="fas fa-map-marker-alt has-mr-7"></i>
-                        <span>ShenZhen</span>
-                    </p>
-                    
-                </div>
-            </div>
-        </nav>
-        <nav class="level is-mobile">
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        文章
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        6
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        分类
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        2
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        标签
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        13
-                    </p>
-                </div>
-            </div>
-        </nav>
-        <div class="level">
-            <a class="level-item button is-link is-rounded" href="https://github.com/yeykai" target="_blank">
-                关注我</a>
-        </div>
-        
-        
-        <div class="level is-mobile">
+              </p>
             
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="Github" href="https://github.com/yeykai">
-                
-                <i class="fab fa-github"></i>
-                
-            </a>
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/Python">Python</a>
+              
+                <a class="hover-with-bg" href="/tags/%E7%88%AC%E8%99%AB">爬虫</a>
+              
+                <a class="hover-with-bg" href="/tags/Scrapy">Scrapy</a>
+              
+            </p>
             
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="加我微信(yeyingkai666)" href="/">
-                
-                <i class="fab fa-weixin"></i>
-                
-            </a>
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
             
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="QQ" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=707443648&amp;website=www.oicqzone.com">
-                
-                <i class="fab fa-qq"></i>
-                
-            </a>
-            
+          </div>
         </div>
-        
+      </div>
     </div>
-</div>
-    
-        
-    
-        
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
 
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            链接
-        </h3>
-        <ul class="menu-list">
-        
-            <li>
-                <a class="level is-mobile" href="https://hexo.io" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">Hexo</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">hexo.io</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://github.com/yeykai" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">PPOffice</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">github.com</span>
-                    </span>
-                </a>
-            </li>
-        
-        </ul>
-        </div>
     </div>
+  </div>
 </div>
 
+<!-- custom -->
 
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
     
-        
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
-            <li>
-        <a class="level is-marginless" href="/categories/学习日记/">
-            <span class="level-start">
-                <span class="level-item">学习日记</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">4</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/经验分享/">
-            <span class="level-start">
-                <span class="level-item">经验分享</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            标签云
-        </h3>
-        <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/PicGo/" style="font-size: 10px;">PicGo</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Scrapy/" style="font-size: 10px;">Scrapy</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/myBatis/" style="font-size: 20px;">myBatis</a> <a href="/tags/微信小程序/" style="font-size: 20px;">微信小程序</a> <a href="/tags/微信登录接口/" style="font-size: 10px;">微信登录接口</a> <a href="/tags/服务通知/" style="font-size: 10px;">服务通知</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/腾讯云COS/" style="font-size: 10px;">腾讯云COS</a>
-    </div>
+  </div>
 </div>
 
     
+  </main>
+
+  <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+    <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+  </a>
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
     
-        <div class="column-right-shadow  ">
-        
-            
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-28T08:49:40.000Z">2019-08-28</time></div>
-                    <a href="/2019/08/28/newcoderScrapy/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】第一个爬虫---Scrapy框架入门(一)</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-26T08:49:40.000Z">2019-08-26</time></div>
-                    <a href="/2019/08/26/MarkdownPicGo/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Markdown图片的解决方案---PicGo+腾讯云COS</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/经验分享/">经验分享</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-23T01:00:40.000Z">2019-08-23</time></div>
-                    <a href="/2019/08/23/hexoexp/" class="title has-link-black-ter is-size-6 has-text-weight-normal">使用Hexo+Icarus搭建个人博客的细节分享（持续更新）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/经验分享/">经验分享</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T10:32:40.000Z">2018-12-05</time></div>
-                    <a href="/2018/12/05/miniInterface/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】微信小程序发送服务通知接口开发</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-29T13:30:51.000Z">2018-09-29</time></div>
-                    <a href="/2018/09/29/miniPublishImg/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】微信小程序仿朋友圈发布商品信息及图片</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            归档
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">八月 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">3</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2018/12/">
-                <span class="level-start">
-                    <span class="level-item">十二月 2018</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2018/09/">
-                <span class="level-start">
-                    <span class="level-item">九月 2018</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">2</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/CSS/">
-                        <span class="tag">CSS</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Hexo/">
-                        <span class="tag">Hexo</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Java/">
-                        <span class="tag">Java</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/PicGo/">
-                        <span class="tag">PicGo</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Python/">
-                        <span class="tag">Python</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Scrapy/">
-                        <span class="tag">Scrapy</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/SpringBoot/">
-                        <span class="tag">SpringBoot</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/myBatis/">
-                        <span class="tag">myBatis</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/微信小程序/">
-                        <span class="tag">微信小程序</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/微信登录接口/">
-                        <span class="tag">微信登录接口</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/服务通知/">
-                        <span class="tag">服务通知</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/爬虫/">
-                        <span class="tag">爬虫</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/腾讯云COS/">
-                        <span class="tag">腾讯云COS</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-        
-        </div>
-    
-</div>
-
-
-                
-            </div>
-        </div>
-    </section>
-    <footer class="footer">
-    <div class="container">
-        <div class="level">
-            <div class="level-start has-text-centered-mobile">
-                <a class="footer-logo is-block has-mb-6" href="/">
-                
-                    <img src="/images/yellow.gif" alt="【学习日记】第一个爬虫---Scrapy框架入门(一)" height="28">
-                
-                </a>
-                <p class="is-size-7">
-                &copy; 2019 YeYKai&nbsp;
-                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
-                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
-                        <br>
-                        <a href="http://www.beian.miit.gov.cn" target="_blank">粤ICP备18109716号-1</a>
-                
-                </p>
-            </div>
-            <div class="level-end">
-            
-                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
-                
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
-                        
-                        <i class="fab fa-creative-commons"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
-                        
-                        <i class="fab fa-creative-commons-by"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                </p>
-                
-                </div>
-            
-            </div>
-        </div>
-    </div>
+  </div>
 </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
-<script>moment.locale("zh-CN");</script>
+<!-- SCRIPTS -->
+<script src="/lib/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+<script src="/lib/mdbootstrap/js/popper.min.js"></script>
+<script src="/lib/mdbootstrap/js/bootstrap.min.js?v=4.3.1"></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js?v=4.8.7"></script>
+<script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
+<script src="/js/main.js"></script>
 
-<script>
-var IcarusThemeSettings = {
-    article: {
-        highlight: {
-            clipboard: true,
-            fold: 'unfolded'
-        }
+  
+    <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+  
+  <script src="/js/post.js"></script>
+
+
+  <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js?v=2.0.9"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "【学习日记】第一个爬虫---Scrapy框架入门(一)&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js?v=4.2.0"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
     }
-};
-</script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    anchors.add(res.join(", "))
+  </script>
 
 
 
-    
-    
-    
-    <script src="/js/animation.js"></script>
-    
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
 
-    
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
-    <script src="/js/gallery.js" defer></script>
-    
-
-    
-    
-
-<div id="outdated">
-    <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
-            my browser now </a></p>
-    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        outdatedBrowser({
-            bgColor: '#f25648',
-            color: '#ffffff',
-            lowerThan: 'flex'
-        });
-    });
-</script>
-
-
-    
-    
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    MathJax.Hub.Config({
-        'HTML-CSS': {
-            matchFontHeight: false
-        },
-        SVG: {
-            matchFontHeight: false
-        },
-        CommonHTML: {
-            matchFontHeight: false
-        },
-        tex2jax: {
-            inlineMath: [
-                ['$','$'],
-                ['\\(','\\)']
-            ]
-        }
-    });
-});
-</script>
-
-    
-    
-
-<a id="back-to-top" title="回到顶端" href="javascript:;">
-    <i class="fas fa-chevron-up"></i>
-</a>
-<script src="/js/back-to-top.js" defer></script>
-
-
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-
-
-    
-
-
-<script src="/js/main.js" defer></script>
-
-    
-    <div class="searchbox ins-search">
-    <div class="searchbox-container ins-search-container">
-        <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
-            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="searchbox-result-wrapper ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-    (function (window) {
-        var INSIGHT_CONFIG = {
-            TRANSLATION: {
-                POSTS: '文章',
-                PAGES: '页面',
-                CATEGORIES: '分类',
-                TAGS: '标签',
-                UNTITLED: '(无标题)',
-            },
-            CONTENT_URL: '/content.json',
-        };
-        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-    })(window);
-</script>
-<script src="/js/insight.js" defer></script>
-<link rel="stylesheet" href="/css/search.css">
-<link rel="stylesheet" href="/css/insight.css">
-    
 </body>
-
-
 </html>

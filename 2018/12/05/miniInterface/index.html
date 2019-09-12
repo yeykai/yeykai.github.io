@@ -1,188 +1,130 @@
 <!DOCTYPE html>
-<script src="/js/src/click.js"></script>
-<script type="text/javascript">
-  var windowWidth = $(window).width();
-  if (windowWidth > 480) {
-    document.write('<script type="text/javascript" src="/js/src/snow.js"><\/script>');
-  }
-</script>
-<html  lang="zh">
+<html lang="zh-CN">
+
+
+
+
+
 <head>
-    <meta charset="utf-8" />
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="我的学习日记">
+  <meta name="author" content="YeYKai">
+  <meta name="keywords" content="">
+  <title>【学习日记】微信小程序发送服务通知接口开发 ~ YeYKai的博客</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css?v=5.7.2">
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/bootstrap.min.css?v=4.3.1">
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css?v=4.8.7">
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/nprogress/nprogress.css?v=0.2.0">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+  
+  <link rel="stylesheet" href="/css/main.css">
 
-<meta name="generator" content="Hexo 3.7.1" />
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
-<title>【学习日记】微信小程序发送服务通知接口开发 - YeYKai的博客</title>
-
-
-    <meta name="description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis 服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知">
-<meta name="keywords" content="Java,SpringBoot,微信小程序,myBatis">
-<meta property="og:type" content="article">
-<meta property="og:title" content="【学习日记】微信小程序发送服务通知接口开发">
-<meta property="og:url" content="http://yeykai.cn/2018/12/05/miniInterface/index.html">
-<meta property="og:site_name" content="YeYKai的博客">
-<meta property="og:description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis 服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yeykai.cn/images/og_image.png">
-<meta property="og:updated_time" content="2019-08-22T06:15:27.013Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【学习日记】微信小程序发送服务通知接口开发">
-<meta name="twitter:description" content="本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis 服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知">
-<meta name="twitter:image" content="http://yeykai.cn/images/og_image.png">
-
-
-
-
-
-
-
-<link rel="icon" href="/images/yellow.gif">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atelier-estuary-light.css">
-
-
-    
-    
-    
-    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
-    
-
-    
-    
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
-    
-
-    
-    
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
-
-
-    
-    
-    
-    
-
-<link rel="stylesheet" href="/css/back-to-top.css">
-
-
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-<link rel="stylesheet" href="/css/progressbar.css">
-<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-
-    
-    
-    
-    
-    
-        <script type="text/javascript" src="//js.users.51.la/20301061.js"></script>
-    
-
-
-    
-
-
-<link rel="stylesheet" href="/css/style.css">
+  
 </head>
-<body class="is-2-column">
-    <nav class="navbar navbar-main">
-    <div class="container">
-        <div class="navbar-brand is-flex-center">
-            <a class="navbar-item navbar-logo" href="/">
-            
-                <img src="/images/yellow.gif" alt="【学习日记】微信小程序发送服务通知接口开发" height="28">
-            
-            </a>
-        </div>
-        <div class="navbar-menu">
-            
-            <div class="navbar-start">
-                
-                <a class="navbar-item"
-                href="/">首页</a>
-                
-                <a class="navbar-item"
-                href="/archives">归档</a>
-                
-                <a class="navbar-item"
-                href="/categories">分类</a>
-                
-                <a class="navbar-item"
-                href="/tags">标签</a>
-                
-            </div>
-            
-            <div class="navbar-end">
-                
-                    
-                    
-                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                    
-                
-                
-                
-                <a class="navbar-item search" title="搜索" href="javascript:;">
-                    <i class="fas fa-search"></i>
-                </a>
-                
-            </div>
-        </div>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>YeYKai的博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
+  </div>
+
+
 </nav>
-    
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-8-tablet is-9-desktop is-9-widescreen has-order-2 column-main"><div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-05T10:32:40.000Z">2018-12-05</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    16 分钟 读完 (大约 2434 个字)
-                </span>
-                
-                
-            </div>
+
+    <div class="view intro-2"
+         style="background: url('/img/post.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p>星期三, 十二月 5日 2018, 6:32 晚上</p>
+            
+          </div>
+
+          
         </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                【学习日记】微信小程序发送服务通知接口开发
-            
-        </h1>
-        <div class="content">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
             <hr>
 <p>本文使用的技术栈：小程序开发、SpringBoot、MyBatis、Redis</p>
 <h4 id="服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知"><a href="#服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知" class="headerlink" title="服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知"></a>服务通知是小程序或者公众平台向用户发送的一个消息卡片，可用于用户在应用中完成操作后，给予相应反馈；也可以在后台主动向用户推送，引导用户完成一些必要操作。如下图，就是一个典型的服务通知</h4><p><img src="/images/mpinterface/1.png" alt="image.png"></p>
@@ -190,7 +132,7 @@
 <h4 id="今天，我将使用微信提供的接口，开发一个商品购买成功的服务通知。首先看一下官方文档："><a href="#今天，我将使用微信提供的接口，开发一个商品购买成功的服务通知。首先看一下官方文档：" class="headerlink" title="今天，我将使用微信提供的接口，开发一个商品购买成功的服务通知。首先看一下官方文档："></a>今天，我将使用微信提供的接口，开发一个商品购买成功的服务通知。首先看一下官方文档：</h4><p><img src="/images/mpinterface/2.png" alt="image.png"></p>
 <p><img src="/images/mpinterface/3.png" alt="image.png"></p>
 <h4 id="从文档中可以看出，过程并不复杂，参数也容易理解。首先，需要使用getAccessToken接口，获取小程序全局唯一后台接口调用凭据access-token；接着，用这个token，携带模板消息信息调用sendTemplateMessage接口完成操作。"><a href="#从文档中可以看出，过程并不复杂，参数也容易理解。首先，需要使用getAccessToken接口，获取小程序全局唯一后台接口调用凭据access-token；接着，用这个token，携带模板消息信息调用sendTemplateMessage接口完成操作。" class="headerlink" title="从文档中可以看出，过程并不复杂，参数也容易理解。首先，需要使用getAccessToken接口，获取小程序全局唯一后台接口调用凭据access_token；接着，用这个token，携带模板消息信息调用sendTemplateMessage接口完成操作。"></a>从文档中可以看出，过程并不复杂，参数也容易理解。首先，需要使用getAccessToken接口，获取小程序全局唯一后台接口调用凭据access_token；接着，用这个token，携带模板消息信息调用sendTemplateMessage接口完成操作。</h4><h4 id="开发之前，需要在微信公众平台上申请模板消息，它提供了许多类型的模板消息，可根据自己的需要来设置，设置完成后会得到模板id，如下图所示："><a href="#开发之前，需要在微信公众平台上申请模板消息，它提供了许多类型的模板消息，可根据自己的需要来设置，设置完成后会得到模板id，如下图所示：" class="headerlink" title="开发之前，需要在微信公众平台上申请模板消息，它提供了许多类型的模板消息，可根据自己的需要来设置，设置完成后会得到模板id，如下图所示："></a>开发之前，需要在微信公众平台上申请模板消息，它提供了许多类型的模板消息，可根据自己的需要来设置，设置完成后会得到模板id，如下图所示：</h4><p><img src="/images/mpinterface/4.png" alt="image.png"></p>
-<h4 id="最开始，我只是想让用户点击确认订单按钮后，便生成订单并给用户发送服务通知，于是，我便直接在小程序js中调用了这些接口，具体过程代码如下："><a href="#最开始，我只是想让用户点击确认订单按钮后，便生成订单并给用户发送服务通知，于是，我便直接在小程序js中调用了这些接口，具体过程代码如下：" class="headerlink" title="最开始，我只是想让用户点击确认订单按钮后，便生成订单并给用户发送服务通知，于是，我便直接在小程序js中调用了这些接口，具体过程代码如下："></a>最开始，我只是想让用户点击确认订单按钮后，便生成订单并给用户发送服务通知，于是，我便直接在小程序js中调用了这些接口，具体过程代码如下：</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">onLoad: function (params) &#123;</span><br><span class="line">  // 首先，获取access_token</span><br><span class="line">  wx.request(&#123;</span><br><span class="line">    url: &apos;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=&amp;secret=&apos;,</span><br><span class="line">    method: &quot;GET&quot;,</span><br><span class="line">    success: function (res) &#123;</span><br><span class="line">      console.log(res, &quot;res&quot;)</span><br><span class="line">      console.log(res.data.access_token, &quot;access_token&quot;)</span><br><span class="line">      //保存access_token</span><br><span class="line">      me.setData(&#123;</span><br><span class="line">        access_token: res.data.access_token,</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">// 点击执行方法</span><br><span class="line">confirmGoods: function (e) &#123;</span><br><span class="line">  var me = this;</span><br><span class="line">  var formId = &quot;5fa22cb20938b888927001f8d8deb71b&quot;;</span><br><span class="line">  // var formId = e.detail.formId;</span><br><span class="line">  var goodsInfo = me.data.goodsInfo;</span><br><span class="line">  var serverUrl = app.serverUrl;</span><br><span class="line">  var confirmId = me.data.id</span><br><span class="line">  var orderId = &quot;&quot;;</span><br><span class="line">  console.log(e);</span><br><span class="line">  console.log(formId);</span><br><span class="line">  // 保存订单到数据库</span><br><span class="line">  wx.request(&#123;</span><br><span class="line">      //保存商品信息至数据库</span><br><span class="line">       ......</span><br><span class="line"></span><br><span class="line">      me.send(formId, res.data.data);</span><br><span class="line">      wx.redirectTo(&#123;</span><br><span class="line">         url: &apos;../goods/goodsCase?tabtype=1&apos;,</span><br><span class="line">       &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"> send:function(formId,orderId)&#123;</span><br><span class="line">  var me = this;</span><br><span class="line">  var fId = formId;</span><br><span class="line">  var goodsInfo = me.data.goodsInfo;</span><br><span class="line">  goodsInfo.orderId = orderId;</span><br><span class="line">  var goodsInfoStr = JSON.stringify(goodsInfo);</span><br><span class="line">  console.log(fId)</span><br><span class="line">  // 网络请求</span><br><span class="line">  var url = &apos;https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=&apos; + me.data.access_token;</span><br><span class="line">  // 需要传的参数</span><br><span class="line">  var data = &#123;</span><br><span class="line">    //用户的openid</span><br><span class="line">    touser: &quot;用户openid&quot;,</span><br><span class="line">    //这个是申请的模板消息id，位置在微信公众平台/模板消息中添加并获取</span><br><span class="line">    template_id: &apos;3KKr_Zg8WySQ5qKmn2Fsah9AD6Ls0tDCtT50G5Zh3-8&apos;,</span><br><span class="line">    //点击通知跳转的页面</span><br><span class="line">    page: &apos;/pages/goods/goodsComplete?goodsInfo=&apos; + goodsInfoStr,</span><br><span class="line">    //表单提交场景下，为 submit 事件带上的 formId</span><br><span class="line">    form_id: fId,</span><br><span class="line"></span><br><span class="line">    //模板通知数据</span><br><span class="line">    data: &#123;</span><br><span class="line">      &quot;keyword1&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: goodsInfo.orderId,</span><br><span class="line">        &quot;color&quot;: &quot;#4a4a4a&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;keyword2&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: goodsInfo.goodsName,</span><br><span class="line">        &quot;color&quot;: &quot;#9b9b9b&quot;,</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;keyword3&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: goodsInfo.expectPrice,</span><br><span class="line">        &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;keyword4&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: goodsInfo.address,</span><br><span class="line">        &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    color: &apos;#ccc&apos;,</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  wx.request(&#123;</span><br><span class="line">    url: url,</span><br><span class="line">    data: data,</span><br><span class="line">    method: &apos;POST&apos;, //此处不能有请求头</span><br><span class="line">    success: function (res) &#123;</span><br><span class="line">      console.log(res, &quot;push msg&quot;);</span><br><span class="line">    &#125;,</span><br><span class="line">    fail: function (err) &#123;</span><br><span class="line">      console.log(err, &quot;push err&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h4 id="最开始，我只是想让用户点击确认订单按钮后，便生成订单并给用户发送服务通知，于是，我便直接在小程序js中调用了这些接口，具体过程代码如下："><a href="#最开始，我只是想让用户点击确认订单按钮后，便生成订单并给用户发送服务通知，于是，我便直接在小程序js中调用了这些接口，具体过程代码如下：" class="headerlink" title="最开始，我只是想让用户点击确认订单按钮后，便生成订单并给用户发送服务通知，于是，我便直接在小程序js中调用了这些接口，具体过程代码如下："></a>最开始，我只是想让用户点击确认订单按钮后，便生成订单并给用户发送服务通知，于是，我便直接在小程序js中调用了这些接口，具体过程代码如下：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">onLoad: function (params) &#123;</span><br><span class="line">  // 首先，获取access_token</span><br><span class="line">  wx.request(&#123;</span><br><span class="line">    url: &apos;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=&amp;secret=&apos;,</span><br><span class="line">    method: &quot;GET&quot;,</span><br><span class="line">    success: function (res) &#123;</span><br><span class="line">      console.log(res, &quot;res&quot;)</span><br><span class="line">      console.log(res.data.access_token, &quot;access_token&quot;)</span><br><span class="line">      //保存access_token</span><br><span class="line">      me.setData(&#123;</span><br><span class="line">        access_token: res.data.access_token,</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">// 点击执行方法</span><br><span class="line">confirmGoods: function (e) &#123;</span><br><span class="line">  var me = this;</span><br><span class="line">  var formId = &quot;5fa22cb20938b888927001f8d8deb71b&quot;;</span><br><span class="line">  // var formId = e.detail.formId;</span><br><span class="line">  var goodsInfo = me.data.goodsInfo;</span><br><span class="line">  var serverUrl = app.serverUrl;</span><br><span class="line">  var confirmId = me.data.id</span><br><span class="line">  var orderId = &quot;&quot;;</span><br><span class="line">  console.log(e);</span><br><span class="line">  console.log(formId);</span><br><span class="line">  // 保存订单到数据库</span><br><span class="line">  wx.request(&#123;</span><br><span class="line">      //保存商品信息至数据库</span><br><span class="line">       ......</span><br><span class="line"></span><br><span class="line">      me.send(formId, res.data.data);</span><br><span class="line">      wx.redirectTo(&#123;</span><br><span class="line">         url: &apos;../goods/goodsCase?tabtype=1&apos;,</span><br><span class="line">       &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"> send:function(formId,orderId)&#123;</span><br><span class="line">  var me = this;</span><br><span class="line">  var fId = formId;</span><br><span class="line">  var goodsInfo = me.data.goodsInfo;</span><br><span class="line">  goodsInfo.orderId = orderId;</span><br><span class="line">  var goodsInfoStr = JSON.stringify(goodsInfo);</span><br><span class="line">  console.log(fId)</span><br><span class="line">  // 网络请求</span><br><span class="line">  var url = &apos;https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=&apos; + me.data.access_token;</span><br><span class="line">  // 需要传的参数</span><br><span class="line">  var data = &#123;</span><br><span class="line">    //用户的openid</span><br><span class="line">    touser: &quot;用户openid&quot;,</span><br><span class="line">    //这个是申请的模板消息id，位置在微信公众平台/模板消息中添加并获取</span><br><span class="line">    template_id: &apos;3KKr_Zg8WySQ5qKmn2Fsah9AD6Ls0tDCtT50G5Zh3-8&apos;,</span><br><span class="line">    //点击通知跳转的页面</span><br><span class="line">    page: &apos;/pages/goods/goodsComplete?goodsInfo=&apos; + goodsInfoStr,</span><br><span class="line">    //表单提交场景下，为 submit 事件带上的 formId</span><br><span class="line">    form_id: fId,</span><br><span class="line"></span><br><span class="line">    //模板通知数据</span><br><span class="line">    data: &#123;</span><br><span class="line">      &quot;keyword1&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: goodsInfo.orderId,</span><br><span class="line">        &quot;color&quot;: &quot;#4a4a4a&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;keyword2&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: goodsInfo.goodsName,</span><br><span class="line">        &quot;color&quot;: &quot;#9b9b9b&quot;,</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;keyword3&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: goodsInfo.expectPrice,</span><br><span class="line">        &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;keyword4&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: goodsInfo.address,</span><br><span class="line">        &quot;color&quot;: &quot;#9b9b9b&quot;</span><br><span class="line">      &#125;,</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">    color: &apos;#ccc&apos;,</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  wx.request(&#123;</span><br><span class="line">    url: url,</span><br><span class="line">    data: data,</span><br><span class="line">    method: &apos;POST&apos;, //此处不能有请求头</span><br><span class="line">    success: function (res) &#123;</span><br><span class="line">      console.log(res, &quot;push msg&quot;);</span><br><span class="line">    &#125;,</span><br><span class="line">    fail: function (err) &#123;</span><br><span class="line">      console.log(err, &quot;push err&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 <h4 id="有几个点这里需要提一下："><a href="#有几个点这里需要提一下：" class="headerlink" title="有几个点这里需要提一下："></a>有几个点这里需要提一下：</h4><blockquote>
 <p>1.form_id的获取，需要在form属性的report-submit设置为”ture”，这样提交时，submit事件就会带上formId。</p>
 </blockquote>
@@ -205,12 +147,12 @@
 </blockquote>
 <h4 id="通过上面的代码，我的小程序向我的微信成功地推送了一条通知，如下图所示："><a href="#通过上面的代码，我的小程序向我的微信成功地推送了一条通知，如下图所示：" class="headerlink" title="通过上面的代码，我的小程序向我的微信成功地推送了一条通知，如下图所示："></a>通过上面的代码，我的小程序向我的微信成功地推送了一条通知，如下图所示：</h4><p><img src="/images/mpinterface/5.png" alt="image.png"></p>
 <h4 id="虽然我的需求是实现了，但是，仔细思考一下，这种解决方式并不是很理想，并且官方也不推荐这种做法。因为，很多场景并不是用户提交表单的那一瞬间去发送通知，而是需要其他时间，由服务器主动地向用户推送通知。当然，无论是什么场景，官方的建议都是通过后端服务器去调用这些接口。"><a href="#虽然我的需求是实现了，但是，仔细思考一下，这种解决方式并不是很理想，并且官方也不推荐这种做法。因为，很多场景并不是用户提交表单的那一瞬间去发送通知，而是需要其他时间，由服务器主动地向用户推送通知。当然，无论是什么场景，官方的建议都是通过后端服务器去调用这些接口。" class="headerlink" title="虽然我的需求是实现了，但是，仔细思考一下，这种解决方式并不是很理想，并且官方也不推荐这种做法。因为，很多场景并不是用户提交表单的那一瞬间去发送通知，而是需要其他时间，由服务器主动地向用户推送通知。当然，无论是什么场景，官方的建议都是通过后端服务器去调用这些接口。"></a>虽然我的需求是实现了，但是，仔细思考一下，这种解决方式并不是很理想，并且官方也不推荐这种做法。因为，很多场景并不是用户提交表单的那一瞬间去发送通知，而是需要其他时间，由服务器主动地向用户推送通知。当然，无论是什么场景，官方的建议都是通过后端服务器去调用这些接口。</h4><p><img src="/images/mpinterface/6.png" alt="image.png"></p>
-<h4 id="接下来，我就对我的后端代码进行改造，编写一些工具类和实体类："><a href="#接下来，我就对我的后端代码进行改造，编写一些工具类和实体类：" class="headerlink" title="接下来，我就对我的后端代码进行改造，编写一些工具类和实体类："></a>接下来，我就对我的后端代码进行改造，编写一些工具类和实体类：</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//模板消息信息实体类</span><br><span class="line">public class WechatTemplate &#123;</span><br><span class="line"></span><br><span class="line">    //用户openId</span><br><span class="line">    private String touser;</span><br><span class="line"></span><br><span class="line">    //模板Id</span><br><span class="line">    private String template_id;</span><br><span class="line"></span><br><span class="line">    //通知跳转路径（小程序内路径）</span><br><span class="line">    private String page;</span><br><span class="line"></span><br><span class="line">    //接收到的form_id</span><br><span class="line">    private String form_id;</span><br><span class="line"></span><br><span class="line">    //通知具体数据信息</span><br><span class="line">    private Map&lt;String, TemplateData&gt; data;</span><br><span class="line"></span><br><span class="line">    //字体颜色，非必选项</span><br><span class="line">    private String color;</span><br><span class="line"></span><br><span class="line">    // ...get、set、toString方法省略...    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//getAccessToken接口返回实体</span><br><span class="line">public class WxToken &#123;</span><br><span class="line"></span><br><span class="line">    //获取到的凭证</span><br><span class="line">    private String access_token;</span><br><span class="line"></span><br><span class="line">    //凭证有效时间，单位：秒。目前是7200秒之内的值。</span><br><span class="line">    private String expires_in;</span><br><span class="line"></span><br><span class="line">    //错误码</span><br><span class="line">    private String errcode;</span><br><span class="line"></span><br><span class="line">    //错误信息</span><br><span class="line">    private String errmsg;</span><br><span class="line">    // ...get、set、toString方法省略...    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//模板通知内容实体</span><br><span class="line">public class TemplateData &#123;</span><br><span class="line">    private String value;</span><br><span class="line">    //该值的字体颜色</span><br><span class="line">    private String color;</span><br><span class="line">    // ...get、set、toString方法省略...    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//微信接口返回实体</span><br><span class="line">public class WxResponse &#123;</span><br><span class="line">    private Integer  errcode;</span><br><span class="line">    private String errmsg;</span><br><span class="line">    private String msgid;</span><br><span class="line">    // ...get、set、toString方法省略...  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">import com.google.gson.Gson;</span><br><span class="line">import com.yeykai.pojo.*;</span><br><span class="line">import com.yeykai.service.WxService;</span><br><span class="line">import com.yeykai.utils.HttpClientUtil;</span><br><span class="line">import com.yeykai.utils.JsonUtils;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">import java.util.Date;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.TreeMap;</span><br><span class="line"></span><br><span class="line">@Service</span><br><span class="line">public class WxServiceimpl implements WxService &#123;</span><br><span class="line"></span><br><span class="line">    //日志输出</span><br><span class="line">    private static Logger logger = LoggerFactory.getLogger(WxServiceimpl.class);</span><br><span class="line"></span><br><span class="line">    //微信模板接口</span><br><span class="line">    private final String SEND_TEMPLAYE_MESSAGE_URL =&quot;https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=ACCESS_TOKEN&quot;;</span><br><span class="line"></span><br><span class="line">    private final String APPID = &quot;你的appid&quot;;</span><br><span class="line">    private final String SECRET = &quot;你的app密钥&quot;;</span><br><span class="line">    //获取微信ACCESS_TOKEN接口url</span><br><span class="line">    private final String aturl = &quot;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=&quot; + APPID</span><br><span class="line">            + &quot;&amp;secret=&quot; + SECRET;</span><br><span class="line"></span><br><span class="line">     public WxToken getAccess_token() &#123;</span><br><span class="line">                String access_token = &quot;&quot;;</span><br><span class="line">                //获取ACCESS_TOKEN</span><br><span class="line">                String httpGet = HttpClientUtil.doGet(aturl);</span><br><span class="line">                Gson gson=new Gson();</span><br><span class="line">                //得到返回对象</span><br><span class="line">                WxToken jsonResult=new WxToken();</span><br><span class="line">                jsonResult = gson.fromJson(httpGet, WxToken.class);</span><br><span class="line">                 //判断请求是否成功</span><br><span class="line">                if(jsonResult.getErrcode() == null)&#123;</span><br><span class="line">                   //输出返回结果</span><br><span class="line">                    System.out.println(&quot;get请求结果:&quot; + httpGet);</span><br><span class="line">                    access_token = jsonResult.getAccess_token();</span><br><span class="line">                    String expires_in =jsonResult.getExpires_in();</span><br><span class="line">                    logger.info(&quot;access_token&#123;&#125;:  expires_in&#123;&#125;:&quot;,access_token,expires_in);</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    logger.info(&quot;token获取失败，错误码：&quot;+jsonResult.getErrcode());</span><br><span class="line">                    logger.info(&quot;错误信息：&quot;+jsonResult.getErrmsg());</span><br><span class="line">                &#125;</span><br><span class="line">                //返回ACCESS_TOKEN</span><br><span class="line">                return jsonResult;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    //发送模板信息</span><br><span class="line">    @Override</span><br><span class="line">    public void sendTemplateMessage(WechatTemplate wechatTemplate) &#123;</span><br><span class="line"></span><br><span class="line">        //获取ACCESS_TOKEN</span><br><span class="line">        WxServiceimpl wx = new WxServiceimpl();</span><br><span class="line">        WxToken wxToken = wx.getAccess_token();</span><br><span class="line">        String access_token=wxToken.getAccess_token();</span><br><span class="line"></span><br><span class="line">		String jsonString = JsonUtils.objectToJson(wechatTemplate);</span><br><span class="line">		//填充请求url</span><br><span class="line">		String requestUrl = SEND_TEMPLAYE_MESSAGE_URL.replace(&quot;ACCESS_TOKEN&quot;, access_token);</span><br><span class="line">        //发送 post请求 发送json数据</span><br><span class="line">		logger.info(&quot;请求参数:&quot;+jsonString);</span><br><span class="line">		String json = HttpClientUtil.doPostJson(requestUrl, jsonString);</span><br><span class="line">		WxResponse weiXinResponse = new Gson().fromJson(json, WxResponse.class);</span><br><span class="line">		logger.info(&quot;jsonObject=&quot;+weiXinResponse);</span><br><span class="line">		if (null != weiXinResponse) &#123;</span><br><span class="line">			int errorCode = weiXinResponse.getErrcode();</span><br><span class="line">			if (0 == errorCode) &#123;</span><br><span class="line">				logger.info(&quot;模板消息发送成功&quot;);</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				String errorMsg = weiXinResponse.getErrmsg();</span><br><span class="line">				logger.info(&quot;模板消息发送失败,错误是 &quot;+errorCode+&quot;,错误信息是&quot;+ errorMsg);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="实体类和业务类已经完成，接下来，开发Controller层，最后做前后端联调测试。"><a href="#实体类和业务类已经完成，接下来，开发Controller层，最后做前后端联调测试。" class="headerlink" title="实体类和业务类已经完成，接下来，开发Controller层，最后做前后端联调测试。"></a>实体类和业务类已经完成，接下来，开发Controller层，最后做前后端联调测试。</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">//用户确认商品信息后，提交订单，调用该接口</span><br><span class="line">	@PostMapping(&quot;/addOrder&quot;)</span><br><span class="line">	public IMoocJSONResult addOrder(String confirmId,String formId) &#123;</span><br><span class="line">	    //订单id</span><br><span class="line">		String id = &quot;&quot;;</span><br><span class="line">		//模板消息对象</span><br><span class="line">		WechatTemplate wechatTemplate = new WechatTemplate();</span><br><span class="line">		if (confirmId!=null)</span><br><span class="line">		&#123;</span><br><span class="line">			ConfirmGoods confirmGoods = orderService.queryConfirm(confirmId);</span><br><span class="line">			String buyerId = confirmGoods.getBuyerId();</span><br><span class="line">			String goodsID= confirmGoods.getGoodsId();</span><br><span class="line">			Goods goodsinfo = goodsService.queryGoodsInfo(goodsID);</span><br><span class="line"></span><br><span class="line">            //...数据库操作省略</span><br><span class="line"></span><br><span class="line">			String goodsJsonStr = JsonUtils.objectToJson(goodsinfo);</span><br><span class="line"></span><br><span class="line">			wechatTemplate.setTemplate_id(&quot;模板id&quot;);</span><br><span class="line">          	//设置用户的OpenId</span><br><span class="line">			wechatTemplate.setTouser(&quot;openid&quot;);</span><br><span class="line">			//设置跳转页面路径</span><br><span class="line">			wechatTemplate.setPage(&quot;/pages/goods/goodsComplete?goodsInfo=&quot;+goodsJsonStr);</span><br><span class="line">			//设置form_Id</span><br><span class="line">			wechatTemplate.setForm_id(formId);</span><br><span class="line"></span><br><span class="line">            //补充通知内容数据</span><br><span class="line">			Map&lt;String,TemplateData&gt; m = new TreeMap&lt;String,TemplateData&gt;();</span><br><span class="line">			TemplateData keyword1 = new TemplateData();</span><br><span class="line">			keyword1.setValue(id);</span><br><span class="line">			m.put(&quot;keyword1&quot;, keyword1);</span><br><span class="line">			TemplateData keyword2 = new TemplateData();</span><br><span class="line">			keyword2.setValue(goodsinfo.getGoodsName());</span><br><span class="line">			m.put(&quot;keyword2&quot;, keyword2);</span><br><span class="line">			TemplateData keyword3 = new TemplateData();</span><br><span class="line">			keyword3.setValue(goodsinfo.getCreateTime().toString());</span><br><span class="line">			m.put(&quot;keyword3&quot;, keyword3);</span><br><span class="line">			TemplateData keyword4 = new TemplateData();</span><br><span class="line">			keyword4.setValue(goodsinfo.getPrice().toString()+&quot;元&quot;);</span><br><span class="line">			m.put(&quot;keyword4&quot;, keyword4);</span><br><span class="line">			TemplateData keyword5 = new TemplateData();</span><br><span class="line">			keyword5.setValue(goodsinfo.getAddress());</span><br><span class="line">			m.put(&quot;keyword5&quot;, keyword5);</span><br><span class="line">			wechatTemplate.setData(m);</span><br><span class="line"></span><br><span class="line">            //发送服务通知</span><br><span class="line">			wxService.sendTemplateMessage(wechatTemplate);</span><br><span class="line">			return IMoocJSONResult.ok(id);</span><br><span class="line">		&#125;</span><br><span class="line">			return IMoocJSONResult.errorMsg(&quot;生成订单失败&quot;);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="接下来，我就对我的后端代码进行改造，编写一些工具类和实体类："><a href="#接下来，我就对我的后端代码进行改造，编写一些工具类和实体类：" class="headerlink" title="接下来，我就对我的后端代码进行改造，编写一些工具类和实体类："></a>接下来，我就对我的后端代码进行改造，编写一些工具类和实体类：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//模板消息信息实体类</span><br><span class="line">public class WechatTemplate &#123;</span><br><span class="line"></span><br><span class="line">    //用户openId</span><br><span class="line">    private String touser;</span><br><span class="line"></span><br><span class="line">    //模板Id</span><br><span class="line">    private String template_id;</span><br><span class="line"></span><br><span class="line">    //通知跳转路径（小程序内路径）</span><br><span class="line">    private String page;</span><br><span class="line"></span><br><span class="line">    //接收到的form_id</span><br><span class="line">    private String form_id;</span><br><span class="line"></span><br><span class="line">    //通知具体数据信息</span><br><span class="line">    private Map&lt;String, TemplateData&gt; data;</span><br><span class="line"></span><br><span class="line">    //字体颜色，非必选项</span><br><span class="line">    private String color;</span><br><span class="line"></span><br><span class="line">    // ...get、set、toString方法省略...    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//getAccessToken接口返回实体</span><br><span class="line">public class WxToken &#123;</span><br><span class="line"></span><br><span class="line">    //获取到的凭证</span><br><span class="line">    private String access_token;</span><br><span class="line"></span><br><span class="line">    //凭证有效时间，单位：秒。目前是7200秒之内的值。</span><br><span class="line">    private String expires_in;</span><br><span class="line"></span><br><span class="line">    //错误码</span><br><span class="line">    private String errcode;</span><br><span class="line"></span><br><span class="line">    //错误信息</span><br><span class="line">    private String errmsg;</span><br><span class="line">    // ...get、set、toString方法省略...    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//模板通知内容实体</span><br><span class="line">public class TemplateData &#123;</span><br><span class="line">    private String value;</span><br><span class="line">    //该值的字体颜色</span><br><span class="line">    private String color;</span><br><span class="line">    // ...get、set、toString方法省略...    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//微信接口返回实体</span><br><span class="line">public class WxResponse &#123;</span><br><span class="line">    private Integer  errcode;</span><br><span class="line">    private String errmsg;</span><br><span class="line">    private String msgid;</span><br><span class="line">    // ...get、set、toString方法省略...  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">import com.google.gson.Gson;</span><br><span class="line">import com.yeykai.pojo.*;</span><br><span class="line">import com.yeykai.service.WxService;</span><br><span class="line">import com.yeykai.utils.HttpClientUtil;</span><br><span class="line">import com.yeykai.utils.JsonUtils;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">import java.util.Date;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.TreeMap;</span><br><span class="line"></span><br><span class="line">@Service</span><br><span class="line">public class WxServiceimpl implements WxService &#123;</span><br><span class="line"></span><br><span class="line">    //日志输出</span><br><span class="line">    private static Logger logger = LoggerFactory.getLogger(WxServiceimpl.class);</span><br><span class="line"></span><br><span class="line">    //微信模板接口</span><br><span class="line">    private final String SEND_TEMPLAYE_MESSAGE_URL =&quot;https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=ACCESS_TOKEN&quot;;</span><br><span class="line"></span><br><span class="line">    private final String APPID = &quot;你的appid&quot;;</span><br><span class="line">    private final String SECRET = &quot;你的app密钥&quot;;</span><br><span class="line">    //获取微信ACCESS_TOKEN接口url</span><br><span class="line">    private final String aturl = &quot;https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&amp;appid=&quot; + APPID</span><br><span class="line">            + &quot;&amp;secret=&quot; + SECRET;</span><br><span class="line"></span><br><span class="line">     public WxToken getAccess_token() &#123;</span><br><span class="line">                String access_token = &quot;&quot;;</span><br><span class="line">                //获取ACCESS_TOKEN</span><br><span class="line">                String httpGet = HttpClientUtil.doGet(aturl);</span><br><span class="line">                Gson gson=new Gson();</span><br><span class="line">                //得到返回对象</span><br><span class="line">                WxToken jsonResult=new WxToken();</span><br><span class="line">                jsonResult = gson.fromJson(httpGet, WxToken.class);</span><br><span class="line">                 //判断请求是否成功</span><br><span class="line">                if(jsonResult.getErrcode() == null)&#123;</span><br><span class="line">                   //输出返回结果</span><br><span class="line">                    System.out.println(&quot;get请求结果:&quot; + httpGet);</span><br><span class="line">                    access_token = jsonResult.getAccess_token();</span><br><span class="line">                    String expires_in =jsonResult.getExpires_in();</span><br><span class="line">                    logger.info(&quot;access_token&#123;&#125;:  expires_in&#123;&#125;:&quot;,access_token,expires_in);</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    logger.info(&quot;token获取失败，错误码：&quot;+jsonResult.getErrcode());</span><br><span class="line">                    logger.info(&quot;错误信息：&quot;+jsonResult.getErrmsg());</span><br><span class="line">                &#125;</span><br><span class="line">                //返回ACCESS_TOKEN</span><br><span class="line">                return jsonResult;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    //发送模板信息</span><br><span class="line">    @Override</span><br><span class="line">    public void sendTemplateMessage(WechatTemplate wechatTemplate) &#123;</span><br><span class="line"></span><br><span class="line">        //获取ACCESS_TOKEN</span><br><span class="line">        WxServiceimpl wx = new WxServiceimpl();</span><br><span class="line">        WxToken wxToken = wx.getAccess_token();</span><br><span class="line">        String access_token=wxToken.getAccess_token();</span><br><span class="line"></span><br><span class="line">		String jsonString = JsonUtils.objectToJson(wechatTemplate);</span><br><span class="line">		//填充请求url</span><br><span class="line">		String requestUrl = SEND_TEMPLAYE_MESSAGE_URL.replace(&quot;ACCESS_TOKEN&quot;, access_token);</span><br><span class="line">        //发送 post请求 发送json数据</span><br><span class="line">		logger.info(&quot;请求参数:&quot;+jsonString);</span><br><span class="line">		String json = HttpClientUtil.doPostJson(requestUrl, jsonString);</span><br><span class="line">		WxResponse weiXinResponse = new Gson().fromJson(json, WxResponse.class);</span><br><span class="line">		logger.info(&quot;jsonObject=&quot;+weiXinResponse);</span><br><span class="line">		if (null != weiXinResponse) &#123;</span><br><span class="line">			int errorCode = weiXinResponse.getErrcode();</span><br><span class="line">			if (0 == errorCode) &#123;</span><br><span class="line">				logger.info(&quot;模板消息发送成功&quot;);</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				String errorMsg = weiXinResponse.getErrmsg();</span><br><span class="line">				logger.info(&quot;模板消息发送失败,错误是 &quot;+errorCode+&quot;,错误信息是&quot;+ errorMsg);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="实体类和业务类已经完成，接下来，开发Controller层，最后做前后端联调测试。"><a href="#实体类和业务类已经完成，接下来，开发Controller层，最后做前后端联调测试。" class="headerlink" title="实体类和业务类已经完成，接下来，开发Controller层，最后做前后端联调测试。"></a>实体类和业务类已经完成，接下来，开发Controller层，最后做前后端联调测试。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">//用户确认商品信息后，提交订单，调用该接口</span><br><span class="line">	@PostMapping(&quot;/addOrder&quot;)</span><br><span class="line">	public IMoocJSONResult addOrder(String confirmId,String formId) &#123;</span><br><span class="line">	    //订单id</span><br><span class="line">		String id = &quot;&quot;;</span><br><span class="line">		//模板消息对象</span><br><span class="line">		WechatTemplate wechatTemplate = new WechatTemplate();</span><br><span class="line">		if (confirmId!=null)</span><br><span class="line">		&#123;</span><br><span class="line">			ConfirmGoods confirmGoods = orderService.queryConfirm(confirmId);</span><br><span class="line">			String buyerId = confirmGoods.getBuyerId();</span><br><span class="line">			String goodsID= confirmGoods.getGoodsId();</span><br><span class="line">			Goods goodsinfo = goodsService.queryGoodsInfo(goodsID);</span><br><span class="line"></span><br><span class="line">            //...数据库操作省略</span><br><span class="line"></span><br><span class="line">			String goodsJsonStr = JsonUtils.objectToJson(goodsinfo);</span><br><span class="line"></span><br><span class="line">			wechatTemplate.setTemplate_id(&quot;模板id&quot;);</span><br><span class="line">          	//设置用户的OpenId</span><br><span class="line">			wechatTemplate.setTouser(&quot;openid&quot;);</span><br><span class="line">			//设置跳转页面路径</span><br><span class="line">			wechatTemplate.setPage(&quot;/pages/goods/goodsComplete?goodsInfo=&quot;+goodsJsonStr);</span><br><span class="line">			//设置form_Id</span><br><span class="line">			wechatTemplate.setForm_id(formId);</span><br><span class="line"></span><br><span class="line">            //补充通知内容数据</span><br><span class="line">			Map&lt;String,TemplateData&gt; m = new TreeMap&lt;String,TemplateData&gt;();</span><br><span class="line">			TemplateData keyword1 = new TemplateData();</span><br><span class="line">			keyword1.setValue(id);</span><br><span class="line">			m.put(&quot;keyword1&quot;, keyword1);</span><br><span class="line">			TemplateData keyword2 = new TemplateData();</span><br><span class="line">			keyword2.setValue(goodsinfo.getGoodsName());</span><br><span class="line">			m.put(&quot;keyword2&quot;, keyword2);</span><br><span class="line">			TemplateData keyword3 = new TemplateData();</span><br><span class="line">			keyword3.setValue(goodsinfo.getCreateTime().toString());</span><br><span class="line">			m.put(&quot;keyword3&quot;, keyword3);</span><br><span class="line">			TemplateData keyword4 = new TemplateData();</span><br><span class="line">			keyword4.setValue(goodsinfo.getPrice().toString()+&quot;元&quot;);</span><br><span class="line">			m.put(&quot;keyword4&quot;, keyword4);</span><br><span class="line">			TemplateData keyword5 = new TemplateData();</span><br><span class="line">			keyword5.setValue(goodsinfo.getAddress());</span><br><span class="line">			m.put(&quot;keyword5&quot;, keyword5);</span><br><span class="line">			wechatTemplate.setData(m);</span><br><span class="line"></span><br><span class="line">            //发送服务通知</span><br><span class="line">			wxService.sendTemplateMessage(wechatTemplate);</span><br><span class="line">			return IMoocJSONResult.ok(id);</span><br><span class="line">		&#125;</span><br><span class="line">			return IMoocJSONResult.errorMsg(&quot;生成订单失败&quot;);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="开发完毕，这次，我采用谷歌浏览器很好用的一款REST-API测试工具来测试，测试使用的form-id是我预先用自己的微信发送请求采集好的。如下图所示："><a href="#开发完毕，这次，我采用谷歌浏览器很好用的一款REST-API测试工具来测试，测试使用的form-id是我预先用自己的微信发送请求采集好的。如下图所示：" class="headerlink" title="开发完毕，这次，我采用谷歌浏览器很好用的一款REST API测试工具来测试，测试使用的form_id是我预先用自己的微信发送请求采集好的。如下图所示："></a>开发完毕，这次，我采用谷歌浏览器很好用的一款REST API测试工具来测试，测试使用的form_id是我预先用自己的微信发送请求采集好的。如下图所示：</h4><p><img src="/images/mpinterface/7.png" alt="image.png"></p>
 <h4 id="现在点击发送请求，结果如下："><a href="#现在点击发送请求，结果如下：" class="headerlink" title="现在点击发送请求，结果如下："></a>现在点击发送请求，结果如下：</h4><h4 id="日志打印结果成功"><a href="#日志打印结果成功" class="headerlink" title="日志打印结果成功"></a>日志打印结果成功</h4><p><img src="/images/mpinterface/8.png" alt="image.png"></p>
 <h4 id="测试结果返回正常"><a href="#测试结果返回正常" class="headerlink" title="测试结果返回正常"></a>测试结果返回正常</h4><p><img src="/images/mpinterface/9.png" alt="image.png"></p>
@@ -239,719 +181,168 @@
 <hr>
 <h4 id="最后，分享一张壁纸"><a href="#最后，分享一张壁纸" class="headerlink" title="最后，分享一张壁纸"></a>最后，分享一张壁纸</h4><p><img src="/images/mpinterface/13.png" alt="image.png"></p>
 
-        </div>
-        
-        <div class="level is-size-7 is-uppercase">
-            <div class="level-start">
-                <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/Java/">Java</a>, <a class="has-link-grey -link" href="/tags/SpringBoot/">SpringBoot</a>, <a class="has-link-grey -link" href="/tags/myBatis/">myBatis</a>, <a class="has-link-grey -link" href="/tags/微信小程序/">微信小程序</a>
-                </div>
-            </div>
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
-        <div class="buttons is-centered">
+            <hr>
+          </div>
+          <br>
+          <div>
             
+              <p>
+                <i class="iconfont icon-inbox"></i>
                 
-<a class="button is-info donate">
-    <span class="icon is-small">
-        <i class="fab fa-alipay"></i>
-    </span>
-    <span>支付宝</span>
-    <div class="qrcode"><img src="/images/aliqrcode.jpg" alt="支付宝"></div>
-</a>
-
+                  <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0">学习日记</a>
+                  &nbsp;
                 
-                
-<a class="button is-success donate">
-    <span class="icon is-small">
-        <i class="fab fa-weixin"></i>
-    </span>
-    <span>微信</span>
-    <div class="qrcode"><img src="/images/wxqrcode.jpg" alt="微信"></div>
-</a>
-
-                
-        </div>
-    </div>
-</div>
-
-
-
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/08/23/hexoexp/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">使用Hexo+Icarus搭建个人博客的细节分享（持续更新）</span>
-            </a>
-        </div>
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2018/09/29/miniPublishImg/">
-                <span class="level-item">【学习日记】微信小程序仿朋友圈发布商品信息及图片</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
-
-
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">评论</h3>
-        
-<div id="valine-thread" class="content"></div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
-<script>
-    new Valine({
-        el: '#valine-thread' ,
-        notify: false,
-        verify: false,
-        app_id: 'fHtuykWr71njNJ5JzTjHrWcF-gzGzoHsz',
-        app_key: 'ISNzbMDv0XplozgNLxuff8zh',
-        placeholder: '大侠，说两句吧'
-    });
-</script>
-
-    </div>
-</div>
-</div>
-                
-
-
-
-
-<div class="column is-4-tablet is-3-desktop is-3-widescreen  has-order-1 column-left ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <nav class="level">
-            <div class="level-item has-text-centered" style="flex-shrink: 1">
-                <div>
-                    
-                        <figure class="image is-128x128 has-mb-6">
-                            <img class="is-rounded" src="/images/avatar.jpg" alt="yeykai">
-                        </figure>
-                    
-                    
-                    <p class="is-size-4 is-block">
-                        yeykai
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-block">
-                        软件设计师
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
-                        <i class="fas fa-map-marker-alt has-mr-7"></i>
-                        <span>ShenZhen</span>
-                    </p>
-                    
-                </div>
-            </div>
-        </nav>
-        <nav class="level is-mobile">
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        文章
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        6
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        分类
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        2
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        标签
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        13
-                    </p>
-                </div>
-            </div>
-        </nav>
-        <div class="level">
-            <a class="level-item button is-link is-rounded" href="https://github.com/yeykai" target="_blank">
-                关注我</a>
-        </div>
-        
-        
-        <div class="level is-mobile">
+              </p>
             
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="Github" href="https://github.com/yeykai">
-                
-                <i class="fab fa-github"></i>
-                
-            </a>
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/Java">Java</a>
+              
+                <a class="hover-with-bg" href="/tags/SpringBoot">SpringBoot</a>
+              
+                <a class="hover-with-bg" href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F">微信小程序</a>
+              
+                <a class="hover-with-bg" href="/tags/myBatis">myBatis</a>
+              
+            </p>
             
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="加我微信(yeyingkai666)" href="/">
-                
-                <i class="fab fa-weixin"></i>
-                
-            </a>
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
             
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="QQ" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=707443648&amp;website=www.oicqzone.com">
-                
-                <i class="fab fa-qq"></i>
-                
-            </a>
-            
+          </div>
         </div>
-        
+      </div>
     </div>
-</div>
-    
-        
-    
-        
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
 
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            链接
-        </h3>
-        <ul class="menu-list">
-        
-            <li>
-                <a class="level is-mobile" href="https://hexo.io" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">Hexo</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">hexo.io</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://github.com/yeykai" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">PPOffice</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">github.com</span>
-                    </span>
-                </a>
-            </li>
-        
-        </ul>
-        </div>
     </div>
+  </div>
 </div>
 
+<!-- custom -->
 
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
     
-        
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
-            <li>
-        <a class="level is-marginless" href="/categories/学习日记/">
-            <span class="level-start">
-                <span class="level-item">学习日记</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">4</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/经验分享/">
-            <span class="level-start">
-                <span class="level-item">经验分享</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            标签云
-        </h3>
-        <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/PicGo/" style="font-size: 10px;">PicGo</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Scrapy/" style="font-size: 10px;">Scrapy</a> <a href="/tags/SpringBoot/" style="font-size: 20px;">SpringBoot</a> <a href="/tags/myBatis/" style="font-size: 20px;">myBatis</a> <a href="/tags/微信小程序/" style="font-size: 20px;">微信小程序</a> <a href="/tags/微信登录接口/" style="font-size: 10px;">微信登录接口</a> <a href="/tags/服务通知/" style="font-size: 10px;">服务通知</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/腾讯云COS/" style="font-size: 10px;">腾讯云COS</a>
-    </div>
+  </div>
 </div>
 
     
+  </main>
+
+  <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+    <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+  </a>
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
     
-        <div class="column-right-shadow  ">
-        
-            
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            最新文章
-        </h3>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-28T08:49:40.000Z">2019-08-28</time></div>
-                    <a href="/2019/08/28/newcoderScrapy/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】第一个爬虫---Scrapy框架入门(一)</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-26T08:49:40.000Z">2019-08-26</time></div>
-                    <a href="/2019/08/26/MarkdownPicGo/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Markdown图片的解决方案---PicGo+腾讯云COS</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/经验分享/">经验分享</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-23T01:00:40.000Z">2019-08-23</time></div>
-                    <a href="/2019/08/23/hexoexp/" class="title has-link-black-ter is-size-6 has-text-weight-normal">使用Hexo+Icarus搭建个人博客的细节分享（持续更新）</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/经验分享/">经验分享</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T10:32:40.000Z">2018-12-05</time></div>
-                    <a href="/2018/12/05/miniInterface/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】微信小程序发送服务通知接口开发</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-29T13:30:51.000Z">2018-09-29</time></div>
-                    <a href="/2018/09/29/miniPublishImg/" class="title has-link-black-ter is-size-6 has-text-weight-normal">【学习日记】微信小程序仿朋友圈发布商品信息及图片</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/学习日记/">学习日记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            归档
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/08/">
-                <span class="level-start">
-                    <span class="level-item">八月 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">3</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2018/12/">
-                <span class="level-start">
-                    <span class="level-item">十二月 2018</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2018/09/">
-                <span class="level-start">
-                    <span class="level-item">九月 2018</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">2</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                标签
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/CSS/">
-                        <span class="tag">CSS</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Hexo/">
-                        <span class="tag">Hexo</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Java/">
-                        <span class="tag">Java</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/PicGo/">
-                        <span class="tag">PicGo</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Python/">
-                        <span class="tag">Python</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/Scrapy/">
-                        <span class="tag">Scrapy</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/SpringBoot/">
-                        <span class="tag">SpringBoot</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/myBatis/">
-                        <span class="tag">myBatis</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/微信小程序/">
-                        <span class="tag">微信小程序</span>
-                        <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/微信登录接口/">
-                        <span class="tag">微信登录接口</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/服务通知/">
-                        <span class="tag">服务通知</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/爬虫/">
-                        <span class="tag">爬虫</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/腾讯云COS/">
-                        <span class="tag">腾讯云COS</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-        
-        </div>
-    
-</div>
-
-
-                
-            </div>
-        </div>
-    </section>
-    <footer class="footer">
-    <div class="container">
-        <div class="level">
-            <div class="level-start has-text-centered-mobile">
-                <a class="footer-logo is-block has-mb-6" href="/">
-                
-                    <img src="/images/yellow.gif" alt="【学习日记】微信小程序发送服务通知接口开发" height="28">
-                
-                </a>
-                <p class="is-size-7">
-                &copy; 2019 YeYKai&nbsp;
-                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
-                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
-                        <br>
-                        <a href="http://www.beian.miit.gov.cn" target="_blank">粤ICP备18109716号-1</a>
-                
-                </p>
-            </div>
-            <div class="level-end">
-            
-                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
-                
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
-                        
-                        <i class="fab fa-creative-commons"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
-                        
-                        <i class="fab fa-creative-commons-by"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                </p>
-                
-                </div>
-            
-            </div>
-        </div>
-    </div>
+  </div>
 </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
-<script>moment.locale("zh-CN");</script>
+<!-- SCRIPTS -->
+<script src="/lib/mdbootstrap/js/jquery-3.4.1.min.js"></script>
+<script src="/lib/mdbootstrap/js/popper.min.js"></script>
+<script src="/lib/mdbootstrap/js/bootstrap.min.js?v=4.3.1"></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js?v=4.8.7"></script>
+<script src="/lib/nprogress/nprogress.min.js?v=0.2.0"></script>
+<script src="/js/main.js"></script>
 
-<script>
-var IcarusThemeSettings = {
-    article: {
-        highlight: {
-            clipboard: true,
-            fold: 'unfolded'
-        }
+  
+    <script src="/lib/tocbot/tocbot.min.js?v=4.7.0"></script>
+  
+  <script src="/js/post.js"></script>
+
+
+  <script src="/lib/prettify/prettify.min.js?v=0.1.0"></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js?v=2.0.9"></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "【学习日记】微信小程序发送服务通知接口开发&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js?v=4.2.0"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
     }
-};
-</script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    anchors.add(res.join(", "))
+  </script>
 
 
 
-    
-    
-    
-    <script src="/js/animation.js"></script>
-    
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
 
-    
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
-    <script src="/js/gallery.js" defer></script>
-    
-
-    
-    
-
-<div id="outdated">
-    <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
-            my browser now </a></p>
-    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        outdatedBrowser({
-            bgColor: '#f25648',
-            color: '#ffffff',
-            lowerThan: 'flex'
-        });
-    });
-</script>
-
-
-    
-    
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    MathJax.Hub.Config({
-        'HTML-CSS': {
-            matchFontHeight: false
-        },
-        SVG: {
-            matchFontHeight: false
-        },
-        CommonHTML: {
-            matchFontHeight: false
-        },
-        tex2jax: {
-            inlineMath: [
-                ['$','$'],
-                ['\\(','\\)']
-            ]
-        }
-    });
-});
-</script>
-
-    
-    
-
-<a id="back-to-top" title="回到顶端" href="javascript:;">
-    <i class="fas fa-chevron-up"></i>
-</a>
-<script src="/js/back-to-top.js" defer></script>
-
-
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-
-
-    
-
-
-<script src="/js/main.js" defer></script>
-
-    
-    <div class="searchbox ins-search">
-    <div class="searchbox-container ins-search-container">
-        <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
-            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="searchbox-result-wrapper ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-    (function (window) {
-        var INSIGHT_CONFIG = {
-            TRANSLATION: {
-                POSTS: '文章',
-                PAGES: '页面',
-                CATEGORIES: '分类',
-                TAGS: '标签',
-                UNTITLED: '(无标题)',
-            },
-            CONTENT_URL: '/content.json',
-        };
-        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-    })(window);
-</script>
-<script src="/js/insight.js" defer></script>
-<link rel="stylesheet" href="/css/search.css">
-<link rel="stylesheet" href="/css/insight.css">
-    
 </body>
-
-
 </html>
